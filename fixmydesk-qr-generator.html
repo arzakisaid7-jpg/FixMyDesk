@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FixMyDesk - Pembuat QR Properti</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --biru: #3d5a6c;
+      --biru-muda: #e9eff3;
+      --teal: #3aa6a0;
+      --teal-tua: #2c8a85;
+      --teks: #22323c;
+      --abu: #6b7f8b;
+      --putih: #fff;
+      --merah: #c0504d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      background: var(--biru-muda);
+      color: var(--teks);
+    }
+
+    header {
+      background: var(--biru);
+      color: var(--putih);
+      padding: 16px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    header small {
+      opacity: .8;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .kartu {
+      background: var(--putih);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--biru);
+    }
+
+    .form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--abu);
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #c5d2da;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      background: var(--putih);
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 15px;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+
+    .utama {
+      background: var(--teal);
+      color: var(--putih);
+      font-weight: 700;
+      margin-top: 14px;
+    }
+
+    .utama:hover {
+      background: var(--teal-tua);
+    }
+
+    .sekunder {
+      background: var(--biru-muda);
+      color: var(--biru);
+    }
+
+    .bahaya {
+      background: #f8e3e2;
+      color: var(--merah);
+    }
+
+    .galat {
+      color: var(--merah);
+      font-size: 14px;
+      min-height: 18px;
+      margin-top: 8px;
+    }
+
+    .kecil {
+      font-size: 13px;
+      color: var(--abu);
+    }
+
+    .atas {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .label {
+      border: 2px dashed #b7c6cf;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      background: var(--putih);
+    }
+
+    .label .qr {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .label .qr img,
+    .label .qr canvas {
+      max-width: 100%;
+    }
+
+    .label b {
+      display: block;
+      font-size: 16px;
+      color: var(--biru);
+    }
+
+    .label .tombol {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .label .tombol button {
+      flex: 1;
+      padding: 9px 6px;
+      font-size: 13px;
+    }
+
+    .ajakan {
+      font-size: 12px;
+      color: var(--abu);
+      margin-top: 4px;
+    }
+
+    @media print {
+
+      header,
+      .form-kartu,
+      .atas,
+      .tombol {
+        display: none !important;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      .kartu {
+        box-shadow: none;
+        padding: 0;
+      }
+
+      .label {
+        break-inside: avoid;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="db.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>FixMyDesk · Pembuat QR</h1><small>Buat kode untuk properti kelas, tempel, lalu scan di web mahasiswa</small>
+  </header>
+  <main>
+    <div class="kartu form-kartu">
+      <h2>Tambah Properti</h2>
+      <div class="form">
+        <div><label>Kode properti</label><input type="text" id="kode" placeholder="contoh: A103"></div>
+        <div><label>Jenis</label>
+          <select id="jenis">
+            <option>Meja</option>
+            <option>Kursi</option>
+            <option>Lainnya</option>
+          </select></div>
+        <div><label>Gedung</label><input type="text" id="gedung" placeholder="contoh: Gedung B"></div>
+        <div><label>Ruangan</label><input type="text" id="ruang" placeholder="contoh: Ruangan 204"></div>
+      </div>
+      <div class="galat" id="galat"></div>
+      <button class="utama" onclick="tambahProperti()">Buat QR</button>
+    </div>
+
+    <div class="kartu">
+      <div class="atas">
+        <h2 style="margin:0">Daftar Label QR (<span id="jumlah">0</span>)</h2>
+        <div>
+          <button class="sekunder" onclick="window.print()">Cetak Semua</button>
+          <button class="bahaya" onclick="kembalikanAwal()">Reset Data Awal</button>
+        </div>
+      </div>
+      <div class="grid" id="daftar"></div>
+    </div>
+  </main>
+
+  <script>
+    // ====== DATA ======
+    // ====== TAMBAH & HAPUS ======
+    function tambahProperti() {
+      const galat = document.getElementById("galat");
+      const id = document.getElementById("kode").value.trim().toUpperCase();
+      const jenis = document.getElementById("jenis").value;
+      const gedung = document.getElementById("gedung").value.trim();
+      const ruang = document.getElementById("ruang").value.trim();
+      const data = bacaMeja();
+
+      if (id === "" || gedung === "" || ruang === "") {
+        galat.textContent = "Kode, gedung, dan ruangan wajib diisi.";
+        return;
+      }
+      if (!/^[A-Z0-9-]+$/.test(id)) {
+        galat.textContent = "Kode hanya boleh huruf, angka, dan tanda minus (tanpa spasi).";
+        return;
+      }
+      for (let item of data) {
+        if (item.id === id) {
+          galat.textContent = "Kode " + id + " sudah dipakai. Gunakan kode lain.";
+          return;
+        }
+      }
+      galat.textContent = "Menyimpan...";
+      tulisMeja({
+        id: id,
+        jenis: jenis,
+        gedung: gedung,
+        ruang: ruang
+      }).then(() => {
+        galat.textContent = "";
+        document.getElementById("kode").value = "";
+      }).catch(e => {
+        galat.textContent = "Gagal menyimpan: " + e.message;
+      });
+    }
+
+    function hapusProperti(id) {
+      if (!confirm("Hapus " + id + "? Label QR yang sudah ditempel tidak akan bisa dipakai lagi.")) return;
+      hapusMeja(id);
+    }
+
+    function kembalikanAwal() {
+      if (!confirm("Kembalikan ke 4 data awal? Properti tambahanmu akan terhapus.")) return;
+      resetMeja();
+    }
+
+    // ====== TAMPILKAN LABEL + QR ======
+    function tampilDaftar() {
+      const data = bacaMeja();
+      const wadah = document.getElementById("daftar");
+      wadah.innerHTML = "";
+      document.getElementById("jumlah").textContent = data.length;
+
+      data.forEach((item, i) => {
+        const kartu = document.createElement("div");
+        kartu.className = "label";
+        kartu.innerHTML = `
+      <div class="qr" id="qr${i}"></div>
+      <b>${item.jenis} #${item.id}</b>
+      <div>${item.gedung} - ${item.ruang}</div>
+      <div class="ajakan">Scan untuk lapor kerusakan</div>
+      <div class="tombol">
+        <button class="sekunder" onclick="unduhPng(${i}, '${item.id}')">Unduh PNG</button>
+        <button class="bahaya" onclick="hapusProperti('${item.id}')">Hapus</button>
+      </div>`;
+        wadah.appendChild(kartu);
+
+        // isi QR berupa kode properti saja (contoh: "A101")
+        new QRCode(document.getElementById("qr" + i), {
+          text: item.id,
+          width: 160,
+          height: 160,
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      });
+    }
+
+    function unduhPng(nomor, id) {
+      const canvas = document.querySelector("#qr" + nomor + " canvas");
+      if (!canvas) {
+        alert("QR belum siap, coba lagi.");
+        return;
+      }
+      const tautan = document.createElement("a");
+      tautan.href = canvas.toDataURL("image/png");
+      tautan.download = "QR-" + id + ".png";
+      tautan.click();
+    }
+
+    if (typeof QRCode === "undefined") {
+      document.getElementById("daftar").innerHTML =
+        "<p class='galat'>Library QR gagal dimuat. Pastikan komputer terhubung ke internet, lalu refresh.</p>";
+    } else {
+      saatDataBerubah(tampilDaftar);
+      mulaiDb();
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FixMyDesk - Admin</title>
+  <style>
+    :root {
+      --biru: #3d5a6c;
+      --biru-muda: #e9eff3;
+      --teal: #3aa6a0;
+      --teal-tua: #2c8a85;
+      --teks: #22323c;
+      --abu: #6b7f8b;
+      --putih: #fff;
+      --merah: #c0504d;
+      --kuning: #d99a2b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      background: var(--biru-muda);
+      color: var(--teks);
+    }
+
+    header {
+      background: var(--biru);
+      color: var(--putih);
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .kartu {
+      background: var(--putih);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+    }
+
+    .login {
+      max-width: 380px;
+      margin: 40px auto;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--biru);
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin: 10px 0 4px;
+      color: var(--abu);
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #c5d2da;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      background: var(--putih);
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 15px;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+
+    .utama {
+      background: var(--teal);
+      color: var(--putih);
+      width: 100%;
+      font-weight: 700;
+      margin-top: 14px;
+    }
+
+    .keluar {
+      background: transparent;
+      color: var(--putih);
+      border: 1px solid rgba(255, 255, 255, .6);
+      padding: 8px 14px;
+    }
+
+    .galat {
+      color: var(--merah);
+      font-size: 14px;
+      min-height: 18px;
+      margin-top: 8px;
+    }
+
+    .kecil {
+      font-size: 13px;
+      color: var(--abu);
+    }
+
+    .atas {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .atas select {
+      width: auto;
+    }
+
+    .ringkas {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .angka {
+      flex: 1;
+      min-width: 100px;
+      background: var(--putih);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .angka b {
+      display: block;
+      font-size: 24px;
+      color: var(--teal-tua);
+    }
+
+    .bungkus {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      min-width: 720px;
+    }
+
+    th {
+      text-align: left;
+      background: var(--biru);
+      color: var(--putih);
+      padding: 10px;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #e3eaef;
+      vertical-align: middle;
+    }
+
+    .lencana {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--putih);
+    }
+
+    .Tinggi {
+      background: var(--merah);
+    }
+
+    .Sedang {
+      background: var(--kuning);
+    }
+
+    .Rendah {
+      background: var(--teal);
+    }
+
+    .mini {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid #c5d2da;
+    }
+
+    .tirai {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 30, 38, .85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      padding: 16px;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tirai img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 12px;
+    }
+
+    .tirai button {
+      background: var(--putih);
+      color: var(--biru);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="db.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>FixMyDesk · Admin</h1>
+    <button class="keluar hidden" id="tombolKeluar" onclick="logout()">Keluar</button>
+  </header>
+  <main>
+    <!-- LOGIN -->
+    <div class="kartu login" id="layarLogin">
+      <h2>Login Admin</h2>
+      <label>Username</label><input type="text" id="user" placeholder="username">
+      <label>Password</label><input type="password" id="pass" placeholder="password">
+      <div class="galat" id="galat"></div>
+      <button class="utama" onclick="prosesLogin()">Masuk</button>
+    </div>
+
+    <!-- ANTREAN -->
+    <div id="layarAntrean" class="hidden">
+      <div class="ringkas" id="ringkas"></div>
+      <div class="kartu">
+        <div class="atas">
+          <h2 style="margin:0">Antrean Laporan</h2>
+          <select id="urutan" onchange="tampilTabel()">
+            <option value="lokasi">Urutkan: Lokasi lalu Urgensi</option>
+            <option value="urgensi">Urutkan: Urgensi lalu Lokasi</option>
+          </select>
+        </div>
+        <div class="bungkus">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Lokasi</th>
+                <th>Masalah</th>
+                <th>Urgensi</th>
+                <th>Foto</th>
+                <th>Pelapor</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="isiTabel"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="tirai hidden" id="tirai" onclick="tutupFoto()">
+    <img id="fotoBesar" alt="Foto laporan">
+    <button onclick="tutupFoto()">Tutup</button>
+  </div>
+
+  <script>
+    // ====== DATA & PENGATURAN ======
+    const KUNCI_ADMIN = "fixmydesk_admin_login";
+    const USERNAME_ADMIN = "admin.login";
+    const PASSWORD_ADMIN = "admin123";
+    const urutanStatus = ["Dikirim", "Sedang Diproses", "Selesai Diperbaiki"];
+
+    // ====== LOGIN ======
+    function prosesLogin() {
+      const user = document.getElementById("user").value.trim();
+      const pass = document.getElementById("pass").value;
+      if (user === USERNAME_ADMIN && pass === PASSWORD_ADMIN) {
+        sessionStorage.setItem(KUNCI_ADMIN, "ya");
+        tampilkanHalaman();
+      } else {
+        document.getElementById("galat").textContent = "Username atau password salah.";
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem(KUNCI_ADMIN);
+      tampilkanHalaman();
+    }
+
+    function tampilkanHalaman() {
+      const sudahLogin = sessionStorage.getItem(KUNCI_ADMIN) === "ya";
+      document.getElementById("layarLogin").classList.toggle("hidden", sudahLogin);
+      document.getElementById("layarAntrean").classList.toggle("hidden", !sudahLogin);
+      document.getElementById("tombolKeluar").classList.toggle("hidden", !sudahLogin);
+      if (sudahLogin) tampilTabel();
+    }
+
+    // ====== PENGURUTAN ======
+    function bobotUrgensi(u) {
+      switch (u) {
+        case "Tinggi":
+          return 0;
+        case "Sedang":
+          return 1;
+        default:
+          return 2;
+      }
+    }
+
+    function urutkan(data, cara) {
+      const salinan = data.slice();
+      salinan.sort((a, b) => {
+        const selisihLokasi = a.lokasi.localeCompare(b.lokasi);
+        const selisihUrgensi = bobotUrgensi(a.urgensi) - bobotUrgensi(b.urgensi);
+        if (cara === "urgensi") return selisihUrgensi !== 0 ? selisihUrgensi : selisihLokasi;
+        return selisihLokasi !== 0 ? selisihLokasi : selisihUrgensi;
+      });
+      return salinan;
+    }
+
+    // ====== TABEL ======
+    function tampilTabel() {
+      const data = bacaLaporan();
+      const cara = document.getElementById("urutan").value;
+      const terurut = urutkan(data, cara);
+
+      let baris = "";
+      for (let lap of terurut) {
+        let opsi = "";
+        for (let s of urutanStatus) {
+          opsi += `<option value="${s}" ${s === lap.status ? "selected" : ""}>${s}</option>`;
+        }
+        baris += `<tr>
+      <td><b>${lap.id}</b><br><span class="kecil">${lap.waktu}</span></td>
+      <td>${lap.lokasi}</td>
+      <td>${lap.masalah}${lap.detail ? `<br><span class="kecil">${lap.detail}</span>` : ""}</td>
+      <td><span class="lencana ${lap.urgensi}">${lap.urgensi}</span></td>
+      <td>${lap.foto && lap.foto.startsWith("data:image") ? `<img class="mini" src="${lap.foto}" alt="Foto" onclick="bukaFoto('${lap.id}')">` : "-"}</td>
+      <td>${lap.pelapor}</td>
+      <td><select onchange="ubahStatus('${lap.id}', this.value)">${opsi}</select></td>
+    </tr>`;
+      }
+      document.getElementById("isiTabel").innerHTML = baris;
+
+      // ringkasan jumlah per status (perulangan + array)
+      let ringkas = `<div class="angka"><b>${data.length}</b>Total</div>`;
+      for (let s of urutanStatus) {
+        const jumlah = data.filter(l => l.status === s).length;
+        ringkas += `<div class="angka"><b>${jumlah}</b>${s}</div>`;
+      }
+      document.getElementById("ringkas").innerHTML = ringkas;
+    }
+
+    function bukaFoto(id) {
+      for (let lap of bacaLaporan()) {
+        if (lap.id === id) {
+          document.getElementById("fotoBesar").src = lap.foto;
+          document.getElementById("tirai").classList.remove("hidden");
+        }
+      }
+    }
+
+    function tutupFoto() {
+      document.getElementById("tirai").classList.add("hidden");
+    }
+
+    function ubahStatus(id, statusBaru) {
+      ubahStatusDb(id, statusBaru).catch(e => alert("Gagal mengubah status: " + e.message));
+    }
+
+    // Tabel ikut berubah otomatis saat ada laporan baru / status berubah
+    saatDataBerubah(() => {
+      const sedangPilih = document.activeElement && document.activeElement.tagName === "SELECT";
+      if (sessionStorage.getItem(KUNCI_ADMIN) === "ya" && !sedangPilih) tampilTabel();
+    });
+    mulaiDb();
+    tampilkanHalaman();
+  </script>
+</body>
+
+</html>

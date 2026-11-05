@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FixMyDesk - QR Akses Web</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --biru: #3d5a6c;
+      --biru-muda: #e9eff3;
+      --teal: #3aa6a0;
+      --teal-tua: #2c8a85;
+      --teks: #22323c;
+      --abu: #6b7f8b;
+      --putih: #fff;
+      --merah: #c0504d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      background: var(--biru-muda);
+      color: var(--teks);
+    }
+
+    header {
+      background: var(--biru);
+      color: var(--putih);
+      padding: 16px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    header small {
+      opacity: .8;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .kartu {
+      background: var(--putih);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--biru);
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--abu);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #c5d2da;
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 15px;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+
+    .utama {
+      background: var(--teal);
+      color: var(--putih);
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .utama:hover {
+      background: var(--teal-tua);
+    }
+
+    .sekunder {
+      background: var(--biru-muda);
+      color: var(--biru);
+    }
+
+    .kecil {
+      font-size: 13px;
+      color: var(--abu);
+    }
+
+    .galat {
+      color: var(--merah);
+      font-size: 14px;
+      min-height: 18px;
+      margin-top: 8px;
+    }
+
+    .dua {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .qr-kartu {
+      text-align: center;
+      border: 2px dashed #b7c6cf;
+      border-radius: 14px;
+      padding: 18px;
+      background: var(--putih);
+    }
+
+    .qr-kartu .qr {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+      min-height: 200px;
+      align-items: center;
+    }
+
+    .qr-kartu h3 {
+      margin: 0;
+      color: var(--biru);
+    }
+
+    .tautan {
+      word-break: break-all;
+      font-size: 12px;
+      color: var(--abu);
+      margin-bottom: 10px;
+    }
+
+    .peringatan {
+      background: #fff4e0;
+      color: #8a5a00;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media print {
+
+      header,
+      .form-kartu,
+      button,
+      .peringatan {
+        display: none !important;
+      }
+
+      body {
+        background: #fff;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>FixMyDesk · QR Akses Web</h1><small>QR untuk membuka web mahasiswa dan web admin dari HP</small>
+  </header>
+  <main>
+    <div class="kartu form-kartu">
+      <h2>Alamat web FixMyDesk kamu</h2>
+      <label>Alamat dasar (setelah web di-hosting)</label>
+      <input type="text" id="alamat" placeholder="contoh: https://fixmydesk-unnes.netlify.app">
+      <button class="utama" onclick="buatQr()">Buat QR</button>
+      <div class="galat" id="galat"></div>
+      <div class="peringatan" id="peringatan"></div>
+      <p class="kecil">Tempel alamat dasar saja (tanpa nama file). Nama file ditambahkan otomatis.</p>
+    </div>
+
+    <div class="dua hidden" id="hasil">
+      <div class="qr-kartu">
+        <h3>QR Web Mahasiswa</h3>
+        <div class="kecil">Scan untuk lapor kerusakan</div>
+        <div class="qr" id="qrMahasiswa"></div>
+        <div class="tautan" id="tautMahasiswa"></div>
+        <button class="sekunder" onclick="unduh('qrMahasiswa', 'QR-FixMyDesk-Mahasiswa')">Unduh PNG</button>
+      </div>
+      <div class="qr-kartu">
+        <h3>QR Web Admin</h3>
+        <div class="kecil">Khusus staf pemeliharaan</div>
+        <div class="qr" id="qrAdmin"></div>
+        <div class="tautan" id="tautAdmin"></div>
+        <button class="sekunder" onclick="unduh('qrAdmin', 'QR-FixMyDesk-Admin')">Unduh PNG</button>
+      </div>
+    </div>
+    <p style="text-align:center"><button class="sekunder hidden" id="tombolCetak" onclick="window.print()">Cetak Kedua
+        QR</button></p>
+  </main>
+
+  <script>
+    const FILE_MAHASISWA = "fixmydesk-mahasiswa.html";
+    const FILE_ADMIN = "fixmydesk-admin.html";
+
+    // Apakah alamat ini bisa dibuka dari HP di jaringan lain?
+    function cekAlamat(alamat) {
+      const kecil = alamat.toLowerCase();
+      if (kecil.startsWith("http://"))
+      return "Alamat memakai http, bukan https. Kamera scan di HP biasanya tidak mau menyala.";
+      if (kecil.includes("localhost") || kecil.includes("127.0.0.1"))
+      return "Alamat localhost hanya bisa dibuka di komputermu sendiri, tidak dari HP.";
+      if (/(^|\/\/)(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(kecil))
+      return "Alamat 192.168.x.x/10.x.x.x hanya bisa dibuka di Wi-Fi yang sama, bukan jaringan lain.";
+      return "";
+    }
+
+    function rapikan(alamat) {
+      let hasil = alamat.trim();
+      if (hasil === "") return "";
+      if (!/^https?:\/\//i.test(hasil)) hasil = "https://" + hasil;
+      return hasil.replace(/\/+$/, "").replace(/\/[^\/]+\.html$/i, "");
+    }
+
+    function gambarQr(idWadah, teks) {
+      const wadah = document.getElementById(idWadah);
+      wadah.innerHTML = "";
+      new QRCode(wadah, {
+        text: teks,
+        width: 200,
+        height: 200,
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
+    function buatQr() {
+      const galat = document.getElementById("galat");
+      const peringatan = document.getElementById("peringatan");
+      const dasar = rapikan(document.getElementById("alamat").value);
+
+      if (dasar === "") {
+        galat.textContent = "Isi alamat web dulu.";
+        return;
+      }
+      if (typeof QRCode === "undefined") {
+        galat.textContent = "Library QR gagal dimuat. Pastikan terhubung ke internet lalu refresh.";
+        return;
+      }
+      galat.textContent = "";
+
+      const urlMahasiswa = dasar + "/" + FILE_MAHASISWA;
+      const urlAdmin = dasar + "/" + FILE_ADMIN;
+      gambarQr("qrMahasiswa", urlMahasiswa);
+      gambarQr("qrAdmin", urlAdmin);
+      document.getElementById("tautMahasiswa").textContent = urlMahasiswa;
+      document.getElementById("tautAdmin").textContent = urlAdmin;
+      document.getElementById("hasil").classList.remove("hidden");
+      document.getElementById("tombolCetak").classList.remove("hidden");
+
+      const catatan = cekAlamat(dasar);
+      peringatan.textContent = catatan;
+      peringatan.classList.toggle("hidden", catatan === "");
+    }
+
+    function unduh(idWadah, namaFile) {
+      const canvas = document.querySelector("#" + idWadah + " canvas");
+      if (!canvas) return;
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = namaFile + ".png";
+      a.click();
+    }
+
+    document.getElementById("peringatan").classList.add("hidden");
+  </script>
+</body>
+
+</html>

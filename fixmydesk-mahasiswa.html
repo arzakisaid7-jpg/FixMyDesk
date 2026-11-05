@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FixMyDesk - Mahasiswa</title>
+  <style>
+    :root {
+      --biru: #3d5a6c;
+      --biru-muda: #e9eff3;
+      --teal: #3aa6a0;
+      --teal-tua: #2c8a85;
+      --teks: #22323c;
+      --abu: #6b7f8b;
+      --putih: #fff;
+      --merah: #c0504d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      background: var(--biru-muda);
+      color: var(--teks);
+    }
+
+    header {
+      background: var(--biru);
+      color: var(--putih);
+      padding: 16px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    header small {
+      opacity: .8;
+    }
+
+    main {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .kartu {
+      background: var(--putih);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--biru);
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin: 10px 0 4px;
+      color: var(--abu);
+    }
+
+    input[type=text],
+    input[type=password],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #c5d2da;
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 16px;
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 16px;
+      cursor: pointer;
+    }
+
+    .utama {
+      background: var(--teal);
+      color: var(--putih);
+      width: 100%;
+      font-weight: 700;
+      margin-top: 14px;
+    }
+
+    .utama:hover {
+      background: var(--teal-tua);
+    }
+
+    .sekunder {
+      background: var(--biru-muda);
+      color: var(--biru);
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .kecil {
+      font-size: 13px;
+      color: var(--abu);
+    }
+
+    .galat {
+      color: var(--merah);
+      font-size: 14px;
+      min-height: 18px;
+      margin-top: 8px;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 12px;
+      background: #000;
+      max-height: 260px;
+      object-fit: cover;
+    }
+
+    .id-meja {
+      background: var(--biru-muda);
+      border-left: 5px solid var(--teal);
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .pilihan {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      background: var(--biru-muda);
+      color: var(--biru);
+      border: 2px solid transparent;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 14px;
+      width: auto;
+    }
+
+    .chip.aktif {
+      background: var(--teal);
+      color: var(--putih);
+      border-color: var(--teal-tua);
+    }
+
+    .langkah {
+      display: flex;
+      justify-content: space-between;
+      margin: 18px 0 8px;
+    }
+
+    .titik {
+      flex: 1;
+      text-align: center;
+      font-size: 12px;
+      color: var(--abu);
+      position: relative;
+    }
+
+    .titik span {
+      display: block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      margin: 0 auto 6px;
+      border-radius: 50%;
+      background: #cfd9df;
+      color: var(--putih);
+      font-weight: 700;
+    }
+
+    .titik.selesai span {
+      background: var(--teal);
+    }
+
+    .titik.selesai {
+      color: var(--teks);
+      font-weight: 600;
+    }
+
+    .sukses {
+      background: #e3f4f2;
+      color: var(--teal-tua);
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .baris {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #edf1f4;
+      font-size: 14px;
+    }
+
+    .baris b {
+      text-align: right;
+      max-width: 60%;
+    }
+
+    .item-laporan {
+      display: block;
+      padding: 10px;
+      margin-top: 8px;
+      background: var(--biru-muda);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--teks);
+      font-size: 14px;
+    }
+
+    .foto-kecil {
+      max-width: 140px;
+      border-radius: 8px;
+      display: block;
+      margin-left: auto;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="db.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>FixMyDesk</h1><small>Lapor perabot kelas rusak dengan cepat</small>
+  </header>
+  <main id="isi"></main>
+
+  <script>
+    // ====== DATA & PENGATURAN ======
+    const KUNCI_USER = "fixmydesk_mahasiswa";
+    const urutanStatus = ["Dikirim", "Sedang Diproses", "Selesai Diperbaiki"];
+    const daftarMasalah = ["Goyang", "Sandaran Rusak", "Posisi Duduk Tidak Nyaman", "Sandaran Lengan Hilang",
+    "Lainnya"];
+
+
+    let pengguna = JSON.parse(localStorage.getItem(KUNCI_USER) || "null");
+    let streamKamera = null;
+    let timerScan = null;
+    let masalahDipilih = "";
+
+    // ====== FUNCTION BANTUAN ======
+    function cariMeja(id) {
+      const semua = bacaMeja();
+      for (let i = 0; i < semua.length; i++) {
+        if (semua[i].id === id) return semua[i];
+      }
+      return null;
+    }
+
+    function namaLokasi(meja) {
+      return meja.gedung + " - " + meja.ruang + " - " + (meja.jenis || "Meja") + " #" + meja.id;
+    }
+
+    function hitungUrgensi(masalah) {
+      switch (masalah) {
+        case "Sandaran Rusak":
+          return "Tinggi";
+        case "Goyang":
+          return "Sedang";
+        case "Lainnya":
+          return "Sedang";
+        default:
+          return "Rendah";
+      }
+    }
+
+    function estimasiPerbaikan(status) {
+      switch (status) {
+        case "Dikirim":
+          return "Estimasi perbaikan: 2-3 hari kerja";
+        case "Sedang Diproses":
+          return "Estimasi perbaikan: 1-2 hari kerja";
+        case "Selesai Diperbaiki":
+          return "Perbaikan sudah selesai. Terima kasih!";
+        default:
+          return "-";
+      }
+    }
+
+    function cariLaporan(id) {
+      const data = bacaLaporan();
+      for (let item of data) {
+        if (item.id === id) return item;
+      }
+      return null;
+    }
+
+    function hentikanKamera() {
+      if (timerScan) {
+        clearInterval(timerScan);
+        timerScan = null;
+      }
+      if (streamKamera) {
+        streamKamera.getTracks().forEach(t => t.stop());
+        streamKamera = null;
+      }
+    }
+
+    function tampil(html) {
+      document.getElementById("isi").innerHTML = html;
+    }
+
+    function sekarang() {
+      const d = new Date();
+      const dua = n => String(n).padStart(2, "0");
+      return d.getFullYear() + "-" + dua(d.getMonth() + 1) + "-" + dua(d.getDate()) + " " + dua(d.getHours()) + ":" +
+        dua(d.getMinutes());
+    }
+
+    // ====== ROUTER (hash) ======
+    function router() {
+      if (!dataSiap()) return;
+      hentikanKamera();
+      const hash = location.hash || "#/report";
+      const bagian = hash.slice(1).split("?");
+      const path = bagian[0];
+      const params = new URLSearchParams(bagian[1] || "");
+
+      if (path.startsWith("/status/")) {
+        layarStatus(path.replace("/status/", ""));
+      } else if (pengguna === null) {
+        layarLogin();
+      } else if (params.get("deskId")) {
+        layarForm(params.get("deskId"));
+      } else {
+        layarScan();
+      }
+    }
+    window.addEventListener("hashchange", router);
+
+    // ====== LAYAR 1: LOGIN ======
+    function layarLogin() {
+      tampil(`
+    <div class="kartu">
+      <h2>Login Mahasiswa</h2>
+      <label>Nama</label><input type="text" id="nama" placeholder="contoh: Dina">
+      <label>NIM</label><input type="text" id="nim" placeholder="contoh: 5302425001">
+      <div class="galat" id="galat"></div>
+      <button class="utama" onclick="prosesLogin()">Masuk</button>
+      <p class="kecil">Demo: isi nama dan NIM apa saja (NIM minimal 5 karakter).</p>
+    </div>`);
+    }
+
+    function prosesLogin() {
+      const nama = document.getElementById("nama").value.trim();
+      const nim = document.getElementById("nim").value.trim();
+      if (nama === "" || nim.length < 5) {
+        document.getElementById("galat").textContent = "Isi nama dan NIM (minimal 5 karakter).";
+        return;
+      }
+      pengguna = {
+        nama: nama,
+        nim: nim
+      };
+      localStorage.setItem(KUNCI_USER, JSON.stringify(pengguna));
+      router();
+    }
+
+    function logout() {
+      localStorage.removeItem(KUNCI_USER);
+      pengguna = null;
+      location.hash = "#/report";
+      router();
+    }
+
+    // ====== LAYAR 2: SCAN BARCODE ======
+    function layarScan() {
+      const laporanSaya = bacaLaporan().filter(l => l.pelapor.startsWith(pengguna.nama));
+      let riwayat = "";
+      for (let l of laporanSaya) {
+        riwayat +=
+          `<a class="item-laporan" href="#/status/${l.id}"><b>${l.id}</b> - ${l.masalah}<br><span class="kecil">${l.status}</span></a>`;
+      }
+      tampil(`
+    <div class="kartu">
+      <h2>Halo, ${pengguna.nama}!</h2>
+      <p class="kecil">Arahkan kamera ke barcode/QR di meja.</p>
+      <video id="video" autoplay playsinline muted></video>
+      <div class="galat" id="galat"></div>
+      <button class="utama" onclick="mulaiKamera()">Buka Kamera & Scan</button>
+      <label>Atau ketik ID meja manual</label>
+      <input type="text" id="manual" placeholder="contoh: A101">
+      <button class="sekunder" onclick="pakaiManual()">Gunakan ID Meja</button>
+      <p class="kecil">Tes cepat: ${bacaMeja().map(m => `<a href="#/report?deskId=${m.id}">${m.id}</a>`).join(" · ")}</p>
+      <button class="sekunder" onclick="logout()">Keluar</button>
+    </div>
+    ${laporanSaya.length > 0 ? `<div class="kartu"><h2>Laporan Saya</h2>${riwayat}</div>` : ""}`);
+    }
+
+    async function mulaiKamera() {
+      const galat = document.getElementById("galat");
+      if (!("BarcodeDetector" in window)) {
+        galat.textContent =
+          "Browser ini belum mendukung scan barcode. Gunakan Chrome Android, atau ketik ID meja manual.";
+        return;
+      }
+      try {
+        streamKamera = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "environment"
+          }
+        });
+        const video = document.getElementById("video");
+        video.srcObject = streamKamera;
+        const detektor = new BarcodeDetector({
+          formats: ["qr_code", "code_128", "ean_13", "code_39"]
+        });
+        timerScan = setInterval(async () => {
+          try {
+            const hasil = await detektor.detect(video);
+            if (hasil.length > 0) pakaiKode(hasil[0].rawValue);
+          } catch (e) {
+            /* abaikan frame gagal */ }
+        }, 500);
+      } catch (e) {
+        galat.textContent = "Kamera tidak bisa dibuka (butuh izin & HTTPS/localhost). Pakai ID manual.";
+      }
+    }
+
+    function pakaiKode(teks) {
+      let id = teks.trim();
+      if (id.includes("deskId=")) id = id.split("deskId=")[1].split("&")[0];
+      id = id.toUpperCase();
+      if (cariMeja(id) === null) {
+        const galat = document.getElementById("galat");
+        if (galat) galat.textContent = "Meja \"" + id + "\" tidak ditemukan.";
+        return;
+      }
+      hentikanKamera();
+      location.hash = "#/report?deskId=" + id;
+    }
+
+    function pakaiManual() {
+      pakaiKode(document.getElementById("manual").value);
+    }
+
+    // ====== LAYAR 3: FORM LAPORAN ======
+    function layarForm(deskId) {
+      const meja = cariMeja(deskId.toUpperCase());
+      if (meja === null) {
+        location.hash = "#/report";
+        return;
+      }
+      masalahDipilih = "";
+      let chip = "";
+      daftarMasalah.forEach((m, i) => {
+        chip += `<button class="chip" id="chip${i}" onclick="pilihMasalah(${i})">${m}</button>`;
+      });
+      tampil(`
+    <div class="kartu">
+      <h2>Lapor Kerusakan</h2>
+      <div class="id-meja">${namaLokasi(meja)}</div>
+      <label>Apa masalahnya?</label>
+      <div class="pilihan">${chip}</div>
+      <label>Foto (opsional)</label>
+      <input type="file" id="foto" accept="image/*" capture="environment">
+      <label>Detail tambahan (opsional)</label>
+      <textarea id="detail" maxlength="150" placeholder="Contoh: kaki meja kiri goyang"></textarea>
+      <div class="galat" id="galat"></div>
+      <button class="utama" onclick="kirimLaporan('${meja.id}')">Kirim Laporan</button>
+      <button class="sekunder" onclick="location.hash='#/report'">Scan Meja Lain</button>
+    </div>`);
+    }
+
+    function pilihMasalah(nomor) {
+      masalahDipilih = daftarMasalah[nomor];
+      for (let i = 0; i < daftarMasalah.length; i++) {
+        document.getElementById("chip" + i).classList.toggle("aktif", i === nomor);
+      }
+    }
+
+    // Mengecilkan foto (maks 800 px) agar muat disimpan di database
+    function kompresFoto(berkas) {
+      return new Promise((selesai, gagal) => {
+        const pembaca = new FileReader();
+        pembaca.onerror = () => gagal(new Error("Foto tidak bisa dibaca."));
+        pembaca.onload = () => {
+          const gambar = new Image();
+          gambar.onerror = () => gagal(new Error("File yang dipilih bukan gambar."));
+          gambar.onload = () => {
+            const maks = 800;
+            const skala = Math.min(1, maks / Math.max(gambar.width, gambar.height));
+            const kanvas = document.createElement("canvas");
+            kanvas.width = Math.round(gambar.width * skala);
+            kanvas.height = Math.round(gambar.height * skala);
+            kanvas.getContext("2d").drawImage(gambar, 0, 0, kanvas.width, kanvas.height);
+            selesai(kanvas.toDataURL("image/jpeg", 0.6));
+          };
+          gambar.src = pembaca.result;
+        };
+        pembaca.readAsDataURL(berkas);
+      });
+    }
+
+    async function kirimLaporan(mejaId) {
+      if (masalahDipilih === "") {
+        document.getElementById("galat").textContent = "Pilih salah satu jenis masalah dulu.";
+        return;
+      }
+      const meja = cariMeja(mejaId);
+      const berkas = document.getElementById("foto").files[0];
+      const galat = document.getElementById("galat");
+      let fotoData = "";
+      if (berkas) {
+        galat.textContent = "Memproses foto...";
+        try {
+          fotoData = await kompresFoto(berkas);
+        } catch (e) {
+          galat.textContent = e.message;
+          return;
+        }
+      }
+      const laporanBaru = {
+        id: buatIdLaporan(),
+        mejaId: meja.id,
+        lokasi: namaLokasi(meja),
+        masalah: masalahDipilih,
+        urgensi: hitungUrgensi(masalahDipilih),
+        detail: document.getElementById("detail").value.trim(),
+        foto: fotoData,
+        pelapor: pengguna.nama + " (" + pengguna.nim + ")",
+        status: "Dikirim",
+        waktu: sekarang()
+      };
+      document.getElementById("galat").textContent = "Mengirim...";
+      tulisLaporan(laporanBaru).then(() => {
+        location.hash = "#/status/" + laporanBaru.id + "?baru=1";
+      }).catch(e => {
+        document.getElementById("galat").textContent = "Gagal mengirim: " + e.message;
+      });
+    }
+
+    // ====== LAYAR 4: STATUS ======
+    function layarStatus(idLaporan) {
+      const bersih = idLaporan.split("?")[0];
+      const lap = cariLaporan(bersih);
+      if (lap === null) {
+        tampil(
+          `<div class="kartu"><h2>Laporan tidak ditemukan</h2><button class="sekunder" onclick="location.hash='#/report'">Kembali</button></div>`
+          );
+        return;
+      }
+      const baru = location.hash.includes("baru=1");
+      const posisi = urutanStatus.indexOf(lap.status);
+      let progres = "";
+      for (let i = 0; i < urutanStatus.length; i++) {
+        progres +=
+          `<div class="titik ${i <= posisi ? "selesai" : ""}"><span>${i <= posisi ? "✓" : i + 1}</span>${urutanStatus[i]}</div>`;
+      }
+      tampil(`
+    <div class="kartu">
+      ${baru ? `<div class="sukses">✓ Laporan berhasil dikirim!</div>` : ""}
+      <h2>Status ${lap.id}</h2>
+      <div class="langkah">${progres}</div>
+      <p><b>${estimasiPerbaikan(lap.status)}</b></p>
+      <div class="baris"><span>Lokasi</span><b>${lap.lokasi}</b></div>
+      <div class="baris"><span>Masalah</span><b>${lap.masalah}</b></div>
+      <div class="baris"><span>Urgensi</span><b>${lap.urgensi}</b></div>
+      <div class="baris"><span>Detail</span><b>${lap.detail || "-"}</b></div>
+      <div class="baris"><span>Foto</span><b>${lap.foto && lap.foto.startsWith("data:image") ? `<img class="foto-kecil" src="${lap.foto}" alt="Foto laporan">` : "-"}</b></div>
+      <div class="baris"><span>Dikirim</span><b>${lap.waktu}</b></div>
+      <button class="utama" onclick="location.hash='#/report'">Buat Laporan Baru</button>
+    </div>`);
+    }
+
+    // Data online: tampilkan layar pertama setelah data siap, lalu status ikut berubah otomatis
+    let sudahMulai = false;
+    saatDataBerubah(() => {
+      if (!dataSiap()) return;
+      if (!sudahMulai) {
+        sudahMulai = true;
+        router();
+        return;
+      }
+      if (location.hash.startsWith("#/status/")) router();
+    });
+    tampil('<div class="kartu"><p>Memuat data...</p></div>');
+    mulaiDb();
+  </script>
+</body>
+
+</html>
