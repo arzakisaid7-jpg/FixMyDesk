@@ -334,7 +334,17 @@
     "Lainnya"];
 
 
-    let pengguna = JSON.parse(localStorage.getItem(KUNCI_USER) || "null");
+    let pengguna = null;
+    try {
+      const dataSesi = JSON.parse(localStorage.getItem(KUNCI_USER) || "null");
+      if (dataSesi && dataSesi.username) {
+        pengguna = dataSesi;
+      } else {
+        localStorage.removeItem(KUNCI_USER);
+      }
+    } catch (e) {
+      pengguna = null;
+    }
     let streamKamera = null;
     let timerScan = null;
     let masalahDipilih = "";
@@ -435,13 +445,15 @@
       const bagian = hash.slice(1).split("?");
       const path = bagian[0];
       const params = new URLSearchParams(bagian[1] || "");
+      const queryParams = new URLSearchParams(window.location.search);
+      const deskId = params.get("deskId") || queryParams.get("deskId");
 
       if (path.startsWith("/status/")) {
         layarStatus(path.replace("/status/", ""));
       } else if (pengguna === null) {
-        layarLogin();
-      } else if (params.get("deskId")) {
-        layarForm(params.get("deskId"));
+        layarLogin(deskId);
+      } else if (deskId) {
+        layarForm(deskId);
       } else {
         layarScan();
       }
@@ -454,31 +466,78 @@
     });
 
     // ====== LAYAR 1: LOGIN ======
-    function layarLogin() {
+    function layarLogin(targetDeskId = null) {
+      const infoMeja = targetDeskId ? `
+        <div style="background:#e9eff3;border-left:4px solid var(--teal);padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:13px;">
+          📌 Anda memindai perabot <b>${targetDeskId.toUpperCase()}</b>. Silakan login terlebih dahulu untuk melanjutkan pelaporan.
+        </div>` : "";
+
       tampil(`
     <div class="kartu">
       <h2>Login Mahasiswa</h2>
-      <label>Nama</label><input type="text" id="nama" placeholder="Masukkan Nama Lengkap">
-      <label>NIM</label><input type="text" id="nim" placeholder="Masukkan NIM">
-      <div class="galat" id="galat"></div>
-      <button class="utama" onclick="prosesLogin()">Masuk</button>
-      <p class="kecil">Demo: isi nama dan NIM apa saja (NIM minimal 5 karakter).</p>
+      <p class="kecil" style="margin-bottom:14px;">Silakan login dengan username dan password yang sudah terdaftar di sistem sebelum mengirim laporan.</p>
+      ${infoMeja}
+      <form id="formLogin" onsubmit="event.preventDefault(); prosesLogin('${targetDeskId || ''}');">
+        <label for="loginUser">Username</label>
+        <input type="text" id="loginUser" placeholder="contoh: ptik_rbl2" autocomplete="username" autofocus required>
+        
+        <label for="loginPass">Password</label>
+        <input type="password" id="loginPass" placeholder="Masukkan password" autocomplete="current-password" required>
+        
+        <div class="galat" id="galat"></div>
+        <button type="submit" id="btnMasuk" class="utama">Masuk</button>
+      </form>
+      <p class="kecil" style="margin-top:14px;color:var(--abu);text-align:center;">
+        Akun mahasiswa telah disediakan pada database Firestore (tabel <i>users</i>).
+      </p>
     </div>`);
     }
 
-    function prosesLogin() {
-      const nama = document.getElementById("nama").value.trim();
-      const nim = document.getElementById("nim").value.trim();
-      if (nama === "" || nim.length < 5) {
-        document.getElementById("galat").textContent = "Isi nama dan NIM (minimal 5 karakter).";
+    async function prosesLogin(targetDeskId = "") {
+      const userEl = document.getElementById("loginUser");
+      const passEl = document.getElementById("loginPass");
+      const galat = document.getElementById("galat");
+      const btn = document.getElementById("btnMasuk");
+
+      if (!userEl || !passEl) return;
+      const username = userEl.value.trim();
+      const password = passEl.value;
+
+      if (!username || !password) {
+        if (galat) galat.textContent = "Harap masukkan username dan password.";
         return;
       }
-      pengguna = {
-        nama: nama,
-        nim: nim
-      };
-      localStorage.setItem(KUNCI_USER, JSON.stringify(pengguna));
-      router();
+
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Memverifikasi...";
+      }
+      if (galat) galat.textContent = "";
+
+      try {
+        const user = await loginMahasiswa(username, password);
+        pengguna = user;
+        localStorage.setItem(KUNCI_USER, JSON.stringify(pengguna));
+
+        const hashQuery = (location.hash.split("?")[1]) || "";
+        const hashParams = new URLSearchParams(hashQuery);
+        const searchParams = new URLSearchParams(window.location.search);
+        const target = targetDeskId || hashParams.get("deskId") || searchParams.get("deskId");
+
+        if (target) {
+          location.hash = "#/report?deskId=" + target.toUpperCase();
+        } else {
+          location.hash = "#/report";
+        }
+        router();
+      } catch (err) {
+        if (galat) galat.textContent = err.message || "Gagal masuk. Periksa kembali username dan password.";
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Masuk";
+        }
+      }
     }
 
     function logout() {
@@ -490,7 +549,12 @@
 
     // ====== LAYAR 2: SCAN BARCODE ======
     function layarScan() {
-      const laporanSaya = bacaLaporan().filter(l => l.pelapor.startsWith(pengguna.nama));
+      if (!pengguna || !pengguna.username) {
+        layarLogin();
+        return;
+      }
+      const userKey = (pengguna.username || pengguna.nama || "").toLowerCase();
+      const laporanSaya = bacaLaporan().filter(l => l.pelapor && l.pelapor.toLowerCase().includes(userKey));
       let riwayat = "";
       for (let l of laporanSaya) {
         riwayat +=
@@ -498,8 +562,14 @@
       }
       tampil(`
     <div class="kartu">
-      <h2>Halo, ${pengguna.nama}!</h2>
-      <p class="kecil">Arahkan kamera ke barcode/QR di meja atau pilih foto QR.</p>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <div>
+          <h2 style="margin:0;">Halo, ${pengguna.nama || pengguna.username}!</h2>
+          <small class="kecil">Akun: <b>${pengguna.username}</b></small>
+        </div>
+        <button type="button" class="sekunder" style="width:auto;margin:0;padding:6px 12px;font-size:13px;" onclick="logout()">Keluar</button>
+      </div>
+      <p class="kecil" style="margin-top:8px;">Arahkan kamera ke barcode/QR di meja atau pilih foto QR.</p>
 
       <!-- Wadah Video Kamera -->
       <div id="wadah-kamera" class="wadah-kamera hidden">
@@ -524,9 +594,8 @@
       <input type="text" id="manual" placeholder="contoh: A101" onkeydown="if(event.key==='Enter')pakaiManual()">
       <button class="sekunder" onclick="pakaiManual()">Gunakan ID Meja</button>
       <p class="kecil">Tes cepat: ${bacaMeja().map(m => `<a href="#/report?deskId=${m.id}">${m.id}</a>`).join(" · ")}</p>
-      <button class="sekunder" onclick="logout()">Keluar</button>
     </div>
-    ${laporanSaya.length > 0 ? `<div class="kartu"><h2>Laporan Saya</h2>${riwayat}</div>` : ""}`);
+    ${laporanSaya.length > 0 ? `<div class="kartu"><h2>Laporan Saya (${laporanSaya.length})</h2>${riwayat}</div>` : ""}`);
     }
 
     async function toggleKamera() {
@@ -883,6 +952,10 @@
 
     // ====== LAYAR 3: FORM LAPORAN ======
     function layarForm(deskId) {
+      if (!pengguna || !pengguna.username) {
+        layarLogin(deskId);
+        return;
+      }
       const meja = cariMeja(deskId.toUpperCase());
       if (meja === null) {
         location.hash = "#/report";
@@ -895,7 +968,10 @@
       });
       tampil(`
     <div class="kartu">
-      <h2>Lapor Kerusakan</h2>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h2 style="margin:0;">Lapor Kerusakan</h2>
+        <small class="kecil">Pelapor: <b>${pengguna.username}</b></small>
+      </div>
       <div class="id-meja">${namaLokasi(meja)}</div>
       <label>Apa masalahnya?</label>
       <div class="pilihan">${chip}</div>
@@ -940,6 +1016,11 @@
     }
 
     async function kirimLaporan(mejaId) {
+      if (!pengguna || !pengguna.username) {
+        alert("Silakan login terlebih dahulu untuk mengirim laporan.");
+        router();
+        return;
+      }
       if (masalahDipilih === "") {
         document.getElementById("galat").textContent = "Pilih salah satu jenis masalah dulu.";
         return;
@@ -957,6 +1038,10 @@
           return;
         }
       }
+      const pelaporInfo = pengguna.nama && pengguna.nama !== pengguna.username
+        ? `${pengguna.nama} (${pengguna.username})`
+        : pengguna.username;
+
       const laporanBaru = {
         id: buatIdLaporan(),
         mejaId: meja.id,
@@ -965,7 +1050,9 @@
         urgensi: hitungUrgensi(masalahDipilih),
         detail: document.getElementById("detail").value.trim(),
         foto: fotoData,
-        pelapor: pengguna.nama + " (" + pengguna.nim + ")",
+        pelapor: pelaporInfo,
+        userId: pengguna.id || null,
+        username: pengguna.username,
         status: "Dikirim",
         waktu: sekarang()
       };
@@ -997,13 +1084,17 @@
       tampil(`
     <div class="kartu">
       ${baru ? `<div class="sukses">✓ Laporan berhasil dikirim!</div>` : ""}
-      <h2>Status ${lap.id}</h2>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h2 style="margin:0;">Status ${lap.id}</h2>
+        ${pengguna ? `<button type="button" class="sekunder" style="width:auto;margin:0;padding:6px 12px;font-size:13px;" onclick="logout()">Keluar</button>` : ""}
+      </div>
       <div class="langkah">${progres}</div>
       <p><b>${estimasiPerbaikan(lap.status)}</b></p>
       <div class="baris"><span>Lokasi</span><b>${lap.lokasi}</b></div>
       <div class="baris"><span>Masalah</span><b>${lap.masalah}</b></div>
       <div class="baris"><span>Urgensi</span><b>${lap.urgensi}</b></div>
       <div class="baris"><span>Detail</span><b>${lap.detail || "-"}</b></div>
+      <div class="baris"><span>Pelapor</span><b>${lap.pelapor || "-"}</b></div>
       <div class="baris"><span>Foto</span><b>${lap.foto && lap.foto.startsWith("data:image") ? `<img class="foto-kecil" src="${lap.foto}" alt="Foto laporan">` : "-"}</b></div>
       <div class="baris"><span>Dikirim</span><b>${lap.waktu}</b></div>
       <button class="utama" onclick="location.hash='#/report'">Buat Laporan Baru</button>

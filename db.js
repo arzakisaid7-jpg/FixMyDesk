@@ -93,6 +93,49 @@ function buatIdLaporan() {
   return "FMD-" + Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).slice(2, 4).toUpperCase();
 }
 
+async function loginMahasiswa(username, password) {
+  if (!firestore) {
+    throw new Error("Database belum terhubung. Periksa koneksi internet.");
+  }
+  const u = String(username || "").trim();
+  const p = String(password || "").trim();
+
+  if (!u || !p) {
+    throw new Error("Username dan password wajib diisi.");
+  }
+
+  // 1. Cari exact match username di koleksi 'users'
+  let snap = await firestore.collection("users").where("username", "==", u).get();
+
+  // 2. Jika huruf besar/kecil berbeda, coba cari versi lowercase
+  if (snap.empty && u.toLowerCase() !== u) {
+    snap = await firestore.collection("users").where("username", "==", u.toLowerCase()).get();
+  }
+
+  if (snap.empty) {
+    throw new Error("Username '" + u + "' tidak terdaftar.");
+  }
+
+  let akunDitemukan = null;
+  snap.forEach(doc => {
+    const data = doc.data();
+    if (String(data.password || "").trim() === p) {
+      akunDitemukan = {
+        docId: doc.id,
+        id: data.id,
+        username: data.username,
+        nama: data.nama || data.username
+      };
+    }
+  });
+
+  if (!akunDitemukan) {
+    throw new Error("Password salah. Silakan periksa kembali.");
+  }
+
+  return akunDitemukan;
+}
+
 function tulisLaporan(lap) {
   return firestore.collection("laporan").doc(lap.id).set(lap);
 }
