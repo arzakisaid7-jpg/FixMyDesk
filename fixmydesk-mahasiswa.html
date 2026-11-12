@@ -127,12 +127,76 @@
       margin-top: 8px;
     }
 
-    video {
+    .wadah-kamera {
+      position: relative;
       width: 100%;
       border-radius: 12px;
+      overflow: hidden;
       background: #000;
-      max-height: 260px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    video#video {
+      width: 100%;
+      display: block;
+      max-height: 280px;
       object-fit: cover;
+    }
+
+    .garis-scan {
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #3aa6a0, transparent);
+      box-shadow: 0 0 8px #3aa6a0;
+      animation: animasiScan 2s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes animasiScan {
+      0% { top: 15%; opacity: 0.3; }
+      50% { top: 80%; opacity: 1; }
+      100% { top: 15%; opacity: 0.3; }
+    }
+
+    .kotak-target {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 180px;
+      border: 2px dashed rgba(255, 255, 255, 0.8);
+      border-radius: 14px;
+      pointer-events: none;
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);
+    }
+
+    .kamera-kontrol {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .kamera-kontrol button {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+      margin-top: 0;
+    }
+
+    .info-status {
+      background: #e9eff3;
+      color: #3d5a6c;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
     }
 
     .id-meja {
@@ -248,6 +312,12 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script src="db.js"></script>
+  <script src="jsqr.min.js"></script>
+  <script>
+    if (typeof jsQR === "undefined") {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"><\/script>');
+    }
+  </script>
 </head>
 
 <body>
@@ -268,6 +338,10 @@
     let streamKamera = null;
     let timerScan = null;
     let masalahDipilih = "";
+    let daftarDeviceKamera = [];
+    let indeksKameraAktif = 0;
+    let sedangMemprosesScan = false;
+    let kanvasScan = null;
 
     // ====== FUNCTION BANTUAN ======
     function cariMeja(id) {
@@ -316,7 +390,7 @@
       return null;
     }
 
-    function hentikanKamera() {
+    function hentikanKameraStream() {
       if (timerScan) {
         clearInterval(timerScan);
         timerScan = null;
@@ -325,6 +399,21 @@
         streamKamera.getTracks().forEach(t => t.stop());
         streamKamera = null;
       }
+      const video = document.getElementById("video");
+      if (video) video.srcObject = null;
+    }
+
+    function hentikanKamera() {
+      hentikanKameraStream();
+      const wadahKamera = document.getElementById("wadah-kamera");
+      if (wadahKamera) wadahKamera.classList.add("hidden");
+      const kontrolKamera = document.getElementById("kontrol-kamera");
+      if (kontrolKamera) kontrolKamera.classList.add("hidden");
+      const btnBuka = document.getElementById("btn-buka-kamera");
+      if (btnBuka) btnBuka.textContent = "Buka Kamera & Scan";
+      const infoStatus = document.getElementById("info-status");
+      if (infoStatus) infoStatus.style.display = "none";
+      sedangMemprosesScan = false;
     }
 
     function tampil(html) {
@@ -358,14 +447,19 @@
       }
     }
     window.addEventListener("hashchange", router);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && streamKamera) {
+        hentikanKamera();
+      }
+    });
 
     // ====== LAYAR 1: LOGIN ======
     function layarLogin() {
       tampil(`
     <div class="kartu">
       <h2>Login Mahasiswa</h2>
-      <label>Nama</label><input type="text" id="nama" placeholder="contoh: Dina">
-      <label>NIM</label><input type="text" id="nim" placeholder="contoh: 5302425001">
+      <label>Nama</label><input type="text" id="nama" placeholder="Masukkan Nama Lengkap">
+      <label>NIM</label><input type="text" id="nim" placeholder="Masukkan NIM">
       <div class="galat" id="galat"></div>
       <button class="utama" onclick="prosesLogin()">Masuk</button>
       <p class="kecil">Demo: isi nama dan NIM apa saja (NIM minimal 5 karakter).</p>
@@ -405,12 +499,29 @@
       tampil(`
     <div class="kartu">
       <h2>Halo, ${pengguna.nama}!</h2>
-      <p class="kecil">Arahkan kamera ke barcode/QR di meja.</p>
-      <video id="video" autoplay playsinline muted></video>
+      <p class="kecil">Arahkan kamera ke barcode/QR di meja atau pilih foto QR.</p>
+
+      <!-- Wadah Video Kamera -->
+      <div id="wadah-kamera" class="wadah-kamera hidden">
+        <video id="video" autoplay playsinline muted></video>
+        <div class="kotak-target"></div>
+        <div class="garis-scan"></div>
+      </div>
+
+      <div class="kamera-kontrol hidden" id="kontrol-kamera">
+        <button type="button" class="sekunder" id="btn-ganti-kamera" onclick="gantiKamera()" style="display:none">Ganti Kamera</button>
+        <button type="button" class="sekunder" onclick="hentikanKamera()">⏹ Tutup Kamera</button>
+      </div>
+
       <div class="galat" id="galat"></div>
-      <button class="utama" onclick="mulaiKamera()">Buka Kamera & Scan</button>
+      <div class="info-status" id="info-status"></div>
+
+      <button id="btn-buka-kamera" class="utama" onclick="toggleKamera()">Buka Kamera & Scan</button>
+      <button type="button" class="sekunder" onclick="document.getElementById('inputScanFoto').click()">Pilih / Ambil Foto QR</button>
+      <input type="file" id="inputScanFoto" accept="image/*" capture="environment" style="display:none" onchange="scanDariFoto(this)">
+
       <label>Atau ketik ID meja manual</label>
-      <input type="text" id="manual" placeholder="contoh: A101">
+      <input type="text" id="manual" placeholder="contoh: A101" onkeydown="if(event.key==='Enter')pakaiManual()">
       <button class="sekunder" onclick="pakaiManual()">Gunakan ID Meja</button>
       <p class="kecil">Tes cepat: ${bacaMeja().map(m => `<a href="#/report?deskId=${m.id}">${m.id}</a>`).join(" · ")}</p>
       <button class="sekunder" onclick="logout()">Keluar</button>
@@ -418,51 +529,356 @@
     ${laporanSaya.length > 0 ? `<div class="kartu"><h2>Laporan Saya</h2>${riwayat}</div>` : ""}`);
     }
 
-    async function mulaiKamera() {
-      const galat = document.getElementById("galat");
-      if (!("BarcodeDetector" in window)) {
-        galat.textContent =
-          "Browser ini belum mendukung scan barcode. Gunakan Chrome Android, atau ketik ID meja manual.";
-        return;
-      }
-      try {
-        streamKamera = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: "environment"
-          }
-        });
-        const video = document.getElementById("video");
-        video.srcObject = streamKamera;
-        const detektor = new BarcodeDetector({
-          formats: ["qr_code", "code_128", "ean_13", "code_39"]
-        });
-        timerScan = setInterval(async () => {
-          try {
-            const hasil = await detektor.detect(video);
-            if (hasil.length > 0) pakaiKode(hasil[0].rawValue);
-          } catch (e) {
-            /* abaikan frame gagal */ }
-        }, 500);
-      } catch (e) {
-        galat.textContent = "Kamera tidak bisa dibuka (butuh izin & HTTPS/localhost). Pakai ID manual.";
+    async function toggleKamera() {
+      if (streamKamera) {
+        hentikanKamera();
+      } else {
+        await mulaiKamera();
       }
     }
 
-    function pakaiKode(teks) {
-      let id = teks.trim();
-      if (id.includes("deskId=")) id = id.split("deskId=")[1].split("&")[0];
-      id = id.toUpperCase();
-      if (cariMeja(id) === null) {
-        const galat = document.getElementById("galat");
-        if (galat) galat.textContent = "Meja \"" + id + "\" tidak ditemukan.";
+    async function mulaiKamera(pilihanDeviceId = null) {
+      const galat = document.getElementById("galat");
+      const infoStatus = document.getElementById("info-status");
+      const wadahKamera = document.getElementById("wadah-kamera");
+      const kontrolKamera = document.getElementById("kontrol-kamera");
+      const btnBuka = document.getElementById("btn-buka-kamera");
+      const video = document.getElementById("video");
+
+      if (galat) galat.innerHTML = "";
+      if (infoStatus) {
+        infoStatus.style.display = "block";
+        infoStatus.textContent = "Menghubungkan ke kamera...";
+      }
+
+      // Cek apakah browser mendukung getUserMedia & Secure Context
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        if (infoStatus) infoStatus.style.display = "none";
+        const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+        if (location.protocol !== "https:" && !isLocal) {
+          galat.innerHTML = `
+            <strong>Kamera diblokir browser (Koneksi HTTP).</strong><br>
+            Browser mewajibkan koneksi aman <code>HTTPS</code> atau <code>localhost</code>.<br>
+            <em>Solusi:</em> Buka via HTTPS atau gunakan tombol <strong>"Pilih / Ambil Foto QR"</strong> di bawah.
+          `;
+        } else {
+          galat.innerHTML = "Browser ini tidak mengizinkan akses kamera langsung. Silakan gunakan tombol <strong>'Pilih / Ambil Foto QR'</strong> atau masukkan ID manual.";
+        }
         return;
       }
+
+      // Hentikan stream aktif sebelumnya jika ada
+      hentikanKameraStream();
+
+      // Urutan fallback constraints agar kamera pasti bisa terbuka di laptop, PC, maupun HP
+      const daftarConstraints = [];
+      if (pilihanDeviceId) {
+        daftarConstraints.push({
+          video: { deviceId: { exact: pilihanDeviceId } },
+          audio: false
+        });
+      }
+      daftarConstraints.push({
+        video: {
+          facingMode: { ideal: "environment" },
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        },
+        audio: false
+      });
+      daftarConstraints.push({
+        video: { facingMode: "user" },
+        audio: false
+      });
+      daftarConstraints.push({
+        video: true,
+        audio: false
+      });
+
+      let streamBerhasil = null;
+      let errorTerakhir = null;
+
+      for (const konstrain of daftarConstraints) {
+        try {
+          streamBerhasil = await navigator.mediaDevices.getUserMedia(konstrain);
+          if (streamBerhasil) break;
+        } catch (e) {
+          errorTerakhir = e;
+        }
+      }
+
+      if (!streamBerhasil) {
+        if (infoStatus) infoStatus.style.display = "none";
+        let pesan = "Tidak dapat mengakses kamera.";
+        if (errorTerakhir) {
+          if (errorTerakhir.name === "NotAllowedError" || errorTerakhir.name === "PermissionDeniedError") {
+            pesan = "Izin kamera ditolak. Silakan izinkan akses kamera di pengaturan browser/situs Anda.";
+          } else if (errorTerakhir.name === "NotFoundError" || errorTerakhir.name === "DevicesNotFoundError") {
+            pesan = "Tidak ditemukan perangkat kamera di perangkat Anda.";
+          } else if (errorTerakhir.name === "NotReadableError" || errorTerakhir.name === "TrackStartError") {
+            pesan = "Kamera sedang dipakai aplikasi lain (seperti Zoom atau tab lain). Tutup aplikasi tersebut.";
+          } else if (errorTerakhir.name === "OverconstrainedError") {
+            pesan = "Pengaturan kamera tidak didukung perangkat.";
+          } else {
+            pesan = "Gagal membuka kamera: " + errorTerakhir.message;
+          }
+        }
+        galat.innerHTML = pesan + ` Anda tetap bisa menggunakan tombol <strong>'Pilih / Ambil Foto QR'</strong>.`;
+        return;
+      }
+
+      streamKamera = streamBerhasil;
+      if (video) {
+        video.srcObject = streamKamera;
+        try {
+          await video.play();
+        } catch (e) {
+          /* abaikan error autoplay */
+        }
+      }
+
+      if (wadahKamera) wadahKamera.classList.remove("hidden");
+      if (kontrolKamera) kontrolKamera.classList.remove("hidden");
+      if (btnBuka) btnBuka.textContent = "⏹ Tutup Kamera";
+      if (infoStatus) {
+        infoStatus.style.display = "block";
+        infoStatus.textContent = "Arahkan kamera ke kode QR di meja...";
+      }
+
+      periksaDaftarKamera();
+      sedangMemprosesScan = false;
+      mulaiPemindaianFrame();
+    }
+
+    async function periksaDaftarKamera() {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        daftarDeviceKamera = devices.filter(d => d.kind === "videoinput");
+        const btnGanti = document.getElementById("btn-ganti-kamera");
+        if (btnGanti) {
+          btnGanti.style.display = daftarDeviceKamera.length > 1 ? "inline-block" : "none";
+        }
+      } catch (e) {}
+    }
+
+    async function gantiKamera() {
+      if (daftarDeviceKamera.length <= 1) return;
+      indeksKameraAktif = (indeksKameraAktif + 1) % daftarDeviceKamera.length;
+      const deviceId = daftarDeviceKamera[indeksKameraAktif].deviceId;
+      await mulaiKamera(deviceId);
+    }
+
+    function mulaiPemindaianFrame() {
+      if (timerScan) clearInterval(timerScan);
+
+      let detektorNative = null;
+      if ("BarcodeDetector" in window) {
+        try {
+          detektorNative = new BarcodeDetector({
+            formats: ["qr_code", "code_128", "ean_13", "code_39"]
+          });
+        } catch (e) {
+          detektorNative = null;
+        }
+      }
+
+      if (!kanvasScan) {
+        kanvasScan = document.createElement("canvas");
+      }
+      const ctx = kanvasScan.getContext("2d", { willReadFrequently: true });
+
+      timerScan = setInterval(async () => {
+        if (!streamKamera || sedangMemprosesScan) return;
+        const video = document.getElementById("video");
+        if (!video || video.readyState < 2 || video.videoWidth === 0) return;
+
+        sedangMemprosesScan = true;
+        try {
+          let hasilTeks = null;
+
+          // 1. Coba BarcodeDetector native jika didukung
+          if (detektorNative) {
+            try {
+              const hasil = await detektorNative.detect(video);
+              if (hasil && hasil.length > 0 && hasil[0].rawValue) {
+                hasilTeks = hasil[0].rawValue;
+              }
+            } catch (errDet) {}
+          }
+
+          // 2. Gunakan jsQR jika belum ketemu dan jsQR tersedia
+          if (!hasilTeks && typeof jsQR === "function") {
+            const lebar = video.videoWidth;
+            const tinggi = video.videoHeight;
+            const maksDim = 640;
+            const skala = Math.min(1, maksDim / Math.max(lebar, tinggi));
+            kanvasScan.width = Math.round(lebar * skala);
+            kanvasScan.height = Math.round(tinggi * skala);
+
+            ctx.drawImage(video, 0, 0, kanvasScan.width, kanvasScan.height);
+            const imgData = ctx.getImageData(0, 0, kanvasScan.width, kanvasScan.height);
+            const kode = jsQR(imgData.data, imgData.width, imgData.height, {
+              inversionAttempts: "dontInvert"
+            });
+            if (kode && kode.data) {
+              hasilTeks = kode.data;
+            }
+          }
+
+          if (hasilTeks) {
+            bunyikanBeep();
+            pakaiKode(hasilTeks);
+          }
+        } catch (e) {
+          /* abaikan error per frame */
+        } finally {
+          sedangMemprosesScan = false;
+        }
+      }, 250);
+    }
+
+    async function scanDariFoto(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+
+      const galat = document.getElementById("galat");
+      const infoStatus = document.getElementById("info-status");
+      if (galat) galat.textContent = "";
+      if (infoStatus) {
+        infoStatus.style.display = "block";
+        infoStatus.textContent = "Memproses gambar QR...";
+      }
+
+      try {
+        const dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error("Gagal membaca file gambar."));
+          reader.readAsDataURL(file);
+        });
+
+        const img = new Image();
+        await new Promise((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error("File bukan gambar yang valid."));
+          img.src = dataUrl;
+        });
+
+        let hasilTeks = null;
+
+        // Coba BarcodeDetector native
+        if ("BarcodeDetector" in window) {
+          try {
+            const detektor = new BarcodeDetector({ formats: ["qr_code", "code_128", "ean_13", "code_39"] });
+            const hasil = await detektor.detect(img);
+            if (hasil && hasil.length > 0 && hasil[0].rawValue) {
+              hasilTeks = hasil[0].rawValue;
+            }
+          } catch (e) {}
+        }
+
+        // Coba jsQR
+        if (!hasilTeks && typeof jsQR === "function") {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const kode = jsQR(imgData.data, imgData.width, imgData.height, {
+            inversionAttempts: "attemptBoth"
+          });
+          if (kode && kode.data) {
+            hasilTeks = kode.data;
+          }
+        }
+
+        if (infoStatus) infoStatus.style.display = "none";
+
+        if (hasilTeks) {
+          bunyikanBeep();
+          pakaiKode(hasilTeks);
+        } else {
+          if (galat) {
+            galat.innerHTML = "Kode QR tidak terdeteksi pada gambar. Pastikan foto fokus dan kode QR terlihat jelas, atau ketik ID meja manual.";
+          }
+        }
+      } catch (err) {
+        if (infoStatus) infoStatus.style.display = "none";
+        if (galat) galat.textContent = "Gagal memindai gambar: " + err.message;
+      } finally {
+        input.value = "";
+      }
+    }
+
+    function bunyikanBeep() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+          const ctx = new AudioContext();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(800, ctx.currentTime);
+          gain.gain.setValueAtTime(0.15, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.15);
+        }
+        if (navigator.vibrate) {
+          navigator.vibrate(100);
+        }
+      } catch (e) {}
+    }
+
+    function ekstrakDeskId(teks) {
+      if (!teks) return "";
+      let str = String(teks).trim();
+      try {
+        if (str.startsWith("http://") || str.startsWith("https://")) {
+          const url = new URL(str);
+          if (url.searchParams.get("deskId")) {
+            return url.searchParams.get("deskId").trim().toUpperCase();
+          }
+          if (url.hash && url.hash.includes("deskId=")) {
+            const hashQuery = url.hash.split("?")[1] || "";
+            const hashParams = new URLSearchParams(hashQuery);
+            if (hashParams.get("deskId")) return hashParams.get("deskId").trim().toUpperCase();
+          }
+        }
+      } catch (e) {}
+
+      if (str.includes("deskId=")) {
+        str = str.split("deskId=")[1].split("&")[0].split("#")[0];
+      }
+      str = str.replace(/^[^\w]+|[^\w]+$/g, "");
+      return str.toUpperCase();
+    }
+
+    function pakaiKode(teks) {
+      const id = ekstrakDeskId(teks);
+      const galat = document.getElementById("galat");
+
+      if (!id) {
+        if (galat) galat.textContent = "Kode QR tidak valid atau kosong.";
+        return;
+      }
+
+      if (cariMeja(id) === null) {
+        if (galat) galat.textContent = 'Meja "' + id + '" tidak ditemukan.';
+        return;
+      }
+
       hentikanKamera();
       location.hash = "#/report?deskId=" + id;
     }
 
     function pakaiManual() {
-      pakaiKode(document.getElementById("manual").value);
+      const input = document.getElementById("manual");
+      if (input) pakaiKode(input.value);
     }
 
     // ====== LAYAR 3: FORM LAPORAN ======
