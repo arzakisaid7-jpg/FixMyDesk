@@ -150,6 +150,17 @@ function tulisMeja(meja) {
   return firestore.collection("properti").doc(meja.id).set(meja);
 }
 
+async function simpanPropertiDb(dataBaru, idLama = null) {
+  if (!firestore) throw new Error("Database belum siap.");
+  if (idLama && idLama !== dataBaru.id) {
+    const batch = firestore.batch();
+    batch.delete(firestore.collection("properti").doc(idLama));
+    batch.set(firestore.collection("properti").doc(dataBaru.id), dataBaru);
+    return batch.commit();
+  }
+  return firestore.collection("properti").doc(dataBaru.id).set(dataBaru);
+}
+
 function hapusMeja(id) {
   return firestore.collection("properti").doc(id).delete();
 }

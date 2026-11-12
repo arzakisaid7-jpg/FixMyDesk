@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FixMyDesk - Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
     :root {
       --biru: #3d5a6c;
@@ -16,6 +17,7 @@
       --putih: #fff;
       --merah: #c0504d;
       --kuning: #d99a2b;
+      --hijau: #2e7d32;
     }
 
     * {
@@ -32,28 +34,32 @@
     header {
       background: var(--biru);
       color: var(--putih);
-      padding: 16px;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     header h1 {
       margin: 0;
       font-size: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     main {
-      max-width: 960px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 20px 16px;
     }
 
     .kartu {
       background: var(--putih);
       border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 14px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
     }
 
@@ -66,6 +72,9 @@
       margin: 0 0 12px;
       font-size: 18px;
       color: var(--biru);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     label {
@@ -73,53 +82,152 @@
       font-size: 14px;
       margin: 10px 0 4px;
       color: var(--abu);
+      font-weight: 500;
     }
 
     input,
     select {
       width: 100%;
-      padding: 11px;
+      padding: 10px 12px;
       border: 1px solid #c5d2da;
-      border-radius: 10px;
-      font-size: 15px;
+      border-radius: 8px;
+      font-size: 14px;
       font-family: inherit;
       background: var(--putih);
     }
 
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(58, 166, 160, 0.15);
+    }
+
     button {
       font-family: inherit;
-      font-size: 15px;
+      font-size: 14px;
       border: 0;
-      border-radius: 10px;
-      padding: 12px 16px;
+      border-radius: 8px;
+      padding: 10px 16px;
       cursor: pointer;
+      font-weight: 600;
+      transition: all 0.15s ease-in-out;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .utama {
       background: var(--teal);
       color: var(--putih);
       width: 100%;
-      font-weight: 700;
       margin-top: 14px;
+    }
+
+    .utama:hover {
+      background: var(--teal-tua);
+    }
+
+    .sekunder {
+      background: var(--biru-muda);
+      color: var(--biru);
+    }
+
+    .sekunder:hover {
+      background: #d9e4ec;
     }
 
     .keluar {
       background: transparent;
       color: var(--putih);
       border: 1px solid rgba(255, 255, 255, .6);
-      padding: 8px 14px;
+      padding: 7px 14px;
+      font-size: 13px;
+    }
+
+    .keluar:hover {
+      background: rgba(255, 255, 255, 0.15);
     }
 
     .galat {
       color: var(--merah);
-      font-size: 14px;
+      font-size: 13px;
       min-height: 18px;
       margin-top: 8px;
+    }
+
+    .sukses {
+      background: #e3f4f2;
+      color: var(--teal-tua);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 8px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .kecil {
       font-size: 13px;
       color: var(--abu);
+    }
+
+    /* NAV TABS */
+    .nav-admin {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .tab-btn {
+      background: var(--putih);
+      color: var(--biru);
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid #c5d2da;
+      cursor: pointer;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn:hover {
+      background: var(--biru-muda);
+    }
+
+    .tab-btn.aktif {
+      background: var(--teal);
+      color: var(--putih);
+      border-color: var(--teal-tua);
+      box-shadow: 0 2px 6px rgba(58, 166, 160, 0.3);
+    }
+
+    /* RINGKASAN */
+    .ringkas {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .angka {
+      flex: 1;
+      min-width: 110px;
+      background: var(--putih);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+    }
+
+    .angka b {
+      display: block;
+      font-size: 24px;
+      color: var(--teal-tua);
     }
 
     .atas {
@@ -128,32 +236,12 @@
       align-items: center;
       flex-wrap: wrap;
       margin-bottom: 12px;
+      justify-content: space-between;
     }
 
-    .atas select {
+    .atas select,
+    .atas input {
       width: auto;
-    }
-
-    .ringkas {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .angka {
-      flex: 1;
-      min-width: 100px;
-      background: var(--putih);
-      border-radius: 12px;
-      padding: 12px;
-      text-align: center;
-    }
-
-    .angka b {
-      display: block;
-      font-size: 24px;
-      color: var(--teal-tua);
     }
 
     .bungkus {
@@ -164,20 +252,24 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
-      min-width: 640px;
+      min-width: 680px;
     }
 
     th {
       text-align: left;
       background: var(--biru);
       color: var(--putih);
-      padding: 10px;
+      padding: 10px 12px;
     }
 
     td {
-      padding: 10px;
+      padding: 10px 12px;
       border-bottom: 1px solid #e3eaef;
       vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: #fafcfe;
     }
 
     .lencana {
@@ -201,10 +293,136 @@
       background: var(--teal);
     }
 
+    .mini {
+      width: 52px;
+      height: 52px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid #c5d2da;
+    }
+
+    /* CRUD PROPERTI STYLES */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .tombol-grup-form {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      align-items: center;
+    }
+
+    .tombol-aksi {
+      padding: 6px 10px;
+      font-size: 13px;
+      border-radius: 6px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .tombol-edit {
+      background: #e9eff3;
+      color: var(--biru);
+    }
+
+    .tombol-edit:hover {
+      background: #d5e2eb;
+    }
+
+    .tombol-hapus {
+      background: #fdecea;
+      color: var(--merah);
+    }
+
+    .tombol-hapus:hover {
+      background: #f8d7da;
+    }
+
+    .tombol-qr {
+      background: #e3f4f2;
+      color: var(--teal-tua);
+    }
+
+    .tombol-qr:hover {
+      background: #cdeee9;
+    }
+
+    .badge-jenis {
+      background: #e9eff3;
+      color: var(--biru);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-kursi {
+      background: #e3f4f2;
+      color: var(--teal-tua);
+    }
+
+    .badge-meja {
+      background: #e8f0fe;
+      color: #1967d2;
+    }
+
+    .badge-lain {
+      background: #fef7e0;
+      color: #b06000;
+    }
+
+    /* MODAL POPUPS */
+    .tirai {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 30, 38, .85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      padding: 16px;
+    }
+
+    .modal-kotak {
+      background: var(--putih);
+      padding: 24px;
+      border-radius: 14px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-kotak .wadah-qr {
+      display: flex;
+      justify-content: center;
+      margin: 16px 0;
+    }
+
+    .modal-foto img {
+      max-width: 100%;
+      max-height: 75vh;
+      border-radius: 10px;
+      display: block;
+      margin: 0 auto 12px;
+    }
+
     .hidden {
-      display: none;
+      display: none !important;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
@@ -213,25 +431,32 @@
 
 <body>
   <header>
-    <h1>FixMyDesk · Admin</h1>
-    <button class="keluar hidden" id="tombolKeluar" onclick="logout()">Keluar</button>
+    <h1><i class="bi bi-shield-check"></i> FixMyDesk · Admin</h1>
+    <button class="keluar hidden" id="tombolKeluar" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Keluar</button>
   </header>
+
   <main>
     <!-- LOGIN -->
     <div class="kartu login" id="layarLogin">
-      <h2>Login Admin</h2>
-      <label>Username</label><input type="text" id="user" placeholder="username">
-      <label>Password</label><input type="password" id="pass" placeholder="password">
+      <h2><i class="bi bi-person-lock"></i> Login Admin</h2>
+      <label>Username</label><input type="text" id="user" placeholder="username" autocomplete="username">
+      <label>Password</label><input type="password" id="pass" placeholder="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')prosesLogin()">
       <div class="galat" id="galat"></div>
-      <button class="utama" onclick="prosesLogin()">Masuk</button>
+      <button class="utama" onclick="prosesLogin()"><i class="bi bi-box-arrow-in-right"></i> Masuk</button>
     </div>
 
-    <!-- ANTREAN -->
+    <!-- NAVIGASI TAB MENU ADMIN -->
+    <nav class="nav-admin hidden" id="navAdmin">
+      <button class="tab-btn aktif" id="tabBtnLaporan" onclick="gantiTab('laporan')"><i class="bi bi-clipboard2-check"></i> Antrean Laporan</button>
+      <button class="tab-btn" id="tabBtnProperti" onclick="gantiTab('properti')"><i class="bi bi-inboxes"></i> Kelola Properti</button>
+    </nav>
+
+    <!-- TAB 1: ANTREAN LAPORAN -->
     <div id="layarAntrean" class="hidden">
       <div class="ringkas" id="ringkas"></div>
       <div class="kartu">
         <div class="atas">
-          <h2 style="margin:0">Antrean Laporan</h2>
+          <h2 style="margin:0"><i class="bi bi-list-task"></i> Antrean Laporan Kerusakan</h2>
           <select id="urutan" onchange="tampilTabel()">
             <option value="lokasi">Urutkan: Lokasi lalu Urgensi</option>
             <option value="urgensi">Urutkan: Urgensi lalu Lokasi</option>
@@ -245,6 +470,7 @@
                 <th>Lokasi</th>
                 <th>Masalah</th>
                 <th>Urgensi</th>
+                <th>Foto</th>
                 <th>Pelapor</th>
                 <th>Status</th>
               </tr>
@@ -254,7 +480,113 @@
         </div>
       </div>
     </div>
+
+    <!-- TAB 2: KELOLA PROPERTI (CRUD) -->
+    <div id="layarProperti" class="hidden">
+      <!-- Ringkasan Properti -->
+      <div class="ringkas" id="ringkasProperti"></div>
+
+      <!-- Form Tambah / Edit Properti -->
+      <div class="kartu" id="kartuFormProperti">
+        <h2 id="judulFormProperti"><i class="bi bi-plus-circle"></i> Tambah Properti Baru</h2>
+        <div class="form-grid">
+          <div>
+            <label for="propId">ID / Kode Properti *</label>
+            <input type="text" id="propId" placeholder="contoh: 244-B2K2, A101" autocomplete="off">
+          </div>
+          <div>
+            <label for="propJenis">Jenis Properti *</label>
+            <input type="text" id="propJenis" list="opsiJenis" placeholder="contoh: Kursi atau Meja" autocomplete="off">
+            <datalist id="opsiJenis">
+              <option value="Kursi"></option>
+              <option value="Meja"></option>
+              <option value="Lemari"></option>
+              <option value="Papan Tulis"></option>
+              <option value="Proyektor"></option>
+              <option value="AC"></option>
+            </datalist>
+          </div>
+          <div>
+            <label for="propGedung">Gedung *</label>
+            <input type="text" id="propGedung" placeholder="contoh: GEDUNG E 11" autocomplete="off">
+          </div>
+          <div>
+            <label for="propRuang">Ruangan *</label>
+            <input type="text" id="propRuang" placeholder="contoh: 244" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="galat" id="galatProp"></div>
+        <div class="sukses hidden" id="suksesProp"></div>
+
+        <div class="tombol-grup-form">
+          <button type="button" class="utama" id="btnSimpanProp" style="margin-top:0; width:auto;" onclick="simpanProperti()">
+            <i class="bi bi-plus-lg"></i> Tambah Properti
+          </button>
+          <button type="button" class="sekunder hidden" id="btnBatalProp" style="margin-top:0; width:auto;" onclick="batalEditProperti()">
+            <i class="bi bi-x-circle"></i> Batal
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabel Daftar Properti -->
+      <div class="kartu">
+        <div class="atas">
+          <h2 style="margin:0"><i class="bi bi-grid-3x3-gap"></i> Daftar Properti (<span id="totalPropertiTabel">0</span>)</h2>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <select id="filterJenisProp" onchange="tampilTabelProperti()">
+              <option value="semua">Semua Jenis</option>
+              <option value="Kursi">Kursi</option>
+              <option value="Meja">Meja</option>
+              <option value="lainnya">Lainnya</option>
+            </select>
+            <div style="position:relative;">
+              <input type="text" id="cariProp" placeholder="Cari ID, gedung, ruang..." oninput="tampilTabelProperti()">
+            </div>
+          </div>
+        </div>
+        <div class="bungkus">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 40px;">No</th>
+                <th>ID Properti</th>
+                <th>Jenis</th>
+                <th>Gedung</th>
+                <th>Ruangan</th>
+                <th>Kode QR</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="isiTabelProperti"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </main>
+
+  <!-- MODAL ZOOM FOTO LAPORAN -->
+  <div class="tirai hidden" id="tiraiFoto" onclick="tutupFoto()">
+    <div class="modal-foto" onclick="event.stopPropagation()">
+      <img id="fotoBesar" alt="Foto laporan">
+      <div style="text-align:center;">
+        <button class="sekunder" onclick="tutupFoto()"><i class="bi bi-x-lg"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PREVIEW QR CODE PROPERTI -->
+  <div class="tirai hidden" id="tiraiQr" onclick="tutupModalQr()">
+    <div class="modal-kotak" onclick="event.stopPropagation()">
+      <h3 style="margin:0 0 4px;" id="judulModalQr"><i class="bi bi-qr-code-scan"></i> Kode QR Properti</h3>
+      <div class="kecil" id="subjudulModalQr"></div>
+      <div class="wadah-qr" id="wadahQrModal"></div>
+      <div style="display:flex; gap:8px; justify-content:center; margin-top:16px;">
+        <button type="button" class="utama" style="width:auto; margin:0;" onclick="unduhQrAktif()"><i class="bi bi-download"></i> Unduh PNG</button>
+        <button type="button" class="sekunder" style="width:auto; margin:0;" onclick="tutupModalQr()"><i class="bi bi-x-lg"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // ====== DATA & PENGATURAN ======
@@ -263,7 +595,11 @@
     const PASSWORD_ADMIN = "admin123";
     const urutanStatus = ["Dikirim", "Sedang Diproses", "Selesai Diperbaiki"];
 
-    // ====== LOGIN ======
+    let tabAktif = "laporan"; // "laporan" atau "properti"
+    let idSedangDiedit = null; // null jika mode tambah, string jika mode edit
+    let qrAktifInfo = null; // data properti untuk download QR
+
+    // ====== LOGIN & LOGOUT ======
     function prosesLogin() {
       const user = document.getElementById("user").value.trim();
       const pass = document.getElementById("pass").value;
@@ -283,12 +619,41 @@
     function tampilkanHalaman() {
       const sudahLogin = sessionStorage.getItem(KUNCI_ADMIN) === "ya";
       document.getElementById("layarLogin").classList.toggle("hidden", sudahLogin);
-      document.getElementById("layarAntrean").classList.toggle("hidden", !sudahLogin);
       document.getElementById("tombolKeluar").classList.toggle("hidden", !sudahLogin);
-      if (sudahLogin) tampilTabel();
+      document.getElementById("navAdmin").classList.toggle("hidden", !sudahLogin);
+
+      if (sudahLogin) {
+        gantiTab(tabAktif);
+      } else {
+        document.getElementById("layarAntrean").classList.add("hidden");
+        document.getElementById("layarProperti").classList.add("hidden");
+      }
     }
 
-    // ====== PENGURUTAN ======
+    // ====== NAVIGASI TAB MENU ======
+    function gantiTab(tab) {
+      tabAktif = tab;
+      const btnLap = document.getElementById("tabBtnLaporan");
+      const btnProp = document.getElementById("tabBtnProperti");
+      const layarLap = document.getElementById("layarAntrean");
+      const layarProp = document.getElementById("layarProperti");
+
+      if (tab === "laporan") {
+        btnLap.classList.add("aktif");
+        btnProp.classList.remove("aktif");
+        layarLap.classList.remove("hidden");
+        layarProp.classList.add("hidden");
+        tampilTabel();
+      } else {
+        btnLap.classList.remove("aktif");
+        btnProp.classList.add("aktif");
+        layarLap.classList.add("hidden");
+        layarProp.classList.remove("hidden");
+        tampilTabelProperti();
+      }
+    }
+
+    // ====== TAB 1: PENGURUTAN & TABEL LAPORAN ======
     function bobotUrgensi(u) {
       switch (u) {
         case "Tinggi":
@@ -311,7 +676,6 @@
       return salinan;
     }
 
-    // ====== TABEL ======
     function tampilTabel() {
       const data = bacaLaporan();
       const cara = document.getElementById("urutan").value;
@@ -328,14 +692,15 @@
       <td>${lap.lokasi}</td>
       <td>${lap.masalah}${lap.detail ? `<br><span class="kecil">${lap.detail}</span>` : ""}</td>
       <td><span class="lencana ${lap.urgensi}">${lap.urgensi}</span></td>
-      <td>${lap.pelapor}</td>
+      <td>${lap.foto && lap.foto.startsWith("data:image") ? `<img class="mini" src="${lap.foto}" alt="Foto" onclick="bukaFoto('${lap.id}')">` : "-"}</td>
+      <td>${lap.pelapor || "-"}</td>
       <td><select onchange="ubahStatus('${lap.id}', this.value)">${opsi}</select></td>
     </tr>`;
       }
-      document.getElementById("isiTabel").innerHTML = baris;
+      document.getElementById("isiTabel").innerHTML = baris || `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--abu);">Belum ada laporan kerusakan.</td></tr>`;
 
-      // ringkasan jumlah per status (perulangan + array)
-      let ringkas = `<div class="angka"><b>${data.length}</b>Total</div>`;
+      // ringkasan jumlah per status
+      let ringkas = `<div class="angka"><b>${data.length}</b>Total Laporan</div>`;
       for (let s of urutanStatus) {
         const jumlah = data.filter(l => l.status === s).length;
         ringkas += `<div class="angka"><b>${jumlah}</b>${s}</div>`;
@@ -347,11 +712,247 @@
       ubahStatusDb(id, statusBaru).catch(e => alert("Gagal mengubah status: " + e.message));
     }
 
-    // Tabel ikut berubah otomatis saat ada laporan baru / status berubah
+    function bukaFoto(id) {
+      const lap = bacaLaporan().find(l => l.id === id);
+      if (lap && lap.foto) {
+        document.getElementById("fotoBesar").src = lap.foto;
+        document.getElementById("tiraiFoto").classList.remove("hidden");
+      }
+    }
+
+    function tutupFoto() {
+      document.getElementById("tiraiFoto").classList.add("hidden");
+    }
+
+    // ====== TAB 2: CRUD PROPERTI ======
+    function dapatkanBadgeJenis(jenis) {
+      const j = (jenis || "").toLowerCase();
+      if (j === "kursi") return `<span class="badge-jenis badge-kursi"><i class="bi bi-person-workspace"></i> Kursi</span>`;
+      if (j === "meja") return `<span class="badge-jenis badge-meja"><i class="bi bi-laptop"></i> Meja</span>`;
+      return `<span class="badge-jenis badge-lain"><i class="bi bi-box-seam"></i> ${jenis || "Lainnya"}</span>`;
+    }
+
+    function tampilTabelProperti() {
+      const data = bacaMeja();
+      const filterJenis = document.getElementById("filterJenisProp").value.toLowerCase();
+      const cari = document.getElementById("cariProp").value.trim().toLowerCase();
+
+      // Ringkasan properti
+      const totalKursi = data.filter(m => (m.jenis || "").toLowerCase() === "kursi").length;
+      const totalMeja = data.filter(m => (m.jenis || "").toLowerCase() === "meja").length;
+      const totalLain = data.length - totalKursi - totalMeja;
+
+      document.getElementById("ringkasProperti").innerHTML = `
+        <div class="angka"><b>${data.length}</b>Total Properti</div>
+        <div class="angka"><b>${totalKursi}</b>Kursi</div>
+        <div class="angka"><b>${totalMeja}</b>Meja</div>
+        <div class="angka"><b>${totalLain}</b>Lainnya</div>
+      `;
+
+      // Filter data
+      let hasilFilter = data.filter(item => {
+        const j = (item.jenis || "").toLowerCase();
+        if (filterJenis === "kursi" && j !== "kursi") return false;
+        if (filterJenis === "meja" && j !== "meja") return false;
+        if (filterJenis === "lainnya" && (j === "kursi" || j === "meja")) return false;
+
+        if (cari) {
+          const gabung = `${item.id} ${item.jenis} ${item.gedung} ${item.ruang}`.toLowerCase();
+          if (!gabung.includes(cari)) return false;
+        }
+        return true;
+      });
+
+      // Urutkan berdasarkan ID
+      hasilFilter.sort((a, b) => a.id.localeCompare(b.id));
+      document.getElementById("totalPropertiTabel").textContent = hasilFilter.length;
+
+      let baris = "";
+      hasilFilter.forEach((item, index) => {
+        baris += `
+          <tr>
+            <td>${index + 1}</td>
+            <td><b>${item.id}</b></td>
+            <td>${dapatkanBadgeJenis(item.jenis)}</td>
+            <td>${item.gedung}</td>
+            <td>${item.ruang}</td>
+            <td>
+              <button type="button" class="tombol-aksi tombol-qr" onclick="bukaModalQr('${item.id}')">
+                <i class="bi bi-qr-code"></i> Lihat QR
+              </button>
+            </td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button type="button" class="tombol-aksi tombol-edit" onclick="mulaiEditProperti('${item.id}')">
+                  <i class="bi bi-pencil-square"></i> Edit
+                </button>
+                <button type="button" class="tombol-aksi tombol-hapus" onclick="hapusPropertiAksi('${item.id}')">
+                  <i class="bi bi-trash3-fill"></i> Hapus
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      document.getElementById("isiTabelProperti").innerHTML = baris || `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--abu);">Tidak ada data properti yang cocok.</td></tr>`;
+    }
+
+    async function simpanProperti() {
+      const idInput = document.getElementById("propId");
+      const jenisInput = document.getElementById("propJenis");
+      const gedungInput = document.getElementById("propGedung");
+      const ruangInput = document.getElementById("propRuang");
+      const galat = document.getElementById("galatProp");
+      const sukses = document.getElementById("suksesProp");
+      const btn = document.getElementById("btnSimpanProp");
+
+      galat.textContent = "";
+      sukses.classList.add("hidden");
+
+      const id = idInput.value.trim().toUpperCase();
+      const jenis = jenisInput.value.trim() || "Meja";
+      const gedung = gedungInput.value.trim();
+      const ruang = ruangInput.value.trim();
+
+      if (!id || !gedung || !ruang) {
+        galat.innerHTML = `<i class="bi bi-exclamation-triangle"></i> ID properti, gedung, dan ruangan wajib diisi.`;
+        return;
+      }
+
+      // Cek apakah ID sudah dipakai (kecuali jika sedang mengedit properti itu sendiri tanpa ubah ID)
+      const data = bacaMeja();
+      if (!idSedangDiedit || idSedangDiedit !== id) {
+        const sudahAda = data.some(m => m.id === id);
+        if (sudahAda) {
+          galat.innerHTML = `<i class="bi bi-exclamation-triangle"></i> ID Properti "${id}" sudah terdaftar. Gunakan ID yang unik.`;
+          return;
+        }
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="bi bi-hourglass-split"></i> Menyimpan...`;
+
+      try {
+        const dataBaru = { id, jenis, gedung, ruang };
+        await simpanPropertiDb(dataBaru, idSedangDiedit);
+
+        sukses.innerHTML = idSedangDiedit 
+          ? `<i class="bi bi-check-circle-fill"></i> Properti "${id}" berhasil diperbarui!` 
+          : `<i class="bi bi-check-circle-fill"></i> Properti "${id}" berhasil ditambahkan!`;
+        sukses.classList.remove("hidden");
+
+        batalEditProperti();
+        tampilTabelProperti();
+      } catch (err) {
+        galat.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Gagal menyimpan properti: ` + err.message;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = idSedangDiedit ? `<i class="bi bi-check2-circle"></i> Perbarui Properti` : `<i class="bi bi-plus-lg"></i> Tambah Properti`;
+      }
+    }
+
+    function mulaiEditProperti(id) {
+      const prop = bacaMeja().find(m => m.id === id);
+      if (!prop) return;
+
+      idSedangDiedit = id;
+      document.getElementById("judulFormProperti").innerHTML = `<i class="bi bi-pencil-square"></i> Edit Properti #${prop.id}`;
+      document.getElementById("propId").value = prop.id;
+      document.getElementById("propJenis").value = prop.jenis || "";
+      document.getElementById("propGedung").value = prop.gedung || "";
+      document.getElementById("propRuang").value = prop.ruang || "";
+
+      document.getElementById("btnSimpanProp").innerHTML = `<i class="bi bi-check2-circle"></i> Perbarui Properti`;
+      document.getElementById("btnBatalProp").classList.remove("hidden");
+      document.getElementById("galatProp").textContent = "";
+      document.getElementById("suksesProp").classList.add("hidden");
+
+      document.getElementById("kartuFormProperti").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function batalEditProperti() {
+      idSedangDiedit = null;
+      document.getElementById("judulFormProperti").innerHTML = `<i class="bi bi-plus-circle"></i> Tambah Properti Baru`;
+      document.getElementById("propId").value = "";
+      document.getElementById("propJenis").value = "";
+      document.getElementById("propGedung").value = "";
+      document.getElementById("propRuang").value = "";
+
+      document.getElementById("btnSimpanProp").innerHTML = `<i class="bi bi-plus-lg"></i> Tambah Properti`;
+      document.getElementById("btnBatalProp").classList.add("hidden");
+      document.getElementById("galatProp").textContent = "";
+    }
+
+    async function hapusPropertiAksi(id) {
+      const prop = bacaMeja().find(m => m.id === id);
+      const nama = prop ? `${prop.jenis} #${prop.id} (${prop.gedung} - ${prop.ruang})` : id;
+      if (!confirm(`Hapus properti ${nama}?\n\nKode QR yang sudah ditempel untuk properti ini tidak akan bisa digunakan lagi.`)) {
+        return;
+      }
+
+      try {
+        await hapusMeja(id);
+        if (idSedangDiedit === id) batalEditProperti();
+        tampilTabelProperti();
+      } catch (err) {
+        alert("Gagal menghapus properti: " + err.message);
+      }
+    }
+
+    // ====== MODAL QR CODE ======
+    function bukaModalQr(id) {
+      const prop = bacaMeja().find(m => m.id === id);
+      if (!prop) return;
+
+      qrAktifInfo = prop;
+      document.getElementById("judulModalQr").innerHTML = `<i class="bi bi-qr-code-scan"></i> Kode QR #${prop.id}`;
+      document.getElementById("subjudulModalQr").textContent = `${prop.jenis} · ${prop.gedung} - ${prop.ruang}`;
+
+      const wadah = document.getElementById("wadahQrModal");
+      wadah.innerHTML = "";
+
+      if (typeof QRCode !== "undefined") {
+        new QRCode(wadah, {
+          text: prop.id,
+          width: 180,
+          height: 180,
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } else {
+        wadah.innerHTML = `<p class="galat">Library QR gagal dimuat.</p>`;
+      }
+
+      document.getElementById("tiraiQr").classList.remove("hidden");
+    }
+
+    function tutupModalQr() {
+      document.getElementById("tiraiQr").classList.add("hidden");
+      qrAktifInfo = null;
+    }
+
+    function unduhQrAktif() {
+      if (!qrAktifInfo) return;
+      const canvas = document.querySelector("#wadahQrModal canvas");
+      if (!canvas) {
+        alert("QR code belum siap digenerate.");
+        return;
+      }
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = `QR-${qrAktifInfo.id}.png`;
+      a.click();
+    }
+
+    // Data online real-time: update tabel jika ada perubahan data
     saatDataBerubah(() => {
-      const sedangPilih = document.activeElement && document.activeElement.tagName === "SELECT";
-      if (sessionStorage.getItem(KUNCI_ADMIN) === "ya" && !sedangPilih) tampilTabel();
+      const sedangKetik = document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT");
+      if (sessionStorage.getItem(KUNCI_ADMIN) === "ya" && !sedangKetik) {
+        if (tabAktif === "laporan") tampilTabel();
+        else if (tabAktif === "properti") tampilTabelProperti();
+      }
     });
+
     mulaiDb();
     tampilkanHalaman();
   </script>

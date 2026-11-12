@@ -94,6 +94,10 @@
       border-radius: 10px;
       padding: 13px 16px;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .utama {
@@ -308,6 +312,7 @@
       display: none;
     }
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
@@ -322,7 +327,7 @@
 
 <body>
   <header>
-    <h1>FixMyDesk</h1><small>Lapor perabot kelas rusak dengan cepat</small>
+    <h1><i class="bi bi-wrench-adjustable-circle"></i> FixMyDesk</h1><small>Lapor perabot kelas rusak dengan cepat</small>
   </header>
   <main id="isi"></main>
 
@@ -420,7 +425,7 @@
       const kontrolKamera = document.getElementById("kontrol-kamera");
       if (kontrolKamera) kontrolKamera.classList.add("hidden");
       const btnBuka = document.getElementById("btn-buka-kamera");
-      if (btnBuka) btnBuka.textContent = "Buka Kamera & Scan";
+      if (btnBuka) btnBuka.innerHTML = '<i class="bi bi-camera-video"></i> Buka Kamera & Scan';
       const infoStatus = document.getElementById("info-status");
       if (infoStatus) infoStatus.style.display = "none";
       sedangMemprosesScan = false;
@@ -708,7 +713,7 @@
 
       if (wadahKamera) wadahKamera.classList.remove("hidden");
       if (kontrolKamera) kontrolKamera.classList.remove("hidden");
-      if (btnBuka) btnBuka.textContent = "⏹ Tutup Kamera";
+      if (btnBuka) btnBuka.innerHTML = '<i class="bi bi-stop-circle"></i> Tutup Kamera';
       if (infoStatus) {
         infoStatus.style.display = "block";
         infoStatus.textContent = "Arahkan kamera ke kode QR di meja...";
