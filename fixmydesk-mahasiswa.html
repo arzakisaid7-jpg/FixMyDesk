@@ -473,13 +473,13 @@
     // ====== LAYAR 1: LOGIN ======
     function layarLogin(targetDeskId = null) {
       const infoMeja = targetDeskId ? `
-        <div style="background:#e9eff3;border-left:4px solid var(--teal);padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:13px;">
-          📌 Anda memindai perabot <b>${targetDeskId.toUpperCase()}</b>. Silakan login terlebih dahulu untuk melanjutkan pelaporan.
+        <div style="background:#e9eff3;border-left:4px solid var(--teal);padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:13px;display:flex;align-items:center;gap:6px;">
+          <i class="bi bi-geo-alt-fill" style="color:var(--teal);"></i> <span>Anda memindai perabot <b>${targetDeskId.toUpperCase()}</b>. Silakan login terlebih dahulu untuk melanjutkan pelaporan.</span>
         </div>` : "";
 
       tampil(`
     <div class="kartu">
-      <h2>Login Mahasiswa</h2>
+      <h2><i class="bi bi-person-circle"></i> Login Mahasiswa</h2>
       <p class="kecil" style="margin-bottom:14px;">Silakan login dengan username dan password yang sudah terdaftar di sistem sebelum mengirim laporan.</p>
       ${infoMeja}
       <form id="formLogin" onsubmit="event.preventDefault(); prosesLogin('${targetDeskId || ''}');">
@@ -490,7 +490,7 @@
         <input type="password" id="loginPass" placeholder="Masukkan password" autocomplete="current-password" required>
         
         <div class="galat" id="galat"></div>
-        <button type="submit" id="btnMasuk" class="utama">Masuk</button>
+        <button type="submit" id="btnMasuk" class="utama"><i class="bi bi-box-arrow-in-right"></i> Masuk</button>
       </form>
       <p class="kecil" style="margin-top:14px;color:var(--abu);text-align:center;">
         Akun mahasiswa telah disediakan pada database Firestore (tabel <i>users</i>).
@@ -515,7 +515,7 @@
 
       if (btn) {
         btn.disabled = true;
-        btn.textContent = "Memverifikasi...";
+        btn.innerHTML = `<i class="bi bi-hourglass-split"></i> Memverifikasi...`;
       }
       if (galat) galat.textContent = "";
 
@@ -540,7 +540,7 @@
       } finally {
         if (btn) {
           btn.disabled = false;
-          btn.textContent = "Masuk";
+          btn.innerHTML = `<i class="bi bi-box-arrow-in-right"></i> Masuk`;
         }
       }
     }
@@ -572,7 +572,7 @@
           <h2 style="margin:0;">Halo, ${pengguna.nama || pengguna.username}!</h2>
           <small class="kecil">Akun: <b>${pengguna.username}</b></small>
         </div>
-        <button type="button" class="sekunder" style="width:auto;margin:0;padding:6px 12px;font-size:13px;" onclick="logout()">Keluar</button>
+        <button type="button" class="sekunder" style="width:auto;margin:0;padding:6px 12px;font-size:13px;" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Keluar</button>
       </div>
       <p class="kecil" style="margin-top:8px;">Arahkan kamera ke barcode/QR di meja atau pilih foto QR.</p>
 
@@ -584,23 +584,23 @@
       </div>
 
       <div class="kamera-kontrol hidden" id="kontrol-kamera">
-        <button type="button" class="sekunder" id="btn-ganti-kamera" onclick="gantiKamera()" style="display:none">Ganti Kamera</button>
-        <button type="button" class="sekunder" onclick="hentikanKamera()">⏹ Tutup Kamera</button>
+        <button type="button" class="sekunder" id="btn-ganti-kamera" onclick="gantiKamera()" style="display:none"><i class="bi bi-arrow-repeat"></i> Ganti Kamera</button>
+        <button type="button" class="sekunder" onclick="hentikanKamera()"><i class="bi bi-stop-circle"></i> Tutup Kamera</button>
       </div>
 
       <div class="galat" id="galat"></div>
       <div class="info-status" id="info-status"></div>
 
-      <button id="btn-buka-kamera" class="utama" onclick="toggleKamera()">Buka Kamera & Scan</button>
-      <button type="button" class="sekunder" onclick="document.getElementById('inputScanFoto').click()">Pilih / Ambil Foto QR</button>
+      <button id="btn-buka-kamera" class="utama" onclick="toggleKamera()"><i class="bi bi-camera-video"></i> Buka Kamera & Scan</button>
+      <button type="button" class="sekunder" onclick="document.getElementById('inputScanFoto').click()"><i class="bi bi-image"></i> Pilih / Ambil Foto QR</button>
       <input type="file" id="inputScanFoto" accept="image/*" capture="environment" style="display:none" onchange="scanDariFoto(this)">
 
       <label>Atau ketik ID meja manual</label>
       <input type="text" id="manual" placeholder="contoh: A101" onkeydown="if(event.key==='Enter')pakaiManual()">
-      <button class="sekunder" onclick="pakaiManual()">Gunakan ID Meja</button>
+      <button class="sekunder" onclick="pakaiManual()"><i class="bi bi-arrow-right-circle"></i> Gunakan ID Meja</button>
       <p class="kecil">Tes cepat: ${bacaMeja().map(m => `<a href="#/report?deskId=${m.id}">${m.id}</a>`).join(" · ")}</p>
     </div>
-    ${laporanSaya.length > 0 ? `<div class="kartu"><h2>Laporan Saya (${laporanSaya.length})</h2>${riwayat}</div>` : ""}`);
+    ${laporanSaya.length > 0 ? `<div class="kartu"><h2><i class="bi bi-journal-text"></i> Laporan Saya (${laporanSaya.length})</h2>${riwayat}</div>` : ""}`);
     }
 
     async function toggleKamera() {
@@ -974,7 +974,7 @@
       tampil(`
     <div class="kartu">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-        <h2 style="margin:0;">Lapor Kerusakan</h2>
+        <h2 style="margin:0;"><i class="bi bi-pencil-square"></i> Lapor Kerusakan</h2>
         <small class="kecil">Pelapor: <b>${pengguna.username}</b></small>
       </div>
       <div class="id-meja">${namaLokasi(meja)}</div>
@@ -985,8 +985,8 @@
       <label>Detail tambahan (opsional)</label>
       <textarea id="detail" maxlength="150" placeholder="Contoh: kaki meja kiri goyang"></textarea>
       <div class="galat" id="galat"></div>
-      <button class="utama" onclick="kirimLaporan('${meja.id}')">Kirim Laporan</button>
-      <button class="sekunder" onclick="location.hash='#/report'">Scan Meja Lain</button>
+      <button class="utama" onclick="kirimLaporan('${meja.id}')"><i class="bi bi-send-fill"></i> Kirim Laporan</button>
+      <button class="sekunder" onclick="location.hash='#/report'"><i class="bi bi-qr-code-scan"></i> Scan Meja Lain</button>
     </div>`);
     }
 
@@ -1084,14 +1084,14 @@
       let progres = "";
       for (let i = 0; i < urutanStatus.length; i++) {
         progres +=
-          `<div class="titik ${i <= posisi ? "selesai" : ""}"><span>${i <= posisi ? "✓" : i + 1}</span>${urutanStatus[i]}</div>`;
+          `<div class="titik ${i <= posisi ? "selesai" : ""}"><span>${i <= posisi ? '<i class="bi bi-check-lg"></i>' : i + 1}</span>${urutanStatus[i]}</div>`;
       }
       tampil(`
     <div class="kartu">
-      ${baru ? `<div class="sukses">✓ Laporan berhasil dikirim!</div>` : ""}
+      ${baru ? `<div class="sukses"><i class="bi bi-check-circle-fill"></i> Laporan berhasil dikirim!</div>` : ""}
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-        <h2 style="margin:0;">Status ${lap.id}</h2>
-        ${pengguna ? `<button type="button" class="sekunder" style="width:auto;margin:0;padding:6px 12px;font-size:13px;" onclick="logout()">Keluar</button>` : ""}
+        <h2 style="margin:0;"><i class="bi bi-info-circle"></i> Status ${lap.id}</h2>
+        ${pengguna ? `<button type="button" class="sekunder" style="width:auto;margin:0;padding:6px 12px;font-size:13px;" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Keluar</button>` : ""}
       </div>
       <div class="langkah">${progres}</div>
       <p><b>${estimasiPerbaikan(lap.status)}</b></p>
@@ -1102,7 +1102,7 @@
       <div class="baris"><span>Pelapor</span><b>${lap.pelapor || "-"}</b></div>
       <div class="baris"><span>Foto</span><b>${lap.foto && lap.foto.startsWith("data:image") ? `<img class="foto-kecil" src="${lap.foto}" alt="Foto laporan">` : "-"}</b></div>
       <div class="baris"><span>Dikirim</span><b>${lap.waktu}</b></div>
-      <button class="utama" onclick="location.hash='#/report'">Buat Laporan Baru</button>
+      <button class="utama" onclick="location.hash='#/report'"><i class="bi bi-plus-circle"></i> Buat Laporan Baru</button>
     </div>`);
     }
 
