@@ -552,7 +552,7 @@
       router();
     }
 
-    // ====== LAYAR 2: SCAN BARCODE ======
+    // ====== SCAN BARCODE ======
     function layarScan() {
       if (!pengguna || !pengguna.username) {
         layarLogin();
@@ -1069,7 +1069,7 @@
       });
     }
 
-    // ====== LAYAR 4: STATUS ======
+    // ====== STATUS ======
     function layarStatus(idLaporan) {
       const bersih = idLaporan.split("?")[0];
       const lap = cariLaporan(bersih);
