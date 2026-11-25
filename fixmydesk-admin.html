@@ -460,6 +460,8 @@
           <select id="urutan" onchange="tampilTabel()">
             <option value="lokasi">Urutkan: Lokasi lalu Urgensi</option>
             <option value="urgensi">Urutkan: Urgensi lalu Lokasi</option>
+            <option value="terbaru">Urutkan: Tanggal Lapor (Terbaru)</option>
+            <option value="terlama">Urutkan: Tanggal Lapor (Terlama)</option>
           </select>
         </div>
         <div class="bungkus">
@@ -670,6 +672,8 @@
       salinan.sort((a, b) => {
         const selisihLokasi = a.lokasi.localeCompare(b.lokasi);
         const selisihUrgensi = bobotUrgensi(a.urgensi) - bobotUrgensi(b.urgensi);
+        if (cara === "terbaru") return (b.waktu || "").localeCompare(a.waktu || "");
+        if (cara === "terlama") return (a.waktu || "").localeCompare(b.waktu || "");
         if (cara === "urgensi") return selisihUrgensi !== 0 ? selisihUrgensi : selisihLokasi;
         return selisihLokasi !== 0 ? selisihLokasi : selisihUrgensi;
       });
