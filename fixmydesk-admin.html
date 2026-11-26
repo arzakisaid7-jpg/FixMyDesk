@@ -7,7 +7,8 @@
   <title>FixMyDesk - Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
     :root {
@@ -31,8 +32,8 @@
       margin: 0;
       font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: radial-gradient(circle at 10% 10%, rgba(200, 230, 235, 0.45) 0%, transparent 40%),
-                  radial-gradient(circle at 90% 90%, rgba(215, 235, 230, 0.45) 0%, transparent 40%),
-                  #edf2f7;
+        radial-gradient(circle at 90% 90%, rgba(215, 235, 230, 0.45) 0%, transparent 40%),
+        #edf2f7;
       color: var(--teks);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
@@ -354,7 +355,7 @@
       overflow-x: auto;
       border-radius: 14px;
       border: 1px solid #e2eaf0;
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
     }
 
     table {
@@ -556,8 +557,13 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     .modal-kotak {
@@ -572,8 +578,15 @@
     }
 
     @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .modal-kotak .wadah-qr {
@@ -610,12 +623,15 @@
         flex-wrap: wrap;
         gap: 10px;
       }
+
       header h1 {
         font-size: 17px;
       }
+
       .header-kanan {
         gap: 6px;
       }
+
       .tombol-header,
       .keluar {
         height: 32px;
@@ -623,55 +639,91 @@
         font-size: 12px;
         gap: 5px;
       }
+
       .tombol-header i,
       .keluar i {
         font-size: 13px;
       }
+
       main {
         padding: 16px 10px;
       }
+
       .kartu {
         padding: 16px;
       }
+
       .nav-admin {
         gap: 6px;
       }
+
       .tab-btn {
         padding: 9px 14px;
         font-size: 13px;
       }
+
       .angka b {
         font-size: 22px;
       }
     }
 
     /* ===== POLISH ===== */
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes toastIn {
-      from { opacity: 0; transform: translateX(40px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes toastOut {
-      from { opacity: 1; transform: translateX(0); }
-      to { opacity: 0; transform: translateX(40px); }
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    main { animation: fadeInUp 0.45s ease both; }
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes toastOut {
+      from {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+    }
+
+    main {
+      animation: fadeInUp 0.45s ease both;
+    }
 
     .angka {
       position: relative;
       overflow: hidden;
     }
+
     .angka::before {
       content: '';
       position: absolute;
-      top: -20px; right: -20px;
-      width: 60px; height: 60px;
+      top: -20px;
+      right: -20px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: rgba(49, 151, 149, 0.07);
     }
@@ -683,6 +735,7 @@
     .tombol-hapus {
       transition: all 0.2s ease;
     }
+
     .tombol-hapus:hover {
       background: #fecaca !important;
       transform: translateY(-1px);
@@ -694,7 +747,7 @@
     }
 
     .footer {
-      border-top: 1px solid rgba(0,0,0,0.06);
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
       margin-top: 20px;
     }
 
@@ -711,10 +764,23 @@
     }
 
     /* Better scrollbar */
-    .bungkus::-webkit-scrollbar { height: 6px; }
-    .bungkus::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 3px; }
-    .bungkus::-webkit-scrollbar-thumb { background: #b0c0cc; border-radius: 3px; }
-    .bungkus::-webkit-scrollbar-thumb:hover { background: #8fa5b5; }
+    .bungkus::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .bungkus::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 3px;
+    }
+
+    .bungkus::-webkit-scrollbar-thumb {
+      background: #b0c0cc;
+      border-radius: 3px;
+    }
+
+    .bungkus::-webkit-scrollbar-thumb:hover {
+      background: #8fa5b5;
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
@@ -727,9 +793,12 @@
   <header>
     <h1><i class="bi bi-shield-check"></i> FixMyDesk · Admin</h1>
     <div class="header-kanan">
-      <a href="fixmydesk-qr-generator.html" target="_blank" class="tombol-header keluar" title="Buka generator QR properti"><i class="bi bi-qr-code-scan"></i> <span>QR Generator</span></a>
-      <a href="fixmydesk-mahasiswa.html" target="_blank" class="tombol-header keluar" title="Buka tampilan mahasiswa"><i class="bi bi-person-circle"></i> <span>Web Mahasiswa</span></a>
-      <button type="button" class="tombol-header keluar hidden" id="tombolKeluar" onclick="logout()" title="Keluar dari akun admin"><i class="bi bi-box-arrow-right"></i> <span>Keluar</span></button>
+      <a href="fixmydesk-qr-generator.html" target="_blank" class="tombol-header keluar"
+        title="Buka generator QR properti"><i class="bi bi-qr-code-scan"></i> <span>QR Generator</span></a>
+      <a href="fixmydesk-mahasiswa.html" target="_blank" class="tombol-header keluar" title="Buka tampilan mahasiswa"><i
+          class="bi bi-person-circle"></i> <span>Web Mahasiswa</span></a>
+      <button type="button" class="tombol-header keluar hidden" id="tombolKeluar" onclick="logout()"
+        title="Keluar dari akun admin"><i class="bi bi-box-arrow-right"></i> <span>Keluar</span></button>
     </div>
   </header>
 
@@ -740,8 +809,11 @@
       <label>Username</label><input type="text" id="user" placeholder="username" autocomplete="username">
       <label>Password</label>
       <div style="position:relative;display:flex;align-items:center;">
-        <input type="password" id="pass" placeholder="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')prosesLogin()" style="padding-right:42px;">
-        <button type="button" onclick="toggleLihatPass('pass', 'ikonMataAdmin')" style="position:absolute;right:8px;background:none;border:none;color:var(--abu);cursor:pointer;padding:6px;font-size:16px;line-height:1;width:auto;margin:0;" title="Tampilkan/Sembunyikan Password" tabindex="-1">
+        <input type="password" id="pass" placeholder="password" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')prosesLogin()" style="padding-right:42px;">
+        <button type="button" onclick="toggleLihatPass('pass', 'ikonMataAdmin')"
+          style="position:absolute;right:8px;background:none;border:none;color:var(--abu);cursor:pointer;padding:6px;font-size:16px;line-height:1;width:auto;margin:0;"
+          title="Tampilkan/Sembunyikan Password" tabindex="-1">
           <i class="bi bi-eye" id="ikonMataAdmin"></i>
         </button>
       </div>
@@ -751,8 +823,10 @@
 
     <!-- NAVIGASI TAB MENU ADMIN -->
     <nav class="nav-admin hidden" id="navAdmin">
-      <button class="tab-btn aktif" id="tabBtnLaporan" onclick="gantiTab('laporan')"><i class="bi bi-clipboard2-check"></i> Antrean Laporan</button>
-      <button class="tab-btn" id="tabBtnProperti" onclick="gantiTab('properti')"><i class="bi bi-inboxes"></i> Kelola Properti</button>
+      <button class="tab-btn aktif" id="tabBtnLaporan" onclick="gantiTab('laporan')"><i
+          class="bi bi-clipboard2-check"></i> Antrean Laporan</button>
+      <button class="tab-btn" id="tabBtnProperti" onclick="gantiTab('properti')"><i class="bi bi-inboxes"></i> Kelola
+        Properti</button>
     </nav>
 
     <!-- TAB 1: ANTREAN LAPORAN -->
@@ -768,7 +842,9 @@
               <option value="terbaru">Urutkan: Tanggal Lapor (Terbaru)</option>
               <option value="terlama">Urutkan: Tanggal Lapor (Terlama)</option>
             </select>
-            <button type="button" class="tombol-aksi tombol-hapus" id="btnHapusSemua" style="padding:9px 16px;display:none;" onclick="hapusSemuaSelesai()"><i class="bi bi-trash3-fill"></i> Hapus Semua Selesai</button>
+            <button type="button" class="tombol-aksi tombol-hapus" id="btnHapusSemua"
+              style="padding:9px 16px;display:none;" onclick="hapusSemuaSelesai()"><i class="bi bi-trash3-fill"></i>
+              Hapus Semua Selesai</button>
           </div>
         </div>
         <div class="bungkus">
@@ -830,10 +906,12 @@
         <div class="sukses hidden" id="suksesProp"></div>
 
         <div class="tombol-grup-form">
-          <button type="button" class="utama" id="btnSimpanProp" style="margin-top:0; width:auto;" onclick="simpanProperti()">
+          <button type="button" class="utama" id="btnSimpanProp" style="margin-top:0; width:auto;"
+            onclick="simpanProperti()">
             <i class="bi bi-plus-lg"></i> Tambah Properti
           </button>
-          <button type="button" class="sekunder hidden" id="btnBatalProp" style="margin-top:0; width:auto;" onclick="batalEditProperti()">
+          <button type="button" class="sekunder hidden" id="btnBatalProp" style="margin-top:0; width:auto;"
+            onclick="batalEditProperti()">
             <i class="bi bi-x-circle"></i> Batal
           </button>
         </div>
@@ -842,7 +920,8 @@
       <!-- Tabel Daftar Properti -->
       <div class="kartu">
         <div class="atas">
-          <h2 style="margin:0"><i class="bi bi-grid-3x3-gap"></i> Daftar Properti (<span id="totalPropertiTabel">0</span>)</h2>
+          <h2 style="margin:0"><i class="bi bi-grid-3x3-gap"></i> Daftar Properti (<span
+              id="totalPropertiTabel">0</span>)</h2>
           <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
             <select id="filterJenisProp" onchange="tampilTabelProperti()">
               <option value="semua">Semua Jenis</option>
@@ -896,8 +975,10 @@
       <div class="kecil" id="subjudulModalQr"></div>
       <div class="wadah-qr" id="wadahQrModal"></div>
       <div style="display:flex; gap:8px; justify-content:center; margin-top:16px;">
-        <button type="button" class="utama" style="width:auto; margin:0;" onclick="unduhQrAktif()"><i class="bi bi-download"></i> Unduh PNG</button>
-        <button type="button" class="sekunder" style="width:auto; margin:0;" onclick="tutupModalQr()"><i class="bi bi-x-lg"></i> Tutup</button>
+        <button type="button" class="utama" style="width:auto; margin:0;" onclick="unduhQrAktif()"><i
+            class="bi bi-download"></i> Unduh PNG</button>
+        <button type="button" class="sekunder" style="width:auto; margin:0;" onclick="tutupModalQr()"><i
+            class="bi bi-x-lg"></i> Tutup</button>
       </div>
     </div>
   </div>
@@ -905,12 +986,15 @@
   <!-- MODAL KONFIRMASI HAPUS LAPORAN -->
   <div class="tirai hidden" id="tiraiHapusLaporan" onclick="tutupModalHapusLaporan()">
     <div class="modal-kotak" onclick="event.stopPropagation()">
-      <div style="font-size:48px;color:var(--merah);margin-bottom:8px;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+      <div style="font-size:48px;color:var(--merah);margin-bottom:8px;"><i class="bi bi-exclamation-triangle-fill"></i>
+      </div>
       <h3 style="margin:0 0 8px;color:var(--merah);">Hapus Laporan?</h3>
       <p id="pesanHapusLaporan" style="font-size:14px;color:var(--abu);margin:0 0 20px;"></p>
       <div style="display:flex; gap:8px; justify-content:center;">
-        <button type="button" class="tombol-aksi tombol-hapus" style="padding:10px 20px;font-size:14px;" onclick="konfirmasiHapusLaporan()"><i class="bi bi-trash3-fill"></i> Ya, Hapus</button>
-        <button type="button" class="sekunder" style="padding:10px 20px;" onclick="tutupModalHapusLaporan()"><i class="bi bi-x-lg"></i> Batal</button>
+        <button type="button" class="tombol-aksi tombol-hapus" style="padding:10px 20px;font-size:14px;"
+          onclick="konfirmasiHapusLaporan()"><i class="bi bi-trash3-fill"></i> Ya, Hapus</button>
+        <button type="button" class="sekunder" style="padding:10px 20px;" onclick="tutupModalHapusLaporan()"><i
+            class="bi bi-x-lg"></i> Batal</button>
       </div>
     </div>
   </div>
@@ -1027,9 +1111,12 @@
     }
 
     function dapatkanBadgeStatus(status) {
-      if (status === "Dikirim") return `<span class="lencana-status status-dikirim"><i class="bi bi-send-fill"></i> ${status}</span>`;
-      if (status === "Sedang Diproses") return `<span class="lencana-status status-proses"><i class="bi bi-gear-fill"></i> ${status}</span>`;
-      if (status === "Selesai Diperbaiki") return `<span class="lencana-status status-selesai"><i class="bi bi-check-circle-fill"></i> ${status}</span>`;
+      if (status === "Dikirim")
+      return `<span class="lencana-status status-dikirim"><i class="bi bi-send-fill"></i> ${status}</span>`;
+      if (status === "Sedang Diproses")
+      return `<span class="lencana-status status-proses"><i class="bi bi-gear-fill"></i> ${status}</span>`;
+      if (status === "Selesai Diperbaiki")
+      return `<span class="lencana-status status-selesai"><i class="bi bi-check-circle-fill"></i> ${status}</span>`;
       return status;
     }
 
@@ -1063,7 +1150,8 @@
       </td>
     </tr>`;
       }
-      document.getElementById("isiTabel").innerHTML = baris || `<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--abu);"><i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;"></i>Belum ada laporan kerusakan.</td></tr>`;
+      document.getElementById("isiTabel").innerHTML = baris ||
+        `<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--abu);"><i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;"></i>Belum ada laporan kerusakan.</td></tr>`;
 
       // ringkasan jumlah per status
       let ringkas = `<div class="angka"><b>${data.length}</b><span>Total Laporan</span></div>`;
@@ -1126,7 +1214,9 @@
         tampilToast("Tidak ada laporan yang selesai untuk dihapus.", "info");
         return;
       }
-      if (!confirm(`Hapus ${selesai.length} laporan yang sudah selesai diperbaiki?\n\nLaporan-laporan ini akan dihapus permanen dari sistem.`)) {
+      if (!confirm(
+          `Hapus ${selesai.length} laporan yang sudah selesai diperbaiki?\n\nLaporan-laporan ini akan dihapus permanen dari sistem.`
+          )) {
         return;
       }
       let berhasil = 0;
@@ -1162,7 +1252,8 @@
     // ====== CRUD PROPERTI ======
     function dapatkanBadgeJenis(jenis) {
       const j = (jenis || "").toLowerCase();
-      if (j === "kursi") return `<span class="badge-jenis badge-kursi"><i class="bi bi-person-workspace"></i> Kursi</span>`;
+      if (j === "kursi")
+      return `<span class="badge-jenis badge-kursi"><i class="bi bi-person-workspace"></i> Kursi</span>`;
       if (j === "meja") return `<span class="badge-jenis badge-meja"><i class="bi bi-laptop"></i> Meja</span>`;
       return `<span class="badge-jenis badge-lain"><i class="bi bi-box-seam"></i> ${jenis || "Lainnya"}</span>`;
     }
@@ -1230,7 +1321,8 @@
         `;
       });
 
-      document.getElementById("isiTabelProperti").innerHTML = baris || `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--abu);"><i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;"></i>Tidak ada data properti yang cocok.</td></tr>`;
+      document.getElementById("isiTabelProperti").innerHTML = baris ||
+        `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--abu);"><i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;"></i>Tidak ada data properti yang cocok.</td></tr>`;
     }
 
     async function simpanProperti() {
@@ -1259,7 +1351,8 @@
       if (!idSedangDiedit || idSedangDiedit !== id) {
         const sudahAda = data.some(m => m.id === id);
         if (sudahAda) {
-          galat.innerHTML = `<i class="bi bi-exclamation-triangle"></i> ID Properti "${id}" sudah terdaftar. Gunakan ID yang unik.`;
+          galat.innerHTML =
+            `<i class="bi bi-exclamation-triangle"></i> ID Properti "${id}" sudah terdaftar. Gunakan ID yang unik.`;
           return;
         }
       }
@@ -1268,12 +1361,17 @@
       btn.innerHTML = `<i class="bi bi-hourglass-split"></i> Menyimpan...`;
 
       try {
-        const dataBaru = { id, jenis, gedung, ruang };
+        const dataBaru = {
+          id,
+          jenis,
+          gedung,
+          ruang
+        };
         await simpanPropertiDb(dataBaru, idSedangDiedit);
 
-        sukses.innerHTML = idSedangDiedit
-          ? `<i class="bi bi-check-circle-fill"></i> Properti "${id}" berhasil diperbarui!`
-          : `<i class="bi bi-check-circle-fill"></i> Properti "${id}" berhasil ditambahkan!`;
+        sukses.innerHTML = idSedangDiedit ?
+          `<i class="bi bi-check-circle-fill"></i> Properti "${id}" berhasil diperbarui!` :
+          `<i class="bi bi-check-circle-fill"></i> Properti "${id}" berhasil ditambahkan!`;
         sukses.classList.remove("hidden");
 
         batalEditProperti();
@@ -1282,7 +1380,8 @@
         galat.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Gagal menyimpan properti: ` + err.message;
       } finally {
         btn.disabled = false;
-        btn.innerHTML = idSedangDiedit ? `<i class="bi bi-check2-circle"></i> Perbarui Properti` : `<i class="bi bi-plus-lg"></i> Tambah Properti`;
+        btn.innerHTML = idSedangDiedit ? `<i class="bi bi-check2-circle"></i> Perbarui Properti` :
+          `<i class="bi bi-plus-lg"></i> Tambah Properti`;
       }
     }
 
@@ -1291,7 +1390,8 @@
       if (!prop) return;
 
       idSedangDiedit = id;
-      document.getElementById("judulFormProperti").innerHTML = `<i class="bi bi-pencil-square"></i> Edit Properti #${prop.id}`;
+      document.getElementById("judulFormProperti").innerHTML =
+        `<i class="bi bi-pencil-square"></i> Edit Properti #${prop.id}`;
       document.getElementById("propId").value = prop.id;
       document.getElementById("propJenis").value = prop.jenis || "";
       document.getElementById("propGedung").value = prop.gedung || "";
@@ -1302,7 +1402,9 @@
       document.getElementById("galatProp").textContent = "";
       document.getElementById("suksesProp").classList.add("hidden");
 
-      document.getElementById("kartuFormProperti").scrollIntoView({ behavior: "smooth" });
+      document.getElementById("kartuFormProperti").scrollIntoView({
+        behavior: "smooth"
+      });
     }
 
     function batalEditProperti() {
@@ -1321,7 +1423,9 @@
     async function hapusPropertiAksi(id) {
       const prop = bacaMeja().find(m => m.id === id);
       const nama = prop ? `${prop.jenis} #${prop.id} (${prop.gedung} - ${prop.ruang})` : id;
-      if (!confirm(`Hapus properti ${nama}?\n\nKode QR yang sudah ditempel untuk properti ini tidak akan bisa digunakan lagi.`)) {
+      if (!confirm(
+          `Hapus properti ${nama}?\n\nKode QR yang sudah ditempel untuk properti ini tidak akan bisa digunakan lagi.`
+          )) {
         return;
       }
 
@@ -1380,7 +1484,8 @@
 
     // Data online real-time: update tabel jika ada perubahan data
     saatDataBerubah(() => {
-      const sedangKetik = document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "SELECT");
+      const sedangKetik = document.activeElement && (document.activeElement.tagName === "INPUT" || document
+        .activeElement.tagName === "SELECT");
       if (sessionStorage.getItem(KUNCI_ADMIN) === "ya" && !sedangKetik) {
         if (tabAktif === "laporan") tampilTabel();
         else if (tabAktif === "properti") tampilTabelProperti();
@@ -1393,17 +1498,20 @@
       if (!wadah) {
         wadah = document.createElement("div");
         wadah.id = "toastContainer";
-        wadah.style.cssText = "position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;";
+        wadah.style.cssText =
+          "position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;";
         document.body.appendChild(wadah);
       }
       const toast = document.createElement("div");
-      const warna = tipe === "sukses"
-        ? "linear-gradient(135deg, #2e7d32, #1b5e20)"
-        : tipe === "galat"
-          ? "linear-gradient(135deg, #c0504d, #a33a3a)"
-          : "linear-gradient(135deg, #2c4a5a, #1e3a4a)";
-      const ikon = tipe === "sukses" ? "bi-check-circle-fill" : tipe === "galat" ? "bi-x-circle-fill" : "bi-info-circle-fill";
-      toast.style.cssText = `background:${warna};color:#fff;padding:12px 20px;border-radius:12px;font-size:13.5px;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,0.22);display:flex;align-items:center;gap:10px;animation:toastIn .3s ease;pointer-events:auto;font-family:inherit;`;
+      const warna = tipe === "sukses" ?
+        "linear-gradient(135deg, #2e7d32, #1b5e20)" :
+        tipe === "galat" ?
+        "linear-gradient(135deg, #c0504d, #a33a3a)" :
+        "linear-gradient(135deg, #2c4a5a, #1e3a4a)";
+      const ikon = tipe === "sukses" ? "bi-check-circle-fill" : tipe === "galat" ? "bi-x-circle-fill" :
+        "bi-info-circle-fill";
+      toast.style.cssText =
+        `background:${warna};color:#fff;padding:12px 20px;border-radius:12px;font-size:13.5px;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,0.22);display:flex;align-items:center;gap:10px;animation:toastIn .3s ease;pointer-events:auto;font-family:inherit;`;
       toast.innerHTML = `<i class="bi ${ikon}" style="font-size:17px;"></i> <span>${pesan}</span>`;
       wadah.appendChild(toast);
       setTimeout(() => {
@@ -1415,7 +1523,9 @@
     mulaiDb();
     tampilkanHalaman();
   </script>
-  <div id="toastContainer" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;"></div>
+  <div id="toastContainer"
+    style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;">
+  </div>
 </body>
 
 </html>
