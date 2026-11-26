@@ -666,7 +666,13 @@
     <div class="kartu login" id="layarLogin">
       <h2><i class="bi bi-person-lock"></i> Login Admin</h2>
       <label>Username</label><input type="text" id="user" placeholder="username" autocomplete="username">
-      <label>Password</label><input type="password" id="pass" placeholder="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')prosesLogin()">
+      <label>Password</label>
+      <div style="position:relative;display:flex;align-items:center;">
+        <input type="password" id="pass" placeholder="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')prosesLogin()" style="padding-right:42px;">
+        <button type="button" onclick="toggleLihatPass('pass', 'ikonMataAdmin')" style="position:absolute;right:8px;background:none;border:none;color:var(--abu);cursor:pointer;padding:6px;font-size:16px;line-height:1;width:auto;margin:0;" title="Tampilkan/Sembunyikan Password" tabindex="-1">
+          <i class="bi bi-eye" id="ikonMataAdmin"></i>
+        </button>
+      </div>
       <div class="galat" id="galat"></div>
       <button class="utama" onclick="prosesLogin()"><i class="bi bi-box-arrow-in-right"></i> Masuk</button>
     </div>
@@ -850,6 +856,25 @@
     let idLaporanAkanDihapus = null;
 
     // ====== LOGIN & LOGOUT ======
+    function toggleLihatPass(idInput, idIkon) {
+      const input = document.getElementById(idInput);
+      const ikon = document.getElementById(idIkon);
+      if (!input) return;
+      if (input.type === "password") {
+        input.type = "text";
+        if (ikon) {
+          ikon.classList.remove("bi-eye");
+          ikon.classList.add("bi-eye-slash");
+        }
+      } else {
+        input.type = "password";
+        if (ikon) {
+          ikon.classList.remove("bi-eye-slash");
+          ikon.classList.add("bi-eye");
+        }
+      }
+    }
+
     function prosesLogin() {
       const user = document.getElementById("user").value.trim();
       const pass = document.getElementById("pass").value;

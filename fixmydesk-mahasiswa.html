@@ -678,6 +678,25 @@
     });
 
     // ====== LAYAR 1: LOGIN ======
+    function toggleLihatPass(idInput, idIkon) {
+      const input = document.getElementById(idInput);
+      const ikon = document.getElementById(idIkon);
+      if (!input) return;
+      if (input.type === "password") {
+        input.type = "text";
+        if (ikon) {
+          ikon.classList.remove("bi-eye");
+          ikon.classList.add("bi-eye-slash");
+        }
+      } else {
+        input.type = "password";
+        if (ikon) {
+          ikon.classList.remove("bi-eye-slash");
+          ikon.classList.add("bi-eye");
+        }
+      }
+    }
+
     function layarLogin(targetDeskId = null) {
       const infoMeja = targetDeskId ? `
         <div style="background:linear-gradient(135deg,#edf2f7,#e2eaf0);border-left:4px solid var(--teal);padding:12px 14px;border-radius:10px;margin-bottom:14px;font-size:13px;display:flex;align-items:center;gap:8px;">
@@ -694,7 +713,12 @@
         <input type="text" id="loginUser" placeholder="contoh: ptik_rbl1" autocomplete="username" autofocus required>
         
         <label for="loginPass">Password</label>
-        <input type="password" id="loginPass" placeholder="Masukkan password" autocomplete="current-password" required>
+        <div style="position:relative;display:flex;align-items:center;">
+          <input type="password" id="loginPass" placeholder="Masukkan password" autocomplete="current-password" required style="padding-right:42px;">
+          <button type="button" onclick="toggleLihatPass('loginPass', 'ikonMataMhs')" style="position:absolute;right:8px;background:none;border:none;color:var(--abu);cursor:pointer;padding:6px;font-size:16px;line-height:1;width:auto;margin:0;" title="Tampilkan/Sembunyikan Password" tabindex="-1">
+            <i class="bi bi-eye" id="ikonMataMhs"></i>
+          </button>
+        </div>
         
         <div class="galat" id="galat"></div>
         <button type="submit" id="btnMasuk" class="utama"><i class="bi bi-box-arrow-in-right"></i> Masuk</button>
