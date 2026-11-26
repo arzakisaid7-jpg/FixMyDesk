@@ -178,18 +178,57 @@
       background: #d9e4ec;
     }
 
-    .keluar {
-      background: rgba(255, 255, 255, 0.1);
+    .keluar,
+    .tombol-header {
+      background: rgba(255, 255, 255, 0.12);
       color: var(--putih);
-      border: 1.5px solid rgba(255, 255, 255, .5);
-      padding: 8px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      height: 36px;
+      padding: 0 14px;
       font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      border-radius: 9px;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transition: all 0.15s ease-in-out;
+      box-sizing: border-box;
+      line-height: 1;
+      white-space: nowrap;
+      margin: 0;
     }
 
-    .keluar:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, .8);
+    .keluar:hover,
+    .tombol-header:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.8);
+      color: var(--putih);
+      transform: translateY(-1px);
+    }
+
+    .keluar:active,
+    .tombol-header:active {
+      transform: translateY(0);
+    }
+
+    .keluar i,
+    .tombol-header i {
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .header-kanan {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .galat {
@@ -567,10 +606,26 @@
     /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
       header {
-        padding: 14px 16px;
+        padding: 12px 14px;
+        flex-wrap: wrap;
+        gap: 10px;
       }
       header h1 {
         font-size: 17px;
+      }
+      .header-kanan {
+        gap: 6px;
+      }
+      .tombol-header,
+      .keluar {
+        height: 32px;
+        padding: 0 10px;
+        font-size: 12px;
+        gap: 5px;
+      }
+      .tombol-header i,
+      .keluar i {
+        font-size: 13px;
       }
       main {
         padding: 16px 10px;
@@ -671,10 +726,10 @@
 <body>
   <header>
     <h1><i class="bi bi-shield-check"></i> FixMyDesk · Admin</h1>
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <a href="fixmydesk-qr-generator.html" target="_blank" class="keluar" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;" title="Buka generator QR properti"><i class="bi bi-qr-code-scan"></i> <span>QR Generator</span></a>
-      <a href="fixmydesk-mahasiswa.html" target="_blank" class="keluar" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;" title="Buka tampilan mahasiswa"><i class="bi bi-person-circle"></i> <span>Web Mahasiswa</span></a>
-      <button class="keluar hidden" id="tombolKeluar" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Keluar</button>
+    <div class="header-kanan">
+      <a href="fixmydesk-qr-generator.html" target="_blank" class="tombol-header keluar" title="Buka generator QR properti"><i class="bi bi-qr-code-scan"></i> <span>QR Generator</span></a>
+      <a href="fixmydesk-mahasiswa.html" target="_blank" class="tombol-header keluar" title="Buka tampilan mahasiswa"><i class="bi bi-person-circle"></i> <span>Web Mahasiswa</span></a>
+      <button type="button" class="tombol-header keluar hidden" id="tombolKeluar" onclick="logout()" title="Keluar dari akun admin"><i class="bi bi-box-arrow-right"></i> <span>Keluar</span></button>
     </div>
   </header>
 
