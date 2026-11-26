@@ -4,16 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FixMyDesk - Pembuat QR Properti</title>
+  <title>FixMyDesk - Generator QR Properti</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     :root {
-      --biru: #3d5a6c;
-      --biru-muda: #e9eff3;
-      --teal: #3aa6a0;
-      --teal-tua: #2c8a85;
-      --teks: #22323c;
-      --abu: #6b7f8b;
+      --biru: #2c4a5a;
+      --biru-muda: #edf2f7;
+      --teal: #319795;
+      --teal-tua: #276b6a;
+      --teks: #1a2530;
+      --abu: #5a6e7a;
       --putih: #fff;
       --merah: #c0504d;
     }
@@ -22,91 +23,184 @@
       box-sizing: border-box;
     }
 
-    body {
-      margin: 0;
-      font-family: system-ui, Arial, sans-serif;
-      background: var(--biru-muda);
-      color: var(--teks);
+    html {
+      scroll-behavior: smooth;
     }
 
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--biru-muda);
+      color: var(--teks);
+      min-height: 100vh;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== HEADER ===== */
     header {
-      background: var(--biru);
+      background: linear-gradient(135deg, var(--biru) 0%, #1e3a4a 100%);
       color: var(--putih);
-      padding: 16px;
-      text-align: center;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     header h1 {
       margin: 0;
-      font-size: 20px;
+      font-size: 21px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    header h1 i {
+      font-size: 24px;
+      color: #5dd9d2;
     }
 
     header small {
+      display: block;
+      margin-top: 4px;
+      font-size: 13px;
       opacity: .8;
+      font-weight: 400;
+    }
+
+    .nav-header {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .link-header {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--putih);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 7px 14px;
+      font-size: 13px;
+      border-radius: 9px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+
+    .link-header:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.8);
+      transform: translateY(-1px);
     }
 
     main {
-      max-width: 960px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 24px 16px 40px;
+      animation: fadeInUp 0.45s ease both;
     }
 
+    /* ===== KARTU ===== */
     .kartu {
       background: var(--putih);
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+      border: 1px solid rgba(0, 0, 0, .04);
+      transition: box-shadow 0.2s;
     }
 
     h2 {
-      margin: 0 0 12px;
-      font-size: 18px;
+      margin: 0 0 16px;
+      font-size: 19px;
       color: var(--biru);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
     }
 
     .form {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
     }
 
     label {
       display: block;
-      font-size: 14px;
-      margin-bottom: 4px;
+      font-size: 13px;
+      margin-bottom: 5px;
       color: var(--abu);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     input,
     select {
       width: 100%;
-      padding: 11px;
-      border: 1px solid #c5d2da;
+      padding: 11px 14px;
+      border: 1.5px solid #d0dae0;
       border-radius: 10px;
-      font-size: 15px;
+      font-size: 14.5px;
       font-family: inherit;
       background: var(--putih);
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(49, 151, 149, 0.12);
+    }
+
+    /* ===== TOMBOL ===== */
     button {
       font-family: inherit;
-      font-size: 15px;
+      font-size: 14px;
       border: 0;
       border-radius: 10px;
-      padding: 12px 16px;
+      padding: 10px 18px;
       cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: all 0.15s ease-in-out;
+    }
+
+    button:active {
+      transform: scale(0.97) !important;
     }
 
     .utama {
-      background: var(--teal);
+      background: linear-gradient(135deg, var(--teal), var(--teal-tua));
       color: var(--putih);
       font-weight: 700;
-      margin-top: 14px;
+      margin-top: 16px;
+      box-shadow: 0 2px 8px rgba(49, 151, 149, 0.3);
     }
 
     .utama:hover {
-      background: var(--teal-tua);
+      background: linear-gradient(135deg, var(--teal-tua), #1e5a58);
+      box-shadow: 0 4px 14px rgba(49, 151, 149, 0.4);
+      transform: translateY(-1px);
     }
 
     .sekunder {
@@ -114,16 +208,27 @@
       color: var(--biru);
     }
 
+    .sekunder:hover {
+      background: #d9e4ec;
+    }
+
     .bahaya {
-      background: #f8e3e2;
+      background: #fff5f5;
       color: var(--merah);
+      border: 1px solid rgba(192, 80, 77, 0.15);
+    }
+
+    .bahaya:hover {
+      background: #fed7d7;
+      transform: translateY(-1px);
     }
 
     .galat {
       color: var(--merah);
-      font-size: 14px;
+      font-size: 13px;
       min-height: 18px;
-      margin-top: 8px;
+      margin-top: 10px;
+      font-weight: 600;
     }
 
     .kecil {
@@ -133,68 +238,139 @@
 
     .atas {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
       flex-wrap: wrap;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
+    /* ===== GRID LABEL QR ===== */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 18px;
     }
 
     .label {
-      border: 2px dashed #b7c6cf;
-      border-radius: 12px;
-      padding: 14px;
+      border: 2px dashed #c0d1dc;
+      border-radius: 16px;
+      padding: 18px;
       text-align: center;
       background: var(--putih);
+      position: relative;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .03);
+    }
+
+    .label:hover {
+      border-color: var(--teal);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+      transform: translateY(-2px);
     }
 
     .label .qr {
       display: flex;
       justify-content: center;
-      margin-bottom: 8px;
+      align-items: center;
+      margin: 10px 0 12px;
+      min-height: 160px;
     }
 
     .label .qr img,
     .label .qr canvas {
       max-width: 100%;
+      border-radius: 6px;
+    }
+
+    .badge-jenis {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 4px;
+    }
+
+    .badge-meja {
+      background: #ebf5ff;
+      color: #2b6cb0;
+    }
+
+    .badge-kursi {
+      background: #e6fffa;
+      color: var(--teal-tua);
+    }
+
+    .badge-lain {
+      background: #fef9e7;
+      color: #b06000;
     }
 
     .label b {
       display: block;
-      font-size: 16px;
+      font-size: 18px;
       color: var(--biru);
+      margin-bottom: 2px;
+      letter-spacing: -0.2px;
+    }
+
+    .label .lokasi {
+      font-size: 13px;
+      color: var(--abu);
+      font-weight: 500;
+    }
+
+    .label .ajakan {
+      font-size: 11.5px;
+      color: var(--teal);
+      margin-top: 6px;
+      font-weight: 600;
+      background: #e6fffa;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-block;
     }
 
     .label .tombol {
       display: flex;
       gap: 6px;
-      margin-top: 10px;
+      margin-top: 14px;
     }
 
     .label .tombol button {
       flex: 1;
-      padding: 9px 6px;
-      font-size: 13px;
+      padding: 8px 10px;
+      font-size: 12.5px;
+      border-radius: 8px;
     }
 
-    .ajakan {
+    /* ===== FOOTER ===== */
+    .footer-qr {
+      text-align: center;
+      padding: 20px 16px 36px;
       font-size: 12px;
       color: var(--abu);
-      margin-top: 4px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      margin-top: 16px;
     }
 
-    @media print {
+    .footer-qr a {
+      color: inherit;
+      text-decoration: underline;
+    }
 
+    /* ===== CETAK PRINT ===== */
+    @media print {
       header,
       .form-kartu,
       .atas,
-      .tombol {
+      .tombol,
+      .footer-qr {
         display: none !important;
       }
 
@@ -202,13 +378,40 @@
         background: #fff;
       }
 
+      main {
+        padding: 0;
+        max-width: 100%;
+      }
+
       .kartu {
         box-shadow: none;
         padding: 0;
+        border: none;
+      }
+
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
       }
 
       .label {
         break-inside: avoid;
+        page-break-inside: avoid;
+        border: 1.5px dashed #555;
+        padding: 12px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 14px 16px;
+      }
+      header h1 {
+        font-size: 18px;
+      }
+      .atas {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -220,40 +423,74 @@
 
 <body>
   <header>
-    <h1>FixMyDesk · Pembuat QR</h1><small>Buat kode untuk properti kelas, tempel, lalu scan di web mahasiswa</small>
+    <div>
+      <h1><i class="bi bi-qr-code-scan"></i> FixMyDesk · QR Generator</h1>
+      <small>Buat kode QR perabot kelas, unduh / cetak, lalu tempel pada fasilitas kelas</small>
+    </div>
+    <div class="nav-header">
+      <a href="fixmydesk-admin.html" class="link-header" title="Buka Portal Admin"><i class="bi bi-shield-check"></i> Web Admin</a>
+      <a href="fixmydesk-mahasiswa.html" class="link-header" title="Buka Web Mahasiswa"><i class="bi bi-person-circle"></i> Web Mahasiswa</a>
+    </div>
   </header>
+
   <main>
     <div class="kartu form-kartu">
-      <h2>Tambah Properti</h2>
+      <h2><i class="bi bi-plus-circle"></i> Tambah Properti & Buat QR</h2>
       <div class="form">
-        <div><label>Kode properti</label><input type="text" id="kode" placeholder="contoh: A103"></div>
-        <div><label>Jenis</label>
+        <div>
+          <label for="kode">Kode / ID Properti *</label>
+          <input type="text" id="kode" placeholder="contoh: A103, 244-B2K2" autocomplete="off">
+        </div>
+        <div>
+          <label for="jenis">Jenis Properti *</label>
           <select id="jenis">
-            <option>Meja</option>
-            <option>Kursi</option>
-            <option>Lainnya</option>
-          </select></div>
-        <div><label>Gedung</label><input type="text" id="gedung" placeholder="contoh: Gedung B"></div>
-        <div><label>Ruangan</label><input type="text" id="ruang" placeholder="contoh: Ruangan 204"></div>
+            <option value="Meja">Meja</option>
+            <option value="Kursi">Kursi</option>
+            <option value="Lemari">Lemari</option>
+            <option value="Papan Tulis">Papan Tulis</option>
+            <option value="Proyektor">Proyektor</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+        <div>
+          <label for="gedung">Gedung *</label>
+          <input type="text" id="gedung" placeholder="contoh: GEDUNG E 11" autocomplete="off">
+        </div>
+        <div>
+          <label for="ruang">Ruangan *</label>
+          <input type="text" id="ruang" placeholder="contoh: Ruangan 244" autocomplete="off">
+        </div>
       </div>
       <div class="galat" id="galat"></div>
-      <button class="utama" onclick="tambahProperti()">Buat QR</button>
+      <button class="utama" onclick="tambahProperti()"><i class="bi bi-qr-code"></i> Buat Kode QR</button>
     </div>
 
     <div class="kartu">
       <div class="atas">
-        <h2 style="margin:0">Daftar Label QR (<span id="jumlah">0</span>)</h2>
-        <div>
-          <button class="sekunder" onclick="window.print()">Cetak Semua</button>
-          <button class="bahaya" onclick="kembalikanAwal()">Reset Data Awal</button>
+        <h2 style="margin:0"><i class="bi bi-grid-3x3-gap"></i> Daftar Label QR (<span id="jumlah">0</span>)</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="sekunder" onclick="window.print()"><i class="bi bi-printer"></i> Cetak Semua</button>
+          <button type="button" class="bahaya" onclick="kembalikanAwal()"><i class="bi bi-arrow-counterclockwise"></i> Reset Data Awal</button>
         </div>
       </div>
       <div class="grid" id="daftar"></div>
     </div>
   </main>
 
+  <div class="footer-qr">
+    <i class="bi bi-qr-code-scan"></i> FixMyDesk QR Generator &middot; Sistem Pelaporan Kerusakan Perabot Kelas<br>
+    <span style="font-size:11px;opacity:0.6;">© 2026 FixMyDesk &middot; <a href="fixmydesk-admin.html">Portal Admin</a> &middot; <a href="fixmydesk-mahasiswa.html">Web Mahasiswa</a> &middot; <a href="fixmydesk-qr-web.html">QR Akses Web</a></span>
+  </div>
+
   <script>
-    // ====== DATA ======
+    // ====== DATA & FUNGSI ======
+    function dapatkanBadgeHtml(jenis) {
+      const j = (jenis || "").toLowerCase();
+      if (j === "kursi") return `<span class="badge-jenis badge-kursi"><i class="bi bi-person-workspace"></i> Kursi</span>`;
+      if (j === "meja") return `<span class="badge-jenis badge-meja"><i class="bi bi-laptop"></i> Meja</span>`;
+      return `<span class="badge-jenis badge-lain"><i class="bi bi-box-seam"></i> ${jenis || "Lainnya"}</span>`;
+    }
+
     // ====== TAMBAH & HAPUS ======
     function tambahProperti() {
       const galat = document.getElementById("galat");
@@ -264,20 +501,16 @@
       const data = bacaMeja();
 
       if (id === "" || gedung === "" || ruang === "") {
-        galat.textContent = "Kode, gedung, dan ruangan wajib diisi.";
-        return;
-      }
-      if (!/^[A-Z0-9-]+$/.test(id)) {
-        galat.textContent = "Kode hanya boleh huruf, angka, dan tanda minus (tanpa spasi).";
+        galat.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Kode, gedung, dan ruangan wajib diisi.`;
         return;
       }
       for (let item of data) {
         if (item.id === id) {
-          galat.textContent = "Kode " + id + " sudah dipakai. Gunakan kode lain.";
+          galat.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Kode properti <b>${id}</b> sudah dipakai. Gunakan kode lain.`;
           return;
         }
       }
-      galat.textContent = "Menyimpan...";
+      galat.innerHTML = `<i class="bi bi-hourglass-split"></i> Menyimpan...`;
       tulisMeja({
         id: id,
         jenis: jenis,
@@ -286,18 +519,20 @@
       }).then(() => {
         galat.textContent = "";
         document.getElementById("kode").value = "";
+        document.getElementById("gedung").value = "";
+        document.getElementById("ruang").value = "";
       }).catch(e => {
-        galat.textContent = "Gagal menyimpan: " + e.message;
+        galat.innerHTML = `<i class="bi bi-exclamation-triangle"></i> Gagal menyimpan: ` + e.message;
       });
     }
 
     function hapusProperti(id) {
-      if (!confirm("Hapus " + id + "? Label QR yang sudah ditempel tidak akan bisa dipakai lagi.")) return;
+      if (!confirm("Hapus properti #" + id + "?\n\nLabel QR yang sudah ditempel tidak akan bisa digunakan lagi.")) return;
       hapusMeja(id);
     }
 
     function kembalikanAwal() {
-      if (!confirm("Kembalikan ke 4 data awal? Properti tambahanmu akan terhapus.")) return;
+      if (!confirm("Kembalikan ke 4 data awal? Properti tambahan Anda akan terhapus.")) return;
       resetMeja();
     }
 
@@ -312,17 +547,19 @@
         const kartu = document.createElement("div");
         kartu.className = "label";
         kartu.innerHTML = `
-      <div class="qr" id="qr${i}"></div>
-      <b>${item.jenis} #${item.id}</b>
-      <div>${item.gedung} - ${item.ruang}</div>
-      <div class="ajakan">Scan untuk lapor kerusakan</div>
-      <div class="tombol">
-        <button class="sekunder" onclick="unduhPng(${i}, '${item.id}')">Unduh PNG</button>
-        <button class="bahaya" onclick="hapusProperti('${item.id}')">Hapus</button>
-      </div>`;
+          <div>${dapatkanBadgeHtml(item.jenis)}</div>
+          <b>#${item.id}</b>
+          <div class="lokasi">${item.gedung} - ${item.ruang}</div>
+          <div class="qr" id="qr${i}"></div>
+          <div class="ajakan"><i class="bi bi-camera"></i> Scan untuk lapor</div>
+          <div class="tombol">
+            <button type="button" class="sekunder" onclick="unduhPng(${i}, '${item.id}')"><i class="bi bi-download"></i> Unduh</button>
+            <button type="button" class="bahaya" onclick="hapusProperti('${item.id}')"><i class="bi bi-trash3"></i> Hapus</button>
+          </div>
+        `;
         wadah.appendChild(kartu);
 
-        // isi QR berupa kode properti saja (contoh: "A101")
+        // Isi QR berupa kode properti saja (contoh: "A101")
         new QRCode(document.getElementById("qr" + i), {
           text: item.id,
           width: 160,
@@ -335,7 +572,7 @@
     function unduhPng(nomor, id) {
       const canvas = document.querySelector("#qr" + nomor + " canvas");
       if (!canvas) {
-        alert("QR belum siap, coba lagi.");
+        alert("QR belum siap, coba sesaat lagi.");
         return;
       }
       const tautan = document.createElement("a");
@@ -346,7 +583,7 @@
 
     if (typeof QRCode === "undefined") {
       document.getElementById("daftar").innerHTML =
-        "<p class='galat'>Library QR gagal dimuat. Pastikan komputer terhubung ke internet, lalu refresh.</p>";
+        "<p class='galat'><i class='bi bi-exclamation-triangle'></i> Library QR gagal dimuat. Pastikan komputer terhubung ke internet, lalu refresh.</p>";
     } else {
       saatDataBerubah(tampilDaftar);
       mulaiDb();
