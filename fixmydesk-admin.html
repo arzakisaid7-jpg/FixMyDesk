@@ -8,12 +8,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
     :root {
-      --biru: #3d5a6c;
-      --biru-muda: #e9eff3;
-      --teal: #3aa6a0;
-      --teal-tua: #2c8a85;
-      --teks: #22323c;
-      --abu: #6b7f8b;
+      --biru: #2c4a5a;
+      --biru-muda: #edf2f7;
+      --teal: #319795;
+      --teal-tua: #276b6a;
+      --teks: #1a2530;
+      --abu: #5a6e7a;
       --putih: #fff;
       --merah: #c0504d;
       --kuning: #d99a2b;
@@ -26,107 +26,136 @@
 
     body {
       margin: 0;
-      font-family: system-ui, Arial, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--biru-muda);
       color: var(--teks);
+      min-height: 100vh;
     }
 
+    /* ===== HEADER ===== */
     header {
-      background: var(--biru);
+      background: linear-gradient(135deg, var(--biru) 0%, #1e3a4a 100%);
       color: var(--putih);
-      padding: 16px 20px;
+      padding: 18px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 40;
     }
 
     header h1 {
       margin: 0;
-      font-size: 20px;
+      font-size: 21px;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    header h1 i {
+      font-size: 24px;
+      color: #5dd9d2;
     }
 
     main {
-      max-width: 1040px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 20px 16px;
+      padding: 24px 16px 40px;
     }
 
+    /* ===== KARTU ===== */
     .kartu {
       background: var(--putih);
-      border-radius: 14px;
-      padding: 18px 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+      border: 1px solid rgba(0, 0, 0, .04);
+      transition: box-shadow 0.2s;
     }
 
     .login {
-      max-width: 380px;
-      margin: 40px auto;
+      max-width: 400px;
+      margin: 60px auto;
+    }
+
+    .login h2 {
+      text-align: center;
+      justify-content: center;
+      font-size: 20px;
     }
 
     h2 {
-      margin: 0 0 12px;
+      margin: 0 0 14px;
       font-size: 18px;
       color: var(--biru);
       display: flex;
       align-items: center;
       gap: 8px;
+      font-weight: 700;
     }
 
     label {
       display: block;
-      font-size: 14px;
-      margin: 10px 0 4px;
+      font-size: 13px;
+      margin: 12px 0 5px;
       color: var(--abu);
-      font-weight: 500;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     input,
     select {
       width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #c5d2da;
-      border-radius: 8px;
+      padding: 10px 14px;
+      border: 1.5px solid #d0dae0;
+      border-radius: 10px;
       font-size: 14px;
       font-family: inherit;
       background: var(--putih);
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     input:focus,
     select:focus {
       outline: none;
       border-color: var(--teal);
-      box-shadow: 0 0 0 3px rgba(58, 166, 160, 0.15);
+      box-shadow: 0 0 0 3px rgba(49, 151, 149, 0.12);
     }
 
+    /* ===== TOMBOL ===== */
     button {
       font-family: inherit;
       font-size: 14px;
       border: 0;
-      border-radius: 8px;
-      padding: 10px 16px;
+      border-radius: 10px;
+      padding: 10px 18px;
       cursor: pointer;
       font-weight: 600;
       transition: all 0.15s ease-in-out;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
     }
 
     .utama {
-      background: var(--teal);
+      background: linear-gradient(135deg, var(--teal), var(--teal-tua));
       color: var(--putih);
       width: 100%;
-      margin-top: 14px;
+      margin-top: 16px;
+      box-shadow: 0 2px 8px rgba(49, 151, 149, 0.3);
     }
 
     .utama:hover {
-      background: var(--teal-tua);
+      background: linear-gradient(135deg, var(--teal-tua), #1e5a58);
+      box-shadow: 0 4px 12px rgba(49, 151, 149, 0.4);
+      transform: translateY(-1px);
     }
 
     .sekunder {
@@ -139,15 +168,17 @@
     }
 
     .keluar {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.1);
       color: var(--putih);
-      border: 1px solid rgba(255, 255, 255, .6);
-      padding: 7px 14px;
+      border: 1.5px solid rgba(255, 255, 255, .5);
+      padding: 8px 16px;
       font-size: 13px;
+      backdrop-filter: blur(4px);
     }
 
     .keluar:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, .8);
     }
 
     .galat {
@@ -158,16 +189,17 @@
     }
 
     .sukses {
-      background: #e3f4f2;
+      background: linear-gradient(135deg, #e3f9f4, #d0f0ea);
       color: var(--teal-tua);
-      padding: 10px 14px;
-      border-radius: 8px;
+      padding: 12px 16px;
+      border-radius: 10px;
       font-size: 13px;
-      margin-top: 8px;
+      margin-top: 10px;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      border: 1px solid rgba(49, 151, 149, 0.15);
     }
 
     .kecil {
@@ -175,59 +207,78 @@
       color: var(--abu);
     }
 
-    /* NAV TABS */
+    /* ===== NAV TABS ===== */
     .nav-admin {
       display: flex;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .tab-btn {
       background: var(--putih);
       color: var(--biru);
-      padding: 10px 18px;
-      border-radius: 10px;
-      border: 1px solid #c5d2da;
+      padding: 11px 22px;
+      border-radius: 12px;
+      border: 1.5px solid #d0dae0;
       cursor: pointer;
       font-size: 15px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      transition: all 0.2s;
     }
 
     .tab-btn:hover {
-      background: var(--biru-muda);
+      background: #f0f4f8;
+      border-color: #b0c0cc;
     }
 
     .tab-btn.aktif {
-      background: var(--teal);
+      background: linear-gradient(135deg, var(--teal), var(--teal-tua));
       color: var(--putih);
-      border-color: var(--teal-tua);
-      box-shadow: 0 2px 6px rgba(58, 166, 160, 0.3);
+      border-color: transparent;
+      box-shadow: 0 3px 10px rgba(49, 151, 149, 0.3);
     }
 
-    /* RINGKASAN */
+    /* ===== RINGKASAN ===== */
     .ringkas {
       display: flex;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
 
     .angka {
       flex: 1;
-      min-width: 110px;
+      min-width: 120px;
       background: var(--putih);
-      border-radius: 12px;
-      padding: 12px 14px;
+      border-radius: 14px;
+      padding: 16px;
       text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+      border: 1px solid rgba(0, 0, 0, .04);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .angka:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
     }
 
     .angka b {
       display: block;
-      font-size: 24px;
+      font-size: 28px;
       color: var(--teal-tua);
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .angka span {
+      font-size: 12px;
+      color: var(--abu);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      font-weight: 600;
     }
 
     .atas {
@@ -235,7 +286,7 @@
       gap: 12px;
       align-items: center;
       flex-wrap: wrap;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       justify-content: space-between;
     }
 
@@ -246,35 +297,55 @@
 
     .bungkus {
       overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid #e3eaef;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
-      min-width: 680px;
+      min-width: 780px;
     }
 
     th {
       text-align: left;
-      background: var(--biru);
+      background: linear-gradient(135deg, var(--biru), #1e3a4a);
       color: var(--putih);
-      padding: 10px 12px;
+      padding: 12px 14px;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    th:first-child {
+      border-top-left-radius: 11px;
+    }
+
+    th:last-child {
+      border-top-right-radius: 11px;
     }
 
     td {
-      padding: 10px 12px;
-      border-bottom: 1px solid #e3eaef;
+      padding: 12px 14px;
+      border-bottom: 1px solid #edf1f5;
       vertical-align: middle;
     }
 
     tr:hover td {
-      background: #fafcfe;
+      background: #f8fbfd;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
     }
 
     .lencana {
-      display: inline-block;
-      padding: 3px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
@@ -282,54 +353,86 @@
     }
 
     .Tinggi {
-      background: var(--merah);
+      background: linear-gradient(135deg, #e53e3e, #c53030);
     }
 
     .Sedang {
-      background: var(--kuning);
+      background: linear-gradient(135deg, #dd9a1d, #c78516);
     }
 
     .Rendah {
-      background: var(--teal);
+      background: linear-gradient(135deg, #38a169, #2f855a);
+    }
+
+    .lencana-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status-dikirim {
+      background: #ebf5ff;
+      color: #2b6cb0;
+    }
+
+    .status-proses {
+      background: #fef9e7;
+      color: #b7791f;
+    }
+
+    .status-selesai {
+      background: #e6ffed;
+      color: #22543d;
     }
 
     .mini {
       width: 52px;
       height: 52px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      border: 1px solid #c5d2da;
+      border: 2px solid #e3eaef;
+      transition: transform 0.15s, border-color 0.15s;
     }
 
-    /* CRUD PROPERTI STYLES */
+    .mini:hover {
+      transform: scale(1.08);
+      border-color: var(--teal);
+    }
+
+    /* ===== CRUD PROPERTI ===== */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
+      gap: 14px;
     }
 
     .tombol-grup-form {
       display: flex;
-      gap: 8px;
-      margin-top: 14px;
+      gap: 10px;
+      margin-top: 16px;
       align-items: center;
     }
 
     .tombol-aksi {
-      padding: 6px 10px;
+      padding: 7px 12px;
       font-size: 13px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 0;
       cursor: pointer;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 5px;
+      transition: all 0.15s;
     }
 
     .tombol-edit {
-      background: #e9eff3;
+      background: #edf2f7;
       color: var(--biru);
     }
 
@@ -338,89 +441,208 @@
     }
 
     .tombol-hapus {
-      background: #fdecea;
+      background: #fff5f5;
       color: var(--merah);
     }
 
     .tombol-hapus:hover {
-      background: #f8d7da;
+      background: #fed7d7;
     }
 
     .tombol-qr {
-      background: #e3f4f2;
+      background: #e6fffa;
       color: var(--teal-tua);
     }
 
     .tombol-qr:hover {
-      background: #cdeee9;
+      background: #b2f5ea;
     }
 
     .badge-jenis {
-      background: #e9eff3;
+      background: #edf2f7;
       color: var(--biru);
-      padding: 3px 8px;
-      border-radius: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
       font-size: 12px;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
     .badge-kursi {
-      background: #e3f4f2;
+      background: #e6fffa;
       color: var(--teal-tua);
     }
 
     .badge-meja {
-      background: #e8f0fe;
-      color: #1967d2;
+      background: #ebf5ff;
+      color: #2b6cb0;
     }
 
     .badge-lain {
-      background: #fef7e0;
+      background: #fef9e7;
       color: #b06000;
     }
 
-    /* MODAL POPUPS */
+    /* ===== MODAL ===== */
     .tirai {
       position: fixed;
       inset: 0;
-      background: rgba(20, 30, 38, .85);
+      background: rgba(10, 20, 30, .8);
+      backdrop-filter: blur(4px);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 50;
       padding: 16px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .modal-kotak {
       background: var(--putih);
-      padding: 24px;
-      border-radius: 14px;
-      max-width: 380px;
+      padding: 28px;
+      border-radius: 18px;
+      max-width: 400px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.25s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .modal-kotak .wadah-qr {
       display: flex;
       justify-content: center;
-      margin: 16px 0;
+      margin: 18px 0;
     }
 
     .modal-foto img {
       max-width: 100%;
       max-height: 75vh;
-      border-radius: 10px;
+      border-radius: 12px;
       display: block;
-      margin: 0 auto 12px;
+      margin: 0 auto 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center;
+      padding: 20px 16px 32px;
+      font-size: 12px;
+      color: var(--abu);
     }
 
     .hidden {
       display: none !important;
     }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      header {
+        padding: 14px 16px;
+      }
+      header h1 {
+        font-size: 17px;
+      }
+      main {
+        padding: 16px 10px;
+      }
+      .kartu {
+        padding: 16px;
+      }
+      .nav-admin {
+        gap: 6px;
+      }
+      .tab-btn {
+        padding: 9px 14px;
+        font-size: 13px;
+      }
+      .angka b {
+        font-size: 22px;
+      }
+    }
+
+    /* ===== POLISH ===== */
+    html { scroll-behavior: smooth; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateX(0); }
+      to { opacity: 0; transform: translateX(40px); }
+    }
+
+    main { animation: fadeInUp 0.45s ease both; }
+
+    .angka {
+      position: relative;
+      overflow: hidden;
+    }
+    .angka::before {
+      content: '';
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: rgba(49, 151, 149, 0.07);
+    }
+
+    button:active {
+      transform: scale(0.97) !important;
+    }
+
+    .tombol-hapus {
+      transition: all 0.2s ease;
+    }
+    .tombol-hapus:hover {
+      background: #fecaca !important;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(192, 80, 77, 0.2);
+    }
+
+    tr {
+      transition: background 0.2s ease;
+    }
+
+    .footer {
+      border-top: 1px solid rgba(0,0,0,0.06);
+      margin-top: 20px;
+    }
+
+    .login {
+      animation: fadeInUp 0.5s ease both;
+    }
+
+    .modal-kotak {
+      max-width: 420px;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    /* Better scrollbar */
+    .bungkus::-webkit-scrollbar { height: 6px; }
+    .bungkus::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 3px; }
+    .bungkus::-webkit-scrollbar-thumb { background: #b0c0cc; border-radius: 3px; }
+    .bungkus::-webkit-scrollbar-thumb:hover { background: #8fa5b5; }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
@@ -432,7 +654,11 @@
 <body>
   <header>
     <h1><i class="bi bi-shield-check"></i> FixMyDesk · Admin</h1>
-    <button class="keluar hidden" id="tombolKeluar" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Keluar</button>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <a href="fixmydesk-qr-web.html" target="_blank" class="keluar" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;" title="Buka generator QR akses"><i class="bi bi-qr-code"></i> <span>QR Akses</span></a>
+      <a href="fixmydesk-mahasiswa.html" target="_blank" class="keluar" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;" title="Buka tampilan mahasiswa"><i class="bi bi-person-circle"></i> <span>Web Mahasiswa</span></a>
+      <button class="keluar hidden" id="tombolKeluar" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Keluar</button>
+    </div>
   </header>
 
   <main>
@@ -457,12 +683,15 @@
       <div class="kartu">
         <div class="atas">
           <h2 style="margin:0"><i class="bi bi-list-task"></i> Antrean Laporan Kerusakan</h2>
-          <select id="urutan" onchange="tampilTabel()">
-            <option value="lokasi">Urutkan: Lokasi lalu Urgensi</option>
-            <option value="urgensi">Urutkan: Urgensi lalu Lokasi</option>
-            <option value="terbaru">Urutkan: Tanggal Lapor (Terbaru)</option>
-            <option value="terlama">Urutkan: Tanggal Lapor (Terlama)</option>
-          </select>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <select id="urutan" onchange="tampilTabel()">
+              <option value="lokasi">Urutkan: Lokasi lalu Urgensi</option>
+              <option value="urgensi">Urutkan: Urgensi lalu Lokasi</option>
+              <option value="terbaru">Urutkan: Tanggal Lapor (Terbaru)</option>
+              <option value="terlama">Urutkan: Tanggal Lapor (Terlama)</option>
+            </select>
+            <button type="button" class="tombol-aksi tombol-hapus" id="btnHapusSemua" style="padding:9px 16px;display:none;" onclick="hapusSemuaSelesai()"><i class="bi bi-trash3-fill"></i> Hapus Semua Selesai</button>
+          </div>
         </div>
         <div class="bungkus">
           <table>
@@ -475,6 +704,7 @@
                 <th>Foto</th>
                 <th>Pelapor</th>
                 <th>Status</th>
+                <th style="width:110px;">Aksi</th>
               </tr>
             </thead>
             <tbody id="isiTabel"></tbody>
@@ -567,6 +797,10 @@
     </div>
   </main>
 
+  <div class="footer hidden" id="footerAdmin">
+    <i class="bi bi-shield-check"></i> FixMyDesk Admin Panel &middot; Sistem Pelaporan Kerusakan Perabot Kelas
+  </div>
+
   <!-- MODAL ZOOM FOTO LAPORAN -->
   <div class="tirai hidden" id="tiraiFoto" onclick="tutupFoto()">
     <div class="modal-foto" onclick="event.stopPropagation()">
@@ -590,6 +824,19 @@
     </div>
   </div>
 
+  <!-- MODAL KONFIRMASI HAPUS LAPORAN -->
+  <div class="tirai hidden" id="tiraiHapusLaporan" onclick="tutupModalHapusLaporan()">
+    <div class="modal-kotak" onclick="event.stopPropagation()">
+      <div style="font-size:48px;color:var(--merah);margin-bottom:8px;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+      <h3 style="margin:0 0 8px;color:var(--merah);">Hapus Laporan?</h3>
+      <p id="pesanHapusLaporan" style="font-size:14px;color:var(--abu);margin:0 0 20px;"></p>
+      <div style="display:flex; gap:8px; justify-content:center;">
+        <button type="button" class="tombol-aksi tombol-hapus" style="padding:10px 20px;font-size:14px;" onclick="konfirmasiHapusLaporan()"><i class="bi bi-trash3-fill"></i> Ya, Hapus</button>
+        <button type="button" class="sekunder" style="padding:10px 20px;" onclick="tutupModalHapusLaporan()"><i class="bi bi-x-lg"></i> Batal</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ====== DATA & PENGATURAN ======
     const KUNCI_ADMIN = "fixmydesk_admin_login";
@@ -597,9 +844,10 @@
     const PASSWORD_ADMIN = "admin123";
     const urutanStatus = ["Dikirim", "Sedang Diproses", "Selesai Diperbaiki"];
 
-    let tabAktif = "laporan"; // "laporan" atau "properti"
-    let idSedangDiedit = null; // null jika mode tambah, string jika mode edit
-    let qrAktifInfo = null; // data properti untuk download QR
+    let tabAktif = "laporan";
+    let idSedangDiedit = null;
+    let qrAktifInfo = null;
+    let idLaporanAkanDihapus = null;
 
     // ====== LOGIN & LOGOUT ======
     function prosesLogin() {
@@ -623,6 +871,7 @@
       document.getElementById("layarLogin").classList.toggle("hidden", sudahLogin);
       document.getElementById("tombolKeluar").classList.toggle("hidden", !sudahLogin);
       document.getElementById("navAdmin").classList.toggle("hidden", !sudahLogin);
+      document.getElementById("footerAdmin").classList.toggle("hidden", !sudahLogin);
 
       if (sudahLogin) {
         gantiTab(tabAktif);
@@ -680,6 +929,13 @@
       return salinan;
     }
 
+    function dapatkanBadgeStatus(status) {
+      if (status === "Dikirim") return `<span class="lencana-status status-dikirim"><i class="bi bi-send-fill"></i> ${status}</span>`;
+      if (status === "Sedang Diproses") return `<span class="lencana-status status-proses"><i class="bi bi-gear-fill"></i> ${status}</span>`;
+      if (status === "Selesai Diperbaiki") return `<span class="lencana-status status-selesai"><i class="bi bi-check-circle-fill"></i> ${status}</span>`;
+      return status;
+    }
+
     function tampilTabel() {
       const data = bacaLaporan();
       const cara = document.getElementById("urutan").value;
@@ -691,6 +947,9 @@
         for (let s of urutanStatus) {
           opsi += `<option value="${s}" ${s === lap.status ? "selected" : ""}>${s}</option>`;
         }
+
+        const bisaHapus = lap.status === "Selesai Diperbaiki";
+
         baris += `<tr>
       <td><b>${lap.id}</b><br><span class="kecil">${lap.waktu}</span></td>
       <td>${lap.lokasi}</td>
@@ -699,21 +958,96 @@
       <td>${lap.foto && lap.foto.startsWith("data:image") ? `<img class="mini" src="${lap.foto}" alt="Foto" onclick="bukaFoto('${lap.id}')">` : "-"}</td>
       <td>${lap.pelapor || "-"}</td>
       <td><select onchange="ubahStatus('${lap.id}', this.value)">${opsi}</select></td>
+      <td>
+        ${bisaHapus
+          ? `<button type="button" class="tombol-aksi tombol-hapus" onclick="bukaModalHapusLaporan('${lap.id}')" title="Hapus laporan yang sudah selesai"><i class="bi bi-trash3-fill"></i> Hapus</button>`
+          : `<span class="kecil" style="font-size:11px;opacity:0.5;" title="Hanya laporan berstatus 'Selesai Diperbaiki' yang bisa dihapus"><i class="bi bi-lock-fill"></i></span>`
+        }
+      </td>
     </tr>`;
       }
-      document.getElementById("isiTabel").innerHTML = baris || `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--abu);">Belum ada laporan kerusakan.</td></tr>`;
+      document.getElementById("isiTabel").innerHTML = baris || `<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--abu);"><i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;"></i>Belum ada laporan kerusakan.</td></tr>`;
 
       // ringkasan jumlah per status
-      let ringkas = `<div class="angka"><b>${data.length}</b>Total Laporan</div>`;
+      let ringkas = `<div class="angka"><b>${data.length}</b><span>Total Laporan</span></div>`;
       for (let s of urutanStatus) {
         const jumlah = data.filter(l => l.status === s).length;
-        ringkas += `<div class="angka"><b>${jumlah}</b>${s}</div>`;
+        ringkas += `<div class="angka"><b>${jumlah}</b><span>${s}</span></div>`;
       }
       document.getElementById("ringkas").innerHTML = ringkas;
+
+      // Tampilkan/sembunyikan tombol hapus semua selesai
+      const jumlahSelesai = data.filter(l => l.status === "Selesai Diperbaiki").length;
+      const btnHapusSemua = document.getElementById("btnHapusSemua");
+      if (btnHapusSemua) {
+        btnHapusSemua.style.display = jumlahSelesai > 0 ? "inline-flex" : "none";
+        btnHapusSemua.innerHTML = `<i class="bi bi-trash3-fill"></i> Hapus Semua Selesai (${jumlahSelesai})`;
+      }
     }
 
     function ubahStatus(id, statusBaru) {
-      ubahStatusDb(id, statusBaru).catch(e => alert("Gagal mengubah status: " + e.message));
+      ubahStatusDb(id, statusBaru).then(() => {
+        tampilToast(`Status ${id} diperbarui menjadi "${statusBaru}".`);
+      }).catch(e => tampilToast("Gagal mengubah status: " + e.message, "galat"));
+    }
+
+    // ====== HAPUS LAPORAN (KHUSUS SELESAI) ======
+    function bukaModalHapusLaporan(id) {
+      const lap = bacaLaporan().find(l => l.id === id);
+      if (!lap) return;
+      if (lap.status !== "Selesai Diperbaiki") {
+        alert("Hanya laporan berstatus 'Selesai Diperbaiki' yang bisa dihapus.");
+        return;
+      }
+      idLaporanAkanDihapus = id;
+      document.getElementById("pesanHapusLaporan").innerHTML =
+        `Laporan <b>${lap.id}</b> (${lap.masalah} - ${lap.lokasi})<br>akan dihapus secara permanen dari database.`;
+      document.getElementById("tiraiHapusLaporan").classList.remove("hidden");
+    }
+
+    function tutupModalHapusLaporan() {
+      document.getElementById("tiraiHapusLaporan").classList.add("hidden");
+      idLaporanAkanDihapus = null;
+    }
+
+    async function konfirmasiHapusLaporan() {
+      if (!idLaporanAkanDihapus) return;
+      const id = idLaporanAkanDihapus;
+      try {
+        await hapusLaporan(id);
+        tutupModalHapusLaporan();
+        tampilTabel();
+        tampilToast(`Laporan ${id} berhasil dihapus.`);
+      } catch (err) {
+        tampilToast("Gagal menghapus laporan: " + err.message, "galat");
+      }
+    }
+
+    async function hapusSemuaSelesai() {
+      const selesai = bacaLaporan().filter(l => l.status === "Selesai Diperbaiki");
+      if (selesai.length === 0) {
+        tampilToast("Tidak ada laporan yang selesai untuk dihapus.", "info");
+        return;
+      }
+      if (!confirm(`Hapus ${selesai.length} laporan yang sudah selesai diperbaiki?\n\nLaporan-laporan ini akan dihapus permanen dari sistem.`)) {
+        return;
+      }
+      let berhasil = 0;
+      let gagal = 0;
+      for (const lap of selesai) {
+        try {
+          await hapusLaporan(lap.id);
+          berhasil++;
+        } catch (e) {
+          gagal++;
+        }
+      }
+      tampilTabel();
+      if (gagal === 0) {
+        tampilToast(`${berhasil} laporan selesai berhasil dibersihkan.`);
+      } else {
+        tampilToast(`${berhasil} laporan dihapus, ${gagal} gagal.`, "galat");
+      }
     }
 
     function bukaFoto(id) {
@@ -747,10 +1081,10 @@
       const totalLain = data.length - totalKursi - totalMeja;
 
       document.getElementById("ringkasProperti").innerHTML = `
-        <div class="angka"><b>${data.length}</b>Total Properti</div>
-        <div class="angka"><b>${totalKursi}</b>Kursi</div>
-        <div class="angka"><b>${totalMeja}</b>Meja</div>
-        <div class="angka"><b>${totalLain}</b>Lainnya</div>
+        <div class="angka"><b>${data.length}</b><span>Total Properti</span></div>
+        <div class="angka"><b>${totalKursi}</b><span>Kursi</span></div>
+        <div class="angka"><b>${totalMeja}</b><span>Meja</span></div>
+        <div class="angka"><b>${totalLain}</b><span>Lainnya</span></div>
       `;
 
       // Filter data
@@ -799,7 +1133,7 @@
         `;
       });
 
-      document.getElementById("isiTabelProperti").innerHTML = baris || `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--abu);">Tidak ada data properti yang cocok.</td></tr>`;
+      document.getElementById("isiTabelProperti").innerHTML = baris || `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--abu);"><i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;"></i>Tidak ada data properti yang cocok.</td></tr>`;
     }
 
     async function simpanProperti() {
@@ -824,7 +1158,6 @@
         return;
       }
 
-      // Cek apakah ID sudah dipakai (kecuali jika sedang mengedit properti itu sendiri tanpa ubah ID)
       const data = bacaMeja();
       if (!idSedangDiedit || idSedangDiedit !== id) {
         const sudahAda = data.some(m => m.id === id);
@@ -841,8 +1174,8 @@
         const dataBaru = { id, jenis, gedung, ruang };
         await simpanPropertiDb(dataBaru, idSedangDiedit);
 
-        sukses.innerHTML = idSedangDiedit 
-          ? `<i class="bi bi-check-circle-fill"></i> Properti "${id}" berhasil diperbarui!` 
+        sukses.innerHTML = idSedangDiedit
+          ? `<i class="bi bi-check-circle-fill"></i> Properti "${id}" berhasil diperbarui!`
           : `<i class="bi bi-check-circle-fill"></i> Properti "${id}" berhasil ditambahkan!`;
         sukses.classList.remove("hidden");
 
@@ -957,9 +1290,35 @@
       }
     });
 
+    // ====== TOAST NOTIFIKASI ======
+    function tampilToast(pesan, tipe = "sukses") {
+      let wadah = document.getElementById("toastContainer");
+      if (!wadah) {
+        wadah = document.createElement("div");
+        wadah.id = "toastContainer";
+        wadah.style.cssText = "position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;";
+        document.body.appendChild(wadah);
+      }
+      const toast = document.createElement("div");
+      const warna = tipe === "sukses"
+        ? "linear-gradient(135deg, #2e7d32, #1b5e20)"
+        : tipe === "galat"
+          ? "linear-gradient(135deg, #c0504d, #a33a3a)"
+          : "linear-gradient(135deg, #2c4a5a, #1e3a4a)";
+      const ikon = tipe === "sukses" ? "bi-check-circle-fill" : tipe === "galat" ? "bi-x-circle-fill" : "bi-info-circle-fill";
+      toast.style.cssText = `background:${warna};color:#fff;padding:12px 20px;border-radius:12px;font-size:13.5px;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,0.22);display:flex;align-items:center;gap:10px;animation:toastIn .3s ease;pointer-events:auto;font-family:inherit;`;
+      toast.innerHTML = `<i class="bi ${ikon}" style="font-size:17px;"></i> <span>${pesan}</span>`;
+      wadah.appendChild(toast);
+      setTimeout(() => {
+        toast.style.animation = "toastOut .3s ease forwards";
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
     mulaiDb();
     tampilkanHalaman();
   </script>
+  <div id="toastContainer" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;"></div>
 </body>
 
 </html>

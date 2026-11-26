@@ -165,6 +165,10 @@ function hapusMeja(id) {
   return firestore.collection("properti").doc(id).delete();
 }
 
+function hapusLaporan(id) {
+  return firestore.collection("laporan").doc(id).delete();
+}
+
 async function resetMeja() {
   const batch = firestore.batch();
   const lama = await firestore.collection("properti").get();

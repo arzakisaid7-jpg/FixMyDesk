@@ -6,14 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FixMyDesk - QR Akses Web</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
     :root {
-      --biru: #3d5a6c;
-      --biru-muda: #e9eff3;
-      --teal: #3aa6a0;
-      --teal-tua: #2c8a85;
-      --teks: #22323c;
-      --abu: #6b7f8b;
+      --biru: #2c4a5a;
+      --biru-muda: #edf2f7;
+      --teal: #319795;
+      --teal-tua: #276b6a;
+      --teks: #1a2530;
+      --abu: #5a6e7a;
       --putih: #fff;
       --merah: #c0504d;
     }
@@ -24,86 +25,127 @@
 
     body {
       margin: 0;
-      font-family: system-ui, Arial, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--biru-muda);
       color: var(--teks);
+      min-height: 100vh;
     }
 
     header {
-      background: var(--biru);
+      background: linear-gradient(135deg, var(--biru) 0%, #1e3a4a 100%);
       color: var(--putih);
-      padding: 16px;
+      padding: 20px 16px;
       text-align: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     }
 
     header h1 {
       margin: 0;
-      font-size: 20px;
+      font-size: 22px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header h1 i {
+      font-size: 24px;
+      color: #5dd9d2;
     }
 
     header small {
-      opacity: .8;
+      display: block;
+      margin-top: 4px;
+      font-size: 13px;
+      opacity: .75;
     }
 
     main {
-      max-width: 760px;
+      max-width: 800px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 24px 16px 40px;
     }
 
     .kartu {
       background: var(--putih);
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+      border: 1px solid rgba(0, 0, 0, .04);
     }
 
     h2 {
-      margin: 0 0 12px;
-      font-size: 18px;
+      margin: 0 0 14px;
+      font-size: 19px;
       color: var(--biru);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     label {
       display: block;
-      font-size: 14px;
-      margin-bottom: 4px;
+      font-size: 13px;
+      margin-bottom: 5px;
       color: var(--abu);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     input {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #c5d2da;
-      border-radius: 10px;
+      padding: 12px 14px;
+      border: 1.5px solid #d0dae0;
+      border-radius: 12px;
       font-size: 16px;
       font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(49, 151, 149, 0.12);
     }
 
     button {
       font-family: inherit;
       font-size: 15px;
       border: 0;
-      border-radius: 10px;
-      padding: 12px 16px;
+      border-radius: 12px;
+      padding: 12px 20px;
       cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: all 0.15s;
     }
 
     .utama {
-      background: var(--teal);
+      background: linear-gradient(135deg, var(--teal), var(--teal-tua));
       color: var(--putih);
       font-weight: 700;
-      margin-top: 12px;
+      margin-top: 14px;
+      box-shadow: 0 2px 10px rgba(49, 151, 149, 0.3);
     }
 
     .utama:hover {
-      background: var(--teal-tua);
+      background: linear-gradient(135deg, var(--teal-tua), #1e5a58);
+      transform: translateY(-1px);
     }
 
     .sekunder {
       background: var(--biru-muda);
       color: var(--biru);
+    }
+
+    .sekunder:hover {
+      background: #d9e4ec;
     }
 
     .kecil {
@@ -120,22 +162,28 @@
 
     .dua {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
     }
 
     .qr-kartu {
       text-align: center;
-      border: 2px dashed #b7c6cf;
-      border-radius: 14px;
-      padding: 18px;
+      border: 2px dashed #c5d2da;
+      border-radius: 18px;
+      padding: 24px;
       background: var(--putih);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .qr-kartu:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
     }
 
     .qr-kartu .qr {
       display: flex;
       justify-content: center;
-      margin: 10px 0;
+      margin: 14px 0;
       min-height: 200px;
       align-items: center;
     }
@@ -143,37 +191,102 @@
     .qr-kartu h3 {
       margin: 0;
       color: var(--biru);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .tautan {
       word-break: break-all;
       font-size: 12px;
       color: var(--abu);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      background: var(--biru-muda);
+      padding: 8px 12px;
+      border-radius: 8px;
     }
 
     .peringatan {
-      background: #fff4e0;
+      background: linear-gradient(135deg, #fff8e0, #fff4cc);
       color: #8a5a00;
-      padding: 10px 12px;
-      border-radius: 10px;
+      padding: 12px 16px;
+      border-radius: 12px;
       font-size: 14px;
-      margin-top: 10px;
+      margin-top: 12px;
+      border: 1px solid rgba(138, 90, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-qr {
+      text-align: center;
+      padding: 20px 16px 32px;
+      font-size: 12px;
+      color: var(--abu);
     }
 
     .hidden {
       display: none;
     }
 
-    @media print {
+    /* ===== POLISH ===== */
+    html { scroll-behavior: smooth; }
 
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    main { animation: fadeInUp 0.45s ease both; }
+
+    button:active {
+      transform: scale(0.96) !important;
+    }
+
+    .kartu {
+      transition: box-shadow 0.25s ease, transform 0.2s ease;
+    }
+    .kartu:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
+    }
+
+    .qr-kartu {
+      position: relative;
+      overflow: hidden;
+    }
+    .qr-kartu::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(49, 151, 149, 0.06);
+    }
+
+    .footer-qr {
+      border-top: 1px solid rgba(0,0,0,0.06);
+      margin-top: 12px;
+    }
+
+    .peringatan {
+      animation: fadeInUp 0.3s ease both;
+    }
+
+    input::placeholder {
+      color: #a0b0bc;
+    }
+
+    @media print {
       header,
       .form-kartu,
       button,
-      .peringatan {
+      .peringatan,
+      .footer-qr {
         display: none !important;
       }
-
       body {
         background: #fff;
       }
@@ -183,44 +296,48 @@
 
 <body>
   <header>
-    <h1>FixMyDesk · QR Akses Web</h1><small>QR untuk membuka web mahasiswa dan web admin dari HP</small>
+    <h1><i class="bi bi-qr-code"></i> FixMyDesk · QR Akses Web</h1><small>Buat QR code untuk mengakses halaman mahasiswa dan admin</small>
   </header>
   <main>
     <div class="kartu form-kartu">
-      <h2>Alamat web FixMyDesk kamu</h2>
+      <h2><i class="bi bi-link-45deg"></i> Alamat web FixMyDesk kamu</h2>
       <label>Alamat dasar (setelah web di-hosting)</label>
-      <input type="text" id="alamat" placeholder="contoh: https://fixmydesk-unnes.netlify.app">
-      <button class="utama" onclick="buatQr()">Buat QR</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input type="text" id="alamat" placeholder="contoh: https://fix-my-desk.vercel.app" style="flex:1;min-width:260px;" onkeydown="if(event.key==='Enter')buatQr()">
+        <button type="button" class="sekunder" style="margin-top:0;" onclick="pakaiUrlSekarang()"><i class="bi bi-geo"></i> Pakai URL Saat Ini</button>
+      </div>
+      <button class="utama" onclick="buatQr()"><i class="bi bi-qr-code"></i> Buat QR</button>
       <div class="galat" id="galat"></div>
-      <div class="peringatan" id="peringatan"></div>
-      <p class="kecil">Tempel alamat dasar saja (tanpa nama file). Nama file ditambahkan otomatis.</p>
+      <div class="peringatan hidden" id="peringatan"><i class="bi bi-exclamation-triangle-fill"></i> <span id="pesanPeringatan"></span></div>
+      <p class="kecil" style="margin-top:12px;"><i class="bi bi-info-circle"></i> Tempel alamat dasar saja (tanpa nama file). Nama file <code style="background:#edf2f7;padding:2px 6px;border-radius:4px;font-size:12px;">fixmydesk-mahasiswa.html</code> dan <code style="background:#edf2f7;padding:2px 6px;border-radius:4px;font-size:12px;">fixmydesk-admin.html</code> ditambahkan otomatis.</p>
     </div>
 
     <div class="dua hidden" id="hasil">
       <div class="qr-kartu">
-        <h3>QR Web Mahasiswa</h3>
+        <h3><i class="bi bi-person-circle"></i> QR Web Mahasiswa</h3>
         <div class="kecil">Scan untuk lapor kerusakan</div>
         <div class="qr" id="qrMahasiswa"></div>
         <div class="tautan" id="tautMahasiswa"></div>
-        <button class="sekunder" onclick="unduh('qrMahasiswa', 'QR-FixMyDesk-Mahasiswa')">Unduh PNG</button>
+        <button class="sekunder" onclick="unduh('qrMahasiswa', 'QR-FixMyDesk-Mahasiswa')"><i class="bi bi-download"></i> Unduh PNG</button>
       </div>
       <div class="qr-kartu">
-        <h3>QR Web Admin</h3>
+        <h3><i class="bi bi-shield-check"></i> QR Web Admin</h3>
         <div class="kecil">Khusus staf pemeliharaan</div>
         <div class="qr" id="qrAdmin"></div>
         <div class="tautan" id="tautAdmin"></div>
-        <button class="sekunder" onclick="unduh('qrAdmin', 'QR-FixMyDesk-Admin')">Unduh PNG</button>
+        <button class="sekunder" onclick="unduh('qrAdmin', 'QR-FixMyDesk-Admin')"><i class="bi bi-download"></i> Unduh PNG</button>
       </div>
     </div>
-    <p style="text-align:center"><button class="sekunder hidden" id="tombolCetak" onclick="window.print()">Cetak Kedua
+    <p style="text-align:center"><button class="sekunder hidden" id="tombolCetak" onclick="window.print()"><i class="bi bi-printer"></i> Cetak Kedua
         QR</button></p>
   </main>
+
+  <div class="footer-qr"><i class="bi bi-qr-code"></i> FixMyDesk QR Akses Web &middot; Sistem Pelaporan Kerusakan Perabot Kelas<br><span style="font-size:11px;opacity:0.6;">© 2026 FixMyDesk &middot; <a href="fixmydesk-mahasiswa.html" style="color:inherit;text-decoration:underline;">Web Mahasiswa</a> &middot; <a href="fixmydesk-admin.html" style="color:inherit;text-decoration:underline;">Web Admin</a></span></div>
 
   <script>
     const FILE_MAHASISWA = "fixmydesk-mahasiswa.html";
     const FILE_ADMIN = "fixmydesk-admin.html";
 
-    // Apakah alamat ini bisa dibuka dari HP di jaringan lain?
     function cekAlamat(alamat) {
       const kecil = alamat.toLowerCase();
       if (kecil.startsWith("http://"))
@@ -275,7 +392,7 @@
       document.getElementById("tombolCetak").classList.remove("hidden");
 
       const catatan = cekAlamat(dasar);
-      peringatan.textContent = catatan;
+      document.getElementById("pesanPeringatan").textContent = catatan;
       peringatan.classList.toggle("hidden", catatan === "");
     }
 
@@ -286,6 +403,25 @@
       a.href = canvas.toDataURL("image/png");
       a.download = namaFile + ".png";
       a.click();
+    }
+
+    function pakaiUrlSekarang() {
+      if (window.location.protocol.startsWith("http")) {
+        const origin = window.location.origin;
+        document.getElementById("alamat").value = origin;
+        buatQr();
+      } else {
+        document.getElementById("alamat").value = "https://fix-my-desk.vercel.app";
+        buatQr();
+      }
+    }
+
+    // Auto isi URL jika dibuka dari server / hosting
+    if (window.location.protocol.startsWith("http")) {
+      document.getElementById("alamat").value = window.location.origin;
+      setTimeout(buatQr, 300);
+    } else {
+      document.getElementById("alamat").value = "https://fix-my-desk.vercel.app";
     }
 
     document.getElementById("peringatan").classList.add("hidden");
