@@ -11,6 +11,30 @@ const mejaAwal = [{
     ruang: "Ruangan 204"
   },
   {
+    id: "KRS-101",
+    jenis: "Kursi",
+    gedung: "Gedung B",
+    ruang: "Ruangan 204"
+  },
+  {
+    id: "PRJ-204",
+    jenis: "Proyektor",
+    gedung: "Gedung B",
+    ruang: "Ruangan 204"
+  },
+  {
+    id: "WB-204",
+    jenis: "Papan Tulis",
+    gedung: "Gedung B",
+    ruang: "Ruangan 204"
+  },
+  {
+    id: "AC-204",
+    jenis: "AC",
+    gedung: "Gedung B",
+    ruang: "Ruangan 204"
+  },
+  {
     id: "B205",
     jenis: "Meja",
     gedung: "Gedung A",
@@ -63,8 +87,8 @@ const laporanContoh = [{
 ];
 
 let firestore = null;
-let cacheLaporan = [];
-let cacheProperti = [];
+let cacheLaporan = [...laporanContoh];
+let cacheProperti = [...mejaAwal];
 let siapLaporan = false;
 let siapProperti = false;
 const daftarPendengar = [];

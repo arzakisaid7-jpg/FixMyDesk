@@ -75,7 +75,7 @@
     }
 
     main {
-      max-width: 500px;
+      max-width: 580px;
       margin: 0 auto;
       padding: 20px 16px 40px;
     }
@@ -276,16 +276,322 @@
       border: 1px solid rgba(0,0,0,.04);
     }
 
-    /* ===== FORM LAPORAN ===== */
+    /* ===== FORM LAPORAN & OPSI MASALAH ===== */
     .id-meja {
       background: linear-gradient(135deg, #f0f6fa 0%, #e4edf4 100%);
       border-left: 5px solid var(--teal);
-      padding: 16px 18px;
+      padding: 14px 18px;
       border-radius: 14px;
       font-weight: 700;
       font-size: 15px;
       color: var(--biru);
       box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .badge-properti-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      width: fit-content;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-prop-meja { background: #ebf5ff; color: #2b6cb0; border: 1px solid #bee3f8; }
+    .badge-prop-proyektor { background: #faf5ff; color: #6b46c1; border: 1px solid #e9d8fd; }
+    .badge-prop-papan { background: #fffaf0; color: #c05621; border: 1px solid #feebc8; }
+    .badge-prop-kursi { background: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; }
+    .badge-prop-ac { background: #e6fffa; color: #0987a0; border: 1px solid #b2f5ea; }
+    .badge-prop-listrik { background: #fffff0; color: #b7791f; border: 1px solid #fefcbf; }
+    .badge-prop-fasilitas { background: #edf2f7; color: #4a5568; border: 1px solid #e2e8f0; }
+
+    /* Category Switcher Tabs */
+    .kategori-tabs {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding: 4px 2px 10px;
+      margin: 8px 0 12px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .kategori-tabs::-webkit-scrollbar {
+      height: 5px;
+    }
+    .kategori-tabs::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .tab-kategori {
+      background: #f1f5f9;
+      color: var(--biru);
+      border: 1.5px solid #d8e2ea;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: auto;
+      margin-top: 0;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .tab-kategori:hover {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+
+    .tab-kategori.aktif {
+      background: linear-gradient(135deg, var(--teal), var(--teal-tua));
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 4px 10px rgba(49, 151, 149, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .tab-kategori .hitung-opsi {
+      background: rgba(0, 0, 0, 0.08);
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 800;
+    }
+
+    .tab-kategori.aktif .hitung-opsi {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+
+    /* Search Box */
+    .cari-masalah-box {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .cari-masalah-box i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--abu);
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .cari-masalah-box input {
+      padding-left: 38px;
+      font-size: 13.5px;
+      padding-top: 9px;
+      padding-bottom: 9px;
+      background: #f8fafc;
+      border-radius: 12px;
+    }
+
+    /* Problem Option Cards / Buttons */
+    .wadah-opsi-masalah {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+      margin-bottom: 14px;
+    }
+
+    .tombol-opsi {
+      background: #ffffff;
+      color: var(--teks);
+      border: 1.5px solid #dbe6ee;
+      border-radius: 14px;
+      padding: 12px 14px;
+      text-align: left;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      width: 100%;
+      margin: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .tombol-opsi:hover {
+      background: #f8fafc;
+      border-color: #319795;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(44, 74, 90, 0.08);
+    }
+
+    .tombol-opsi .opsi-ikon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #edf4f8;
+      color: var(--biru);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .tombol-opsi .opsi-konten {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tombol-opsi .opsi-judul {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--teks);
+      line-height: 1.3;
+      margin-bottom: 3px;
+    }
+
+    .tombol-opsi .opsi-deskripsi {
+      font-size: 11px;
+      color: var(--abu);
+      line-height: 1.3;
+      margin-bottom: 5px;
+    }
+
+    .tombol-opsi .opsi-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-urgensi {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-urgensi-tinggi {
+      background: #fff5f5;
+      color: #c53030;
+      border: 1px solid #feb2b2;
+    }
+
+    .badge-urgensi-sedang {
+      background: #fffaf0;
+      color: #dd6b20;
+      border: 1px solid #fbd38d;
+    }
+
+    .badge-urgensi-rendah {
+      background: #f0fff4;
+      color: #38a169;
+      border: 1px solid #9ae6b4;
+    }
+
+    .tombol-opsi .opsi-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: transparent;
+      flex-shrink: 0;
+      font-size: 13px;
+      transition: all 0.2s ease;
+      margin-top: 2px;
+      background: #fff;
+    }
+
+    /* Selected state */
+    .tombol-opsi.terpilih {
+      background: linear-gradient(135deg, #234e52 0%, #17383b 100%);
+      border-color: #319795;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(35, 78, 82, 0.32);
+    }
+
+    .tombol-opsi.terpilih .opsi-judul {
+      color: #ffffff;
+    }
+
+    .tombol-opsi.terpilih .opsi-deskripsi {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .tombol-opsi.terpilih .opsi-ikon-box {
+      background: rgba(255, 255, 255, 0.2);
+      color: #5dd9d2;
+    }
+
+    .tombol-opsi.terpilih .opsi-radio {
+      border-color: #5dd9d2;
+      background: #319795;
+      color: #ffffff;
+    }
+
+    .tombol-opsi.terpilih .badge-urgensi-tinggi {
+      background: rgba(254, 178, 178, 0.25);
+      color: #fed7d7;
+      border-color: rgba(254, 178, 178, 0.4);
+    }
+
+    .tombol-opsi.terpilih .badge-urgensi-sedang {
+      background: rgba(251, 211, 141, 0.25);
+      color: #feebc8;
+      border-color: rgba(251, 211, 141, 0.4);
+    }
+
+    .tombol-opsi.terpilih .badge-urgensi-rendah {
+      background: rgba(154, 230, 180, 0.25);
+      color: #c6f6d5;
+      border-color: rgba(154, 230, 180, 0.4);
+    }
+
+    /* Selected banner */
+    .banner-terpilih {
+      background: linear-gradient(135deg, #e6fffa 0%, #f0fdf4 100%);
+      border: 1.5px solid #81e6d9;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-top: 10px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: #234e52;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .banner-terpilih i {
+      font-size: 22px;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .banner-terpilih-detail {
+      flex: 1;
+      min-width: 0;
+      line-height: 1.4;
     }
 
     .pilihan {
@@ -569,8 +875,125 @@
     // ====== DATA & PENGATURAN ======
     const KUNCI_USER = "fixmydesk_mahasiswa";
     const urutanStatus = ["Dikirim", "Sedang Diproses", "Selesai Diperbaiki"];
-    const daftarMasalah = ["Goyang", "Sandaran Rusak", "Posisi Duduk Tidak Nyaman", "Sandaran Lengan Hilang",
-    "Lainnya"];
+
+    // ====== KATALOG MASALAH PROPERTI KELAS ======
+    const KATALOG_MASALAH = {
+      meja: {
+        id: "meja",
+        nama: "Meja",
+        ikon: "bi-table",
+        masalah: [
+          { teks: "Kaki Meja Goyang / Patah", urgensi: "Sedang", ikon: "bi-hammer", deskripsi: "Kaki meja goyang, tidak seimbang, atau patah" },
+          { teks: "Permukaan Meja Retak / Rusak", urgensi: "Sedang", ikon: "bi-slash-square", deskripsi: "Lapisan kayu terkelupas, berlubang, atau retak" },
+          { teks: "Baut / Sambungan Meja Lepas", urgensi: "Sedang", ikon: "bi-wrench-adjustable", deskripsi: "Rangka kendur atau sekrup/baut hilang" },
+          { teks: "Laci / Kolong Meja Rusak", urgensi: "Rendah", ikon: "bi-inbox", deskripsi: "Penyangga laci jebol atau rel macet" },
+          { teks: "Coretan / Noda Kotor Parah", urgensi: "Rendah", ikon: "bi-brush", deskripsi: "Penuh coretan tipe-x atau spidol permanen" },
+          { teks: "Stop Kontak Meja Mati", urgensi: "Tinggi", ikon: "bi-plug-fill", deskripsi: "Aliran listrik meja lab / komputer mati" }
+        ]
+      },
+      proyektor: {
+        id: "proyektor",
+        nama: "Proyektor",
+        ikon: "bi-projector-fill",
+        masalah: [
+          { teks: "Proyektor Mati Total / Tidak Menyala", urgensi: "Tinggi", ikon: "bi-power", deskripsi: "Lampu indikator atau power tidak merespons" },
+          { teks: "Tampilan Buram / Redup", urgensi: "Sedang", ikon: "bi-eye-slash-fill", deskripsi: "Fokus kabur, lensa berdebu, atau lampu redup" },
+          { teks: "Warna Layar Rusak / Menguning", urgensi: "Sedang", ikon: "bi-palette-fill", deskripsi: "Warna menguning, bergaris, atau bintik-bintik" },
+          { teks: "Kabel HDMI / VGA / Converter Rusak", urgensi: "Tinggi", ikon: "bi-usb-symbol", deskripsi: "Sinyal putus-putus atau konektor bengkok/patah" },
+          { teks: "Remote Proyektor Hilang / Rusak", urgensi: "Sedang", ikon: "bi-broadcast-pin", deskripsi: "Tidak bisa menyalakan atau ganti input display" },
+          { teks: "Kipas Bising / Proyektor Overheat", urgensi: "Tinggi", ikon: "bi-fire", deskripsi: "Mati otomatis karena suhu panas berlebih" },
+          { teks: "Layar Screen Macet / Robek", urgensi: "Sedang", ikon: "bi-aspect-ratio-fill", deskripsi: "Kain layar proyektor macet ditarik atau robek" }
+        ]
+      },
+      papan: {
+        id: "papan",
+        nama: "Papan Tulis",
+        ikon: "bi-easel2-fill",
+        masalah: [
+          { teks: "Permukaan Kusam / Noda Sulit Dihapus", urgensi: "Sedang", ikon: "bi-eraser-fill", deskripsi: "Bekas spidol membandel dan meninggalkan residu" },
+          { teks: "Papan Retak / Terkelupas / Pecah", urgensi: "Sedang", ikon: "bi-dash-square-dotted", deskripsi: "Lapisan melamin terkelupas atau retak" },
+          { teks: "Rangka / Gantungan Papan Goyang", urgensi: "Tinggi", ikon: "bi-exclamation-triangle-fill", deskripsi: "Papan miring atau rentan terjatuh dari dinding" },
+          { teks: "Tempat Spidol Copot / Rusak", urgensi: "Rendah", ikon: "bi-basket2-fill", deskripsi: "Baki tempat spidol / penghapus patah" },
+          { teks: "Spidol Habis / Penghapus Hilang", urgensi: "Rendah", ikon: "bi-pen-fill", deskripsi: "Kelengkapan alat tulis di kelas tidak ada" }
+        ]
+      },
+      kursi: {
+        id: "kursi",
+        nama: "Kursi",
+        ikon: "bi-person-workspace",
+        masalah: [
+          { teks: "Sandaran Kursi Patah / Rusak", urgensi: "Tinggi", ikon: "bi-layout-sidebar-inset-reverse", deskripsi: "Sandaran punggung patah atau lepas" },
+          { teks: "Dudukan Kursi Goyang / Retak", urgensi: "Sedang", ikon: "bi-square", deskripsi: "Bantalan atau kayu dudukan lepas/retak" },
+          { teks: "Sandaran Lengan Rusak / Hilang", urgensi: "Rendah", ikon: "bi-bounding-box-circles", deskripsi: "Armrest kursi patah atau copot" },
+          { teks: "Roda Kursi Rusak / Macet", urgensi: "Sedang", ikon: "bi-circle", deskripsi: "Roda lepas atau tidak bisa digeser" },
+          { teks: "Baut Rangka Lepas / Kendor", urgensi: "Sedang", ikon: "bi-nut-fill", deskripsi: "Rangka besi berguncang dan tidak stabil" },
+          { teks: "Posisi Duduk Miring / Tidak Nyaman", urgensi: "Rendah", ikon: "bi-emoji-frown-fill", deskripsi: "Tinggi hidrolik atau kemiringan kursi bermasalah" }
+        ]
+      },
+      ac: {
+        id: "ac",
+        nama: "AC & Kipas",
+        ikon: "bi-snow2",
+        masalah: [
+          { teks: "AC Bocor / Meneteskan Air", urgensi: "Tinggi", ikon: "bi-droplet-half", deskripsi: "Air menetes deras ke lantai atau meja kelas" },
+          { teks: "AC Tidak Dingin / Hanya Keluar Angin", urgensi: "Sedang", ikon: "bi-thermometer-half", deskripsi: "Freon habis atau ruangan tetap gerah" },
+          { teks: "Suara AC Berisik / Bergetar Keras", urgensi: "Sedang", ikon: "bi-volume-up-fill", deskripsi: "Bising mengganggu jalannya perkuliahan" },
+          { teks: "Remote AC Hilang / Rusak", urgensi: "Sedang", ikon: "bi-reception-3", deskripsi: "Suhu tidak bisa disesuaikan atau dinyalakan" },
+          { teks: "AC Mati Total / Indikator Error", urgensi: "Tinggi", ikon: "bi-slash-circle-fill", deskripsi: "Lampu berkedip error atau unit mati total" },
+          { teks: "Kipas Angin Dinding Rusak / Macet", urgensi: "Sedang", ikon: "bi-fan", deskripsi: "Kipas tidak berputar atau motor terbakar" }
+        ]
+      },
+      listrik: {
+        id: "listrik",
+        nama: "Lampu & Listrik",
+        ikon: "bi-lightbulb-fill",
+        masalah: [
+          { teks: "Lampu Kelas Mati Total / Redup", urgensi: "Tinggi", ikon: "bi-lightbulb-off-fill", deskripsi: "Penerangan kelas gelap mengganggu belajar" },
+          { teks: "Lampu Berkedip-kedip (Flicker)", urgensi: "Sedang", ikon: "bi-lightning-fill", deskripsi: "Menyilaukan mata dan mengganggu proyektor" },
+          { teks: "Stop Kontak Dinding Rusak / Lepas", urgensi: "Tinggi", ikon: "bi-plugin", deskripsi: "Colokan kendor, copot, atau konslet" },
+          { teks: "Saklar Lampu Rusak / Konslet", urgensi: "Tinggi", ikon: "bi-toggle-off", deskripsi: "Saklar macet atau tercium bau konslet" }
+        ]
+      },
+      fasilitas: {
+        id: "fasilitas",
+        nama: "Fasilitas Lain",
+        ikon: "bi-door-closed-fill",
+        masalah: [
+          { teks: "Kunci / Gagang Pintu Rusak", urgensi: "Tinggi", ikon: "bi-key-fill", deskripsi: "Pintu sulit dibuka atau tidak bisa dikunci" },
+          { teks: "Engsel Pintu / Jendela Rusak", urgensi: "Sedang", ikon: "bi-door-open-fill", deskripsi: "Engsel seret atau berderit kencang" },
+          { teks: "Kaca Jendela Retak / Pecah", urgensi: "Tinggi", ikon: "bi-shield-exclamation", deskripsi: "Kaca rentan jatuh dan membahayakan" },
+          { teks: "Lemari / Loker Kelas Rusak", urgensi: "Sedang", ikon: "bi-archive-fill", deskripsi: "Pintu lemari lepas atau ambalan patah" },
+          { teks: "Masalah Lainnya", urgensi: "Sedang", ikon: "bi-three-dots", deskripsi: "Tuliskan kendala spesifik pada catatan detail" }
+        ]
+      }
+    };
+
+    // Daftar flat untuk backwards compatibility
+    const daftarMasalah = [];
+    for (const _k in KATALOG_MASALAH) {
+      KATALOG_MASALAH[_k].masalah.forEach(_m => {
+        if (!daftarMasalah.includes(_m.teks)) daftarMasalah.push(_m.teks);
+      });
+    }
+
+    let kategoriMasalahAktif = "meja";
+    let kataKunciCariMasalah = "";
+
+    function deteksiKategoriDariJenis(jenis) {
+      const j = (jenis || "").toLowerCase();
+      if (j.includes("proyektor") || j.includes("lcd") || j.includes("infocus")) return "proyektor";
+      if (j.includes("papan") || j.includes("whiteboard")) return "papan";
+      if (j.includes("kursi") || j.includes("bangku")) return "kursi";
+      if (j.includes("ac") || j.includes("pendingin") || j.includes("kipas")) return "ac";
+      if (j.includes("lampu") || j.includes("listrik") || j.includes("saklar") || j.includes("stop kontak")) return "listrik";
+      if (j.includes("pintu") || j.includes("jendela") || j.includes("lemari") || j.includes("loker")) return "fasilitas";
+      return "meja";
+    }
+
+    function dapatkanIkonJenis(jenis) {
+      const kat = deteksiKategoriDariJenis(jenis);
+      return (KATALOG_MASALAH[kat] && KATALOG_MASALAH[kat].ikon) || "bi-box-seam";
+    }
 
 
     let pengguna = null;
@@ -594,9 +1017,10 @@
 
     // ====== FUNCTION BANTUAN ======
     function cariMeja(id) {
+      if (!id) return null;
       const semua = bacaMeja();
       for (let i = 0; i < semua.length; i++) {
-        if (semua[i].id === id) return semua[i];
+        if (semua[i] && semua[i].id && String(semua[i].id).toUpperCase() === String(id).toUpperCase()) return semua[i];
       }
       return null;
     }
@@ -606,16 +1030,19 @@
     }
 
     function hitungUrgensi(masalah) {
-      switch (masalah) {
-        case "Sandaran Rusak":
-          return "Tinggi";
-        case "Goyang":
-          return "Sedang";
-        case "Lainnya":
-          return "Sedang";
-        default:
-          return "Rendah";
+      if (!masalah) return "Sedang";
+      for (const k in KATALOG_MASALAH) {
+        const item = KATALOG_MASALAH[k].masalah.find(m => m.teks === masalah);
+        if (item && item.urgensi) return item.urgensi;
       }
+      const mLow = masalah.toLowerCase();
+      if (mLow.includes("mati") || mLow.includes("patah") || mLow.includes("bocor") || mLow.includes("konslet") || mLow.includes("tinggi") || mLow.includes("goyang keras")) {
+        return "Tinggi";
+      }
+      if (mLow.includes("kotor") || mLow.includes("coretan") || mLow.includes("lengan") || mLow.includes("rendah")) {
+        return "Rendah";
+      }
+      return "Sedang";
     }
 
     function estimasiPerbaikan(status) {
@@ -854,10 +1281,10 @@
       <button type="button" class="sekunder" onclick="document.getElementById('inputScanFoto').click()"><i class="bi bi-image"></i> Pilih / Ambil Foto QR</button>
       <input type="file" id="inputScanFoto" accept="image/*" capture="environment" style="display:none" onchange="scanDariFoto(this)">
 
-      <label>Atau ketik ID meja manual</label>
-      <input type="text" id="manual" placeholder="contoh: A101" onkeydown="if(event.key==='Enter')pakaiManual()">
-      <button class="sekunder" onclick="pakaiManual()"><i class="bi bi-arrow-right-circle"></i> Gunakan ID Meja</button>
-      <p class="kecil" style="margin-top:12px;">Tes cepat: ${bacaMeja().map(m => `<a href="#/report?deskId=${m.id}" style="color:var(--teal);text-decoration:none;font-weight:600;">${m.id}</a>`).join(" · ")}</p>
+      <label>Atau ketik ID perabot / properti manual</label>
+      <input type="text" id="manual" placeholder="contoh: A101, PRJ-204" onkeydown="if(event.key==='Enter')pakaiManual()">
+      <button class="sekunder" onclick="pakaiManual()"><i class="bi bi-arrow-right-circle"></i> Gunakan ID Properti</button>
+      <p class="kecil" style="margin-top:12px;">Tes cepat: ${bacaMeja().map(m => `<a href="#/report?deskId=${m.id}" style="color:var(--teal);text-decoration:none;font-weight:600;">${m.id} <span style="font-size:11px;opacity:0.8;">(${m.jenis || "Meja"})</span></a>`).join(" · ")}</p>
     </div>
     ${laporanSaya.length > 0 ? `<div class="kartu"><h2><i class="bi bi-journal-text"></i> Laporan Saya (${laporanSaya.length})</h2>${riwayat}</div>` : ""}`);
     }
@@ -1194,7 +1621,7 @@
       }
 
       if (cariMeja(id) === null) {
-        if (galat) galat.textContent = 'Meja "' + id + '" tidak ditemukan.';
+        if (galat) galat.textContent = 'Properti / Perabot "' + id + '" tidak ditemukan.';
         return;
       }
 
@@ -1218,34 +1645,222 @@
         location.hash = "#/report";
         return;
       }
+
+      // Reset & inisialisasi state form
       masalahDipilih = "";
-      let chip = "";
-      daftarMasalah.forEach((m, i) => {
-        chip += `<button class="chip" id="chip${i}" onclick="pilihMasalah(${i})">${m}</button>`;
-      });
+      kataKunciCariMasalah = "";
+      kategoriMasalahAktif = deteksiKategoriDariJenis(meja.jenis);
+
       tampil(`
     <div class="kartu">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
         <h2 style="margin:0;"><i class="bi bi-pencil-square"></i> Lapor Kerusakan</h2>
-        <small class="kecil">Pelapor: <b>${pengguna.username}</b></small>
+        <span class="kecil" style="background:#eaf1f6;padding:4px 10px;border-radius:20px;font-weight:600;"><i class="bi bi-person-fill"></i> ${pengguna.username}</span>
       </div>
-      <div class="id-meja">${namaLokasi(meja)}</div>
-      <label>Apa masalahnya?</label>
-      <div class="pilihan">${chip}</div>
-      <label>Foto (opsional)</label>
-      <input type="file" id="foto" accept="image/*" capture="environment" style="padding:10px;border-radius:12px;border:1.5px solid #d0dae0;">
-      <label>Detail tambahan (opsional)</label>
-      <textarea id="detail" maxlength="150" placeholder="Contoh: kaki meja kiri goyang"></textarea>
+
+      <div class="id-meja">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span class="badge-properti-chip badge-prop-${kategoriMasalahAktif}">
+            <i class="bi ${dapatkanIkonJenis(meja.jenis)}"></i> ${meja.jenis || "Meja"}
+          </span>
+          <span style="font-size:16px;font-weight:800;color:var(--biru);">#${meja.id}</span>
+        </div>
+        <div style="font-size:13.5px;color:var(--abu);font-weight:500;">
+          <i class="bi bi-geo-alt-fill" style="color:var(--teal);"></i> ${meja.gedung} &middot; ${meja.ruang}
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label><i class="bi bi-grid-fill"></i> Pilih Kategori Properti</label>
+        <div class="kategori-tabs" id="kategoriTabs">
+          ${renderTabKategori(kategoriMasalahAktif)}
+        </div>
+      </div>
+
+      <div class="cari-masalah-box">
+        <i class="bi bi-search"></i>
+        <input type="text" id="inputCariMasalah" placeholder="Ketik cepat cari masalah (contoh: kabel, bocor, goyang)..." oninput="saatCariMasalah(this.value)">
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;margin-bottom:6px;">
+        <label style="margin:0;"><i class="bi bi-exclamation-circle-fill"></i> Tombol Opsi Masalah</label>
+        <span class="kecil" id="infoKategoriAktif">Kategori: <b>${KATALOG_MASALAH[kategoriMasalahAktif] ? KATALOG_MASALAH[kategoriMasalahAktif].nama : "Meja"}</b></span>
+      </div>
+
+      <div class="wadah-opsi-masalah" id="wadahOpsiMasalah">
+        ${renderDaftarOpsiMasalah(kategoriMasalahAktif, kataKunciCariMasalah)}
+      </div>
+
+      <div id="wadahBannerTerpilih"></div>
+
+      <label for="foto"><i class="bi bi-camera-fill"></i> Foto Bukti Kerusakan (Opsional)</label>
+      <input type="file" id="foto" accept="image/*" capture="environment" style="padding:10px;border-radius:12px;border:1.5px solid #d0dae0;width:100%;">
+
+      <label for="detail"><i class="bi bi-card-text"></i> Detail Tambahan (Opsional)</label>
+      <textarea id="detail" maxlength="150" placeholder="Contoh: letak bagian yang rusak, kode nomor, atau kronologi kendala"></textarea>
+
       <div class="galat" id="galat"></div>
+
       <button class="utama" onclick="kirimLaporan('${meja.id}')"><i class="bi bi-send-fill"></i> Kirim Laporan</button>
-      <button class="sekunder" onclick="location.hash='#/report'"><i class="bi bi-qr-code-scan"></i> Scan Meja Lain</button>
+      <button class="sekunder" onclick="location.hash='#/report'"><i class="bi bi-qr-code-scan"></i> Scan / Pilih Properti Lain</button>
     </div>`);
     }
 
+    function renderTabKategori(katAktif) {
+      let html = "";
+      for (const key in KATALOG_MASALAH) {
+        const item = KATALOG_MASALAH[key];
+        const aktif = key === katAktif ? "aktif" : "";
+        html += `
+          <button type="button" class="tab-kategori ${aktif}" onclick="gantiKategoriMasalah('${key}')">
+            <i class="bi ${item.ikon}"></i>
+            <span>${item.nama}</span>
+            <span class="hitung-opsi">${item.masalah.length}</span>
+          </button>`;
+      }
+      return html;
+    }
+
+    function renderDaftarOpsiMasalah(katKey, cari = "") {
+      const filterCari = cari.trim().toLowerCase();
+      let daftar = [];
+
+      if (filterCari) {
+        for (const k in KATALOG_MASALAH) {
+          const matched = KATALOG_MASALAH[k].masalah.filter(m =>
+            m.teks.toLowerCase().includes(filterCari) ||
+            m.deskripsi.toLowerCase().includes(filterCari) ||
+            KATALOG_MASALAH[k].nama.toLowerCase().includes(filterCari)
+          );
+          daftar.push(...matched);
+        }
+      } else {
+        daftar = KATALOG_MASALAH[katKey] ? KATALOG_MASALAH[katKey].masalah : [];
+      }
+
+      if (daftar.length === 0) {
+        return `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 24px 10px; color: var(--abu); background: #f8fafc; border-radius: 12px; border: 1.5px dashed #d8e2ea;">
+            <i class="bi bi-search" style="font-size: 24px; opacity: 0.5;"></i>
+            <p style="margin: 8px 0 0; font-size: 13.5px; font-weight: 600;">Tidak ditemukan opsi masalah yang cocok</p>
+            <small class="kecil">Coba gunakan kata kunci lain atau pilih opsi Masalah Lainnya.</small>
+          </div>`;
+      }
+
+      let html = "";
+      daftar.forEach((m) => {
+        const isTerpilih = masalahDipilih === m.teks;
+        const ikonUrgensi = m.urgensi === "Tinggi" ? "🔴" : (m.urgensi === "Sedang" ? "🟡" : "🟢");
+        html += `
+          <button type="button" class="tombol-opsi ${isTerpilih ? 'terpilih' : ''}" onclick="klikOpsiMasalah('${encodeURIComponent(m.teks)}', '${m.urgensi}')">
+            <div class="opsi-ikon-box"><i class="bi ${m.ikon}"></i></div>
+            <div class="opsi-konten">
+              <div class="opsi-judul">${m.teks}</div>
+              <div class="opsi-deskripsi">${m.deskripsi}</div>
+              <div class="opsi-meta">
+                <span class="badge-urgensi badge-urgensi-${m.urgensi.toLowerCase()}">
+                  ${ikonUrgensi} Prioritas ${m.urgensi}
+                </span>
+              </div>
+            </div>
+            <div class="opsi-radio">
+              <i class="bi ${isTerpilih ? 'bi-check-circle-fill' : 'bi-circle'}"></i>
+            </div>
+          </button>`;
+      });
+      return html;
+    }
+
+    function gantiKategoriMasalah(katKey) {
+      kategoriMasalahAktif = katKey;
+      kataKunciCariMasalah = "";
+      const inputCari = document.getElementById("inputCariMasalah");
+      if (inputCari) inputCari.value = "";
+
+      const tabsEl = document.getElementById("kategoriTabs");
+      if (tabsEl) tabsEl.innerHTML = renderTabKategori(katKey);
+
+      const wadahEl = document.getElementById("wadahOpsiMasalah");
+      if (wadahEl) wadahEl.innerHTML = renderDaftarOpsiMasalah(katKey, "");
+
+      const infoEl = document.getElementById("infoKategoriAktif");
+      if (infoEl && KATALOG_MASALAH[katKey]) {
+        infoEl.innerHTML = `Kategori: <b>${KATALOG_MASALAH[katKey].nama}</b>`;
+      }
+    }
+
+    function saatCariMasalah(teks) {
+      kataKunciCariMasalah = teks;
+      const wadahEl = document.getElementById("wadahOpsiMasalah");
+      if (wadahEl) wadahEl.innerHTML = renderDaftarOpsiMasalah(kategoriMasalahAktif, teks);
+
+      const infoEl = document.getElementById("infoKategoriAktif");
+      if (infoEl) {
+        if (teks.trim()) {
+          infoEl.innerHTML = `Hasil pencarian: "<b>${teks.trim()}</b>"`;
+        } else {
+          infoEl.innerHTML = `Kategori: <b>${KATALOG_MASALAH[kategoriMasalahAktif].nama}</b>`;
+        }
+      }
+    }
+
+    function klikOpsiMasalah(teksEncoded, urgensi) {
+      const teks = decodeURIComponent(teksEncoded);
+      masalahDipilih = teks;
+
+      const galat = document.getElementById("galat");
+      if (galat) galat.textContent = "";
+
+      const wadahEl = document.getElementById("wadahOpsiMasalah");
+      if (wadahEl) wadahEl.innerHTML = renderDaftarOpsiMasalah(kategoriMasalahAktif, kataKunciCariMasalah);
+
+      perbaruiBannerTerpilih(teks, urgensi);
+
+      if (teks.toLowerCase().includes("lainnya")) {
+        const textarea = document.getElementById("detail");
+        if (textarea) {
+          textarea.focus();
+          textarea.placeholder = "Jelaskan kerusakan spesifik yang terjadi pada properti ini...";
+        }
+      }
+    }
+
+    function perbaruiBannerTerpilih(teks, urgensi) {
+      const wadah = document.getElementById("wadahBannerTerpilih");
+      if (!wadah) return;
+      const ikonUrgensi = urgensi === "Tinggi" ? "🔴" : (urgensi === "Sedang" ? "🟡" : "🟢");
+      const ketPrioritas = urgensi === "Tinggi" ? "Akan segera diprioritaskan penanganannya oleh teknisi" : (urgensi === "Sedang" ? "Akan ditangani dalam jadwal perbaikan berkala" : "Perbaikan ringan pada kunjungan servis rutin");
+
+      wadah.innerHTML = `
+        <div class="banner-terpilih">
+          <i class="bi bi-check2-circle"></i>
+          <div class="banner-terpilih-detail">
+            <div style="font-weight:700;font-size:13.5px;color:var(--biru);">${teks}</div>
+            <div class="kecil" style="margin-top:2px;">
+              <span class="badge-urgensi badge-urgensi-${urgensi.toLowerCase()}" style="margin-right:6px;">
+                ${ikonUrgensi} Prioritas ${urgensi}
+              </span>
+              <span>${ketPrioritas}</span>
+            </div>
+          </div>
+          <button type="button" onclick="batalPilihMasalah()" style="background:none;border:none;padding:4px;color:var(--abu);cursor:pointer;font-size:16px;width:auto;margin:0;" title="Batalkan pilihan">
+            <i class="bi bi-x-circle"></i>
+          </button>
+        </div>`;
+    }
+
+    function batalPilihMasalah() {
+      masalahDipilih = "";
+      const wadahBanner = document.getElementById("wadahBannerTerpilih");
+      if (wadahBanner) wadahBanner.innerHTML = "";
+      const wadahEl = document.getElementById("wadahOpsiMasalah");
+      if (wadahEl) wadahEl.innerHTML = renderDaftarOpsiMasalah(kategoriMasalahAktif, kataKunciCariMasalah);
+    }
+
     function pilihMasalah(nomor) {
-      masalahDipilih = daftarMasalah[nomor];
-      for (let i = 0; i < daftarMasalah.length; i++) {
-        document.getElementById("chip" + i).classList.toggle("aktif", i === nomor);
+      if (daftarMasalah[nomor]) {
+        const urg = hitungUrgensi(daftarMasalah[nomor]);
+        klikOpsiMasalah(encodeURIComponent(daftarMasalah[nomor]), urg);
       }
     }
 

@@ -537,6 +537,26 @@
       color: #2b6cb0;
     }
 
+    .badge-proyektor {
+      background: #faf5ff;
+      color: #6b46c1;
+    }
+
+    .badge-papan {
+      background: #fffaf0;
+      color: #c05621;
+    }
+
+    .badge-ac {
+      background: #e6fffa;
+      color: #0987a0;
+    }
+
+    .badge-listrik {
+      background: #fffff0;
+      color: #b7791f;
+    }
+
     .badge-lain {
       background: #fef9e7;
       color: #b06000;
@@ -924,9 +944,12 @@
               id="totalPropertiTabel">0</span>)</h2>
           <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
             <select id="filterJenisProp" onchange="tampilTabelProperti()">
-              <option value="semua">Semua Jenis</option>
-              <option value="Kursi">Kursi</option>
-              <option value="Meja">Meja</option>
+              <option value="semua">Semua Jenis Properti</option>
+              <option value="meja">Meja</option>
+              <option value="proyektor">Proyektor</option>
+              <option value="papan">Papan Tulis</option>
+              <option value="kursi">Kursi</option>
+              <option value="ac">AC</option>
               <option value="lainnya">Lainnya</option>
             </select>
             <div style="position:relative;">
@@ -1252,9 +1275,18 @@
     // ====== CRUD PROPERTI ======
     function dapatkanBadgeJenis(jenis) {
       const j = (jenis || "").toLowerCase();
-      if (j === "kursi")
-      return `<span class="badge-jenis badge-kursi"><i class="bi bi-person-workspace"></i> Kursi</span>`;
-      if (j === "meja") return `<span class="badge-jenis badge-meja"><i class="bi bi-laptop"></i> Meja</span>`;
+      if (j.includes("kursi"))
+        return `<span class="badge-jenis badge-kursi"><i class="bi bi-person-workspace"></i> Kursi</span>`;
+      if (j.includes("meja"))
+        return `<span class="badge-jenis badge-meja"><i class="bi bi-laptop"></i> Meja</span>`;
+      if (j.includes("proyektor") || j.includes("lcd"))
+        return `<span class="badge-jenis badge-proyektor"><i class="bi bi-display"></i> Proyektor</span>`;
+      if (j.includes("papan"))
+        return `<span class="badge-jenis badge-papan"><i class="bi bi-easel"></i> Papan Tulis</span>`;
+      if (j.includes("ac") || j.includes("pendingin") || j.includes("kipas"))
+        return `<span class="badge-jenis badge-ac"><i class="bi bi-snow"></i> AC / Pendingin</span>`;
+      if (j.includes("lampu") || j.includes("listrik"))
+        return `<span class="badge-jenis badge-listrik"><i class="bi bi-lightbulb"></i> Kelistrikan</span>`;
       return `<span class="badge-jenis badge-lain"><i class="bi bi-box-seam"></i> ${jenis || "Lainnya"}</span>`;
     }
 
@@ -1264,23 +1296,32 @@
       const cari = document.getElementById("cariProp").value.trim().toLowerCase();
 
       // Ringkasan properti
-      const totalKursi = data.filter(m => (m.jenis || "").toLowerCase() === "kursi").length;
-      const totalMeja = data.filter(m => (m.jenis || "").toLowerCase() === "meja").length;
-      const totalLain = data.length - totalKursi - totalMeja;
+      const totalKursi = data.filter(m => (m.jenis || "").toLowerCase().includes("kursi")).length;
+      const totalMeja = data.filter(m => (m.jenis || "").toLowerCase().includes("meja")).length;
+      const totalProyektor = data.filter(m => (m.jenis || "").toLowerCase().includes("proyektor")).length;
+      const totalPapan = data.filter(m => (m.jenis || "").toLowerCase().includes("papan")).length;
+      const totalAc = data.filter(m => (m.jenis || "").toLowerCase().includes("ac")).length;
+      const totalLain = data.length - totalKursi - totalMeja - totalProyektor - totalPapan - totalAc;
 
       document.getElementById("ringkasProperti").innerHTML = `
         <div class="angka"><b>${data.length}</b><span>Total Properti</span></div>
-        <div class="angka"><b>${totalKursi}</b><span>Kursi</span></div>
         <div class="angka"><b>${totalMeja}</b><span>Meja</span></div>
-        <div class="angka"><b>${totalLain}</b><span>Lainnya</span></div>
+        <div class="angka"><b>${totalProyektor}</b><span>Proyektor</span></div>
+        <div class="angka"><b>${totalPapan}</b><span>Papan Tulis</span></div>
+        <div class="angka"><b>${totalKursi}</b><span>Kursi</span></div>
+        <div class="angka"><b>${totalAc}</b><span>AC</span></div>
+        <div class="angka"><b>${Math.max(0, totalLain)}</b><span>Lainnya</span></div>
       `;
 
       // Filter data
       let hasilFilter = data.filter(item => {
         const j = (item.jenis || "").toLowerCase();
-        if (filterJenis === "kursi" && j !== "kursi") return false;
-        if (filterJenis === "meja" && j !== "meja") return false;
-        if (filterJenis === "lainnya" && (j === "kursi" || j === "meja")) return false;
+        if (filterJenis === "kursi" && !j.includes("kursi")) return false;
+        if (filterJenis === "meja" && !j.includes("meja")) return false;
+        if (filterJenis === "proyektor" && !j.includes("proyektor")) return false;
+        if (filterJenis === "papan" && !j.includes("papan")) return false;
+        if (filterJenis === "ac" && !j.includes("ac")) return false;
+        if (filterJenis === "lainnya" && (j.includes("kursi") || j.includes("meja") || j.includes("proyektor") || j.includes("papan") || j.includes("ac"))) return false;
 
         if (cari) {
           const gabung = `${item.id} ${item.jenis} ${item.gedung} ${item.ruang}`.toLowerCase();

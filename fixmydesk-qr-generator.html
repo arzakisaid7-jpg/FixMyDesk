@@ -312,6 +312,21 @@
       color: var(--teal-tua);
     }
 
+    .badge-proyektor {
+      background: #faf5ff;
+      color: #6b46c1;
+    }
+
+    .badge-papan {
+      background: #fffaf0;
+      color: #c05621;
+    }
+
+    .badge-ac {
+      background: #e6fffa;
+      color: #0987a0;
+    }
+
     .badge-lain {
       background: #fef9e7;
       color: #b06000;
@@ -452,9 +467,10 @@
           <select id="jenis">
             <option value="Meja">Meja</option>
             <option value="Kursi">Kursi</option>
-            <option value="Lemari">Lemari</option>
-            <option value="Papan Tulis">Papan Tulis</option>
             <option value="Proyektor">Proyektor</option>
+            <option value="Papan Tulis">Papan Tulis</option>
+            <option value="AC">AC / Pendingin</option>
+            <option value="Lemari">Lemari</option>
             <option value="Lainnya">Lainnya</option>
           </select>
         </div>
@@ -492,8 +508,11 @@
     // ====== DATA & FUNGSI ======
     function dapatkanBadgeHtml(jenis) {
       const j = (jenis || "").toLowerCase();
-      if (j === "kursi") return `<span class="badge-jenis badge-kursi"><i class="bi bi-person-workspace"></i> Kursi</span>`;
-      if (j === "meja") return `<span class="badge-jenis badge-meja"><i class="bi bi-laptop"></i> Meja</span>`;
+      if (j.includes("kursi")) return `<span class="badge-jenis badge-kursi"><i class="bi bi-person-workspace"></i> Kursi</span>`;
+      if (j.includes("meja")) return `<span class="badge-jenis badge-meja"><i class="bi bi-laptop"></i> Meja</span>`;
+      if (j.includes("proyektor") || j.includes("lcd")) return `<span class="badge-jenis badge-proyektor"><i class="bi bi-display"></i> Proyektor</span>`;
+      if (j.includes("papan")) return `<span class="badge-jenis badge-papan"><i class="bi bi-easel"></i> Papan Tulis</span>`;
+      if (j.includes("ac") || j.includes("pendingin") || j.includes("kipas")) return `<span class="badge-jenis badge-ac"><i class="bi bi-snow"></i> AC</span>`;
       return `<span class="badge-jenis badge-lain"><i class="bi bi-box-seam"></i> ${jenis || "Lainnya"}</span>`;
     }
 
